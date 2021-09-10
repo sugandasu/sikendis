@@ -6,14 +6,14 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
     volumes:
-      - ./.postgresdata:/var/lib/postgresql/data
+      - ./.postgres_infrax:/var/lib/postgresql/data
     ports:
       - 5432:5432
   redis:
     image: redis
     restart: always
     volumes:
-      - ./.redisstore:/var/lib/redis
+      - ./.redis_infrax:/var/lib/redis
     ports:
       - 6379:6379
   adminer:
