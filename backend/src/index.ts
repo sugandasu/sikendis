@@ -1,16 +1,22 @@
-import "reflect-metadata";
+import { ApolloServer } from "apollo-server-express";
+import connectRedis from "connect-redis";
+import cors from "cors";
 import "dotenv-safe/config";
 import express from "express";
-import { createConnection } from "typeorm";
+import session from "express-session";
+import Redis from "ioredis";
 import path from "path";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
 import { Kendaraan } from "./entities/Kendaraan";
 import { Peminjaman } from "./entities/Peminjaman";
 import { Pengguna } from "./entities/Pengguna";
 import { User } from "./entities/User";
+import { HelloResolver } from "./resolvers/Hello";
+import { MyContext } from "./types/myContext";
 
 const main = async () => {
-  const app = express();
-
   // const conection = await createConnection({
   await createConnection({
     type: "postgres",
@@ -23,11 +29,57 @@ const main = async () => {
 
   // await conection.runMigrations();
 
-  app.get("/", ({ res }) => {
-    res?.send("Hello world!");
+  const app = express();
+
+  const RedisStore = connectRedis(session);
+  const redis = new Redis(process.env.REDIS_URL);
+
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
+
+  app.use(
+    session({
+      name: process.env.COOKIE_NAME,
+      store: new RedisStore({
+        client: redis,
+        disableTTL: true,
+        disableTouch: true,
+      }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+        httpOnly: true,
+        sameSite: "lax",
+      },
+      saveUninitialized: false,
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+    })
+  );
+
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [HelloResolver],
+      validate: false,
+    }),
+    context: ({ req, res }): MyContext => ({
+      req,
+      res,
+      redis,
+    }),
   });
 
-  app.listen(process.env.PORT, () => {
+  await apolloServer.start();
+
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
+
+  app.listen(parseInt(process.env.PORT), () => {
     console.log(
       `backend is listening on port ${process.env.DOMAIN_NAME}:${process.env.PORT}`
     );

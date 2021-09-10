@@ -6,5 +6,6 @@ declare namespace NodeJS {
     PORT: string;
     CORS_ORIGIN: string;
     DOMAIN_NAME: string;
+    COOKIE_NAME: string;
   }
 }
