@@ -14,6 +14,7 @@ import { Peminjaman } from "./entities/Peminjaman";
 import { Pengguna } from "./entities/Pengguna";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/Hello";
+import { UserResolver } from "./resolvers/User";
 import { MyContext } from "./types/myContext";
 
 const main = async () => {
@@ -36,7 +37,7 @@ const main = async () => {
 
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      // origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
@@ -62,8 +63,8 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver],
-      validate: false,
+      resolvers: [HelloResolver, UserResolver],
+      validate: true,
     }),
     context: ({ req, res }): MyContext => ({
       req,
