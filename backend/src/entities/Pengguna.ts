@@ -1,4 +1,6 @@
+import { Field, ObjectType } from "type-graphql";
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -6,29 +8,37 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
+@ObjectType()
 @Entity()
-export class Pengguna {
+export class Pengguna extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @Field()
   @Column({ unique: true })
   nip!: string;
 
+  @Field()
   @Column()
   nama!: string;
 
+  @Field()
   @Column()
   jabatan!: string;
 
+  @Field()
   @Column()
   subBagian!: string;
 
+  @Field()
   @Column()
   fotoProfil!: string;
 
+  @Field()
   @CreateDateColumn()
   createdAt: Date;
 
+  @Field()
   @UpdateDateColumn()
   updatedAt: Date;
 }
