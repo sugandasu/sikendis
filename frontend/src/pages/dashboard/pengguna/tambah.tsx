@@ -26,7 +26,6 @@ const DashboardPenggunaCreate: React.FC<{}> = ({}) => {
         }}
         onSubmit={async (values, { setErrors }) => {
           const response = await createPengguna({ variables: values });
-          console.log(response);
           if (response.data?.createPengguna.errors) {
             setErrors(toErrorMap(response.data.createPengguna.errors));
           } else if (response.data?.createPengguna.pengguna) {
