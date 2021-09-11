@@ -47,4 +47,46 @@ export class PenggunaResolver {
       .getRawOne();
     return { penggunas, jumlah };
   }
+
+  @Query(() => Pengguna, { nullable: true })
+  @UseMiddleware(isAuth)
+  pengguna(@Arg("id", () => Int) id: number): Promise<Pengguna | undefined> {
+    return Pengguna.findOne({ id });
+  }
+
+  @Mutation(() => PenggunaResponse)
+  @UseMiddleware(isOperator)
+  async updatePengguna(
+    @Arg("id", () => Int) id: number,
+    @Arg("payload") payload: PenggunaInput
+  ): Promise<PenggunaResponse> {
+    const errors = await penggunaValidation(payload);
+    if (errors) {
+      return { errors };
+    }
+
+    const pengguna = Pengguna.findOne({ id });
+    if (!pengguna) {
+      return {
+        errors: [
+          {
+            field: "id",
+            message: "Pengguna tidak ditemukan",
+          },
+        ],
+      };
+    }
+
+    const result = await getConnection()
+      .createQueryBuilder()
+      .update(Pengguna)
+      .set({ ...payload })
+      .where("id = :id", {
+        id,
+      })
+      .returning("*")
+      .execute();
+
+    return { pengguna: result.raw[0] };
+  }
 }

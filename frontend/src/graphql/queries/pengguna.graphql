@@ -1,0 +1,5 @@
+query Pengguna($id: Int!) {
+  pengguna(id: $id) {
+    ...RegularPengguna
+  }
+}

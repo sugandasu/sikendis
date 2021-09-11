@@ -1,0 +1,11 @@
+mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!) {
+  updatePengguna(id: $id, payload: $payload) {
+    errors {
+      field
+      message
+    }
+    pengguna {
+      ...RegularPengguna
+    }
+  }
+}

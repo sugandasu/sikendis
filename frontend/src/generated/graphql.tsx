@@ -33,6 +33,7 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+  updatePengguna: PenggunaResponse;
 };
 
 
@@ -48,6 +49,12 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   payload: UserInput;
+};
+
+
+export type MutationUpdatePenggunaArgs = {
+  id: Scalars['Int'];
+  payload: PenggunaInput;
 };
 
 export type Pengguna = {
@@ -88,7 +95,13 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   me?: Maybe<User>;
+  pengguna?: Maybe<Pengguna>;
   penggunas: PenggunaPaginated;
+};
+
+
+export type QueryPenggunaArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -149,10 +162,25 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
 
+export type UpdatePenggunaMutationVariables = Exact<{
+  id: Scalars['Int'];
+  payload: PenggunaInput;
+}>;
+
+
+export type UpdatePenggunaMutation = { __typename?: 'Mutation', updatePengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, role: string }> };
+
+export type PenggunaQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type PenggunaQuery = { __typename?: 'Query', pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> };
 
 export type PenggunasQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -301,6 +329,46 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdatePenggunaDocument = gql`
+    mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!) {
+  updatePengguna(id: $id, payload: $payload) {
+    errors {
+      field
+      message
+    }
+    pengguna {
+      ...RegularPengguna
+    }
+  }
+}
+    ${RegularPenggunaFragmentDoc}`;
+export type UpdatePenggunaMutationFn = Apollo.MutationFunction<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>;
+
+/**
+ * __useUpdatePenggunaMutation__
+ *
+ * To run a mutation, you first call `useUpdatePenggunaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePenggunaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePenggunaMutation, { data, loading, error }] = useUpdatePenggunaMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useUpdatePenggunaMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>(UpdatePenggunaDocument, options);
+      }
+export type UpdatePenggunaMutationHookResult = ReturnType<typeof useUpdatePenggunaMutation>;
+export type UpdatePenggunaMutationResult = Apollo.MutationResult<UpdatePenggunaMutation>;
+export type UpdatePenggunaMutationOptions = Apollo.BaseMutationOptions<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -338,6 +406,41 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const PenggunaDocument = gql`
+    query Pengguna($id: Int!) {
+  pengguna(id: $id) {
+    ...RegularPengguna
+  }
+}
+    ${RegularPenggunaFragmentDoc}`;
+
+/**
+ * __usePenggunaQuery__
+ *
+ * To run a query within a React component, call `usePenggunaQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePenggunaQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePenggunaQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePenggunaQuery(baseOptions: Apollo.QueryHookOptions<PenggunaQuery, PenggunaQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PenggunaQuery, PenggunaQueryVariables>(PenggunaDocument, options);
+      }
+export function usePenggunaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PenggunaQuery, PenggunaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PenggunaQuery, PenggunaQueryVariables>(PenggunaDocument, options);
+        }
+export type PenggunaQueryHookResult = ReturnType<typeof usePenggunaQuery>;
+export type PenggunaLazyQueryHookResult = ReturnType<typeof usePenggunaLazyQuery>;
+export type PenggunaQueryResult = Apollo.QueryResult<PenggunaQuery, PenggunaQueryVariables>;
 export const PenggunasDocument = gql`
     query Penggunas($limit: Int!) {
   penggunas(limit: $limit) {
