@@ -10,6 +10,8 @@ import { User } from "../entities/User";
 @ValidatorConstraint({ async: true })
 export class IsEmailExistsConstraint implements ValidatorConstraintInterface {
   async validate(email: string, args: ValidationArguments) {
+    console.log(args);
+
     const user = await User.findOne({ email });
     if (user) return false;
     return true;

@@ -13,8 +13,8 @@ import { Kendaraan } from "./entities/Kendaraan";
 import { Peminjaman } from "./entities/Peminjaman";
 import { Pengguna } from "./entities/Pengguna";
 import { User } from "./entities/User";
-import { HelloResolver } from "./resolvers/Hello";
-import { UserResolver } from "./resolvers/User";
+import { HelloResolver } from "./resolvers/HelloResolver";
+import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
 
 const main = async () => {
@@ -37,7 +37,7 @@ const main = async () => {
 
   app.use(
     cors({
-      // origin: process.env.CORS_ORIGIN,
+      origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
@@ -53,7 +53,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365,
         httpOnly: true,
-        sameSite: "lax",
+        // sameSite: "lax",
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
@@ -64,7 +64,7 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [HelloResolver, UserResolver],
-      validate: true,
+      validate: false,
     }),
     context: ({ req, res }): MyContext => ({
       req,
