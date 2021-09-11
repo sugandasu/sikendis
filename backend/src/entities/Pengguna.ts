@@ -11,6 +11,7 @@ import {
 @ObjectType()
 @Entity()
 export class Pengguna extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 

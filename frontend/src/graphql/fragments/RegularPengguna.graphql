@@ -1,4 +1,5 @@
 fragment RegularPengguna on Pengguna {
+  id
   nip
   nama
   jabatan

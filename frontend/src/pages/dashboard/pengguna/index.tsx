@@ -1,12 +1,26 @@
-import { Box, Link } from "@chakra-ui/layout";
-import { Table, TableCaption, Tbody, Th, Thead, Tr } from "@chakra-ui/table";
+import { Box, Flex, Link } from "@chakra-ui/layout";
+import {
+  Table,
+  TableCaption,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/table";
 import React from "react";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import NextLink from "next/link";
-import { Button } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
+import { usePenggunasQuery } from "../../../generated/graphql";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
   useIsAuth();
+  const { data, loading } = usePenggunasQuery({
+    variables: { limit: 10 },
+    notifyOnNetworkStatusChange: true,
+  });
   return (
     <Box>
       <Box>Pengguna Index</Box>
@@ -28,7 +42,49 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
             <Th>Aksi</Th>
           </Tr>
         </Thead>
-        <Tbody></Tbody>
+        {!data && loading ? (
+          <Tbody>
+            <Tr>
+              <Td colSpan={7}>Data kendaraan kosong</Td>
+            </Tr>
+          </Tbody>
+        ) : (
+          <Tbody>
+            {data.penggunas.penggunas.map((pengguna) =>
+              !pengguna ? null : (
+                <Tr key={pengguna.id}>
+                  <Td></Td>
+                  <Td>{pengguna.nip}</Td>
+                  <Td>{pengguna.nama}</Td>
+                  <Td>{pengguna.jabatan}</Td>
+                  <Td>{pengguna.instansi}</Td>
+                  <Td>{pengguna.subBagian}</Td>
+                  <Td>
+                    <Flex>
+                      <NextLink
+                        href="/dashboard/pengguna/edit/[id]"
+                        as={`/dashboard/pengguna/edit/${pengguna.id}`}
+                      >
+                        <Link>
+                          <IconButton
+                            colorScheme="blue"
+                            aria-label="Edit"
+                            icon={<EditIcon />}
+                          />
+                        </Link>
+                      </NextLink>
+                      <IconButton
+                        colorScheme="red"
+                        aria-label="Delete"
+                        icon={<DeleteIcon />}
+                      />
+                    </Flex>
+                  </Td>
+                </Tr>
+              )
+            )}
+          </Tbody>
+        )}
       </Table>
     </Box>
   );

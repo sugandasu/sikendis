@@ -54,6 +54,7 @@ export type Pengguna = {
   __typename?: 'Pengguna';
   createdAt: Scalars['DateTime'];
   fotoProfil: Scalars['String'];
+  id: Scalars['Float'];
   instansi: Scalars['String'];
   jabatan: Scalars['String'];
   nama: Scalars['String'];
@@ -117,7 +118,7 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
-export type RegularPenggunaFragment = { __typename?: 'Pengguna', nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string };
+export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string };
 
 export type CreatePenggunaMutationVariables = Exact<{
   nip: Scalars['String'];
@@ -129,7 +130,7 @@ export type CreatePenggunaMutationVariables = Exact<{
 }>;
 
 
-export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -158,10 +159,11 @@ export type PenggunasQueryVariables = Exact<{
 }>;
 
 
-export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', jumlah: number, penggunas: Array<{ __typename?: 'Pengguna', nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', jumlah: number, penggunas: Array<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
 
 export const RegularPenggunaFragmentDoc = gql`
     fragment RegularPengguna on Pengguna {
+  id
   nip
   nama
   jabatan
