@@ -21,12 +21,7 @@ mutation CreatePengguna(
       message
     }
     pengguna {
-      nip
-      nama
-      jabatan
-      instansi
-      subBagian
-      fotoProfil
+      ...RegularPengguna
     }
   }
 }

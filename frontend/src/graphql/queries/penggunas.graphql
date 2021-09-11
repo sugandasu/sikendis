@@ -1,6 +1,8 @@
-Query Penggunas($limi: Int!) {
+query Penggunas($limit: Int!) {
   penggunas(limit: $limit) {
-    penggunas
+    penggunas {
+      ...RegularPengguna
+    }
     jumlah
   }
 }
