@@ -44,7 +44,6 @@ const Login: React.FC<{}> = ({}) => {
               />
               <Button
                 mt={4}
-                width="100%"
                 type="submit"
                 isLoading={isSubmitting}
                 colorScheme="teal"

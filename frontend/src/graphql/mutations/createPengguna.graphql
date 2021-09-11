@@ -1,0 +1,32 @@
+mutation CreatePengguna(
+  $nip: String!
+  $nama: String!
+  $jabatan: String!
+  $instansi: String!
+  $subBagian: String!
+  $fotoProfil: String!
+) {
+  createPengguna(
+    payload: {
+      nip: $nip
+      nama: $nama
+      jabatan: $jabatan
+      instansi: $instansi
+      subBagian: $subBagian
+      fotoProfil: $fotoProfil
+    }
+  ) {
+    errors {
+      field
+      message
+    }
+    pengguna {
+      nip
+      nama
+      jabatan
+      instansi
+      subBagian
+      fotoProfil
+    }
+  }
+}

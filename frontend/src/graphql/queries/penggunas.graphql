@@ -1,0 +1,6 @@
+Query Penggunas($limi: Int!) {
+  penggunas(limit: $limit) {
+    penggunas
+    jumlah
+  }
+}

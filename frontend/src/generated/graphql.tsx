@@ -29,9 +29,15 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createPengguna: PenggunaResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+};
+
+
+export type MutationCreatePenggunaArgs = {
+  payload: PenggunaInput;
 };
 
 
@@ -44,10 +50,49 @@ export type MutationRegisterArgs = {
   payload: UserInput;
 };
 
+export type Pengguna = {
+  __typename?: 'Pengguna';
+  createdAt: Scalars['DateTime'];
+  fotoProfil: Scalars['String'];
+  instansi: Scalars['String'];
+  jabatan: Scalars['String'];
+  nama: Scalars['String'];
+  nip: Scalars['String'];
+  subBagian: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type PenggunaInput = {
+  fotoProfil: Scalars['String'];
+  instansi: Scalars['String'];
+  jabatan: Scalars['String'];
+  nama: Scalars['String'];
+  nip: Scalars['String'];
+  subBagian: Scalars['String'];
+};
+
+export type PenggunaPaginated = {
+  __typename?: 'PenggunaPaginated';
+  jumlah: Scalars['Int'];
+  penggunas: Array<Pengguna>;
+};
+
+export type PenggunaResponse = {
+  __typename?: 'PenggunaResponse';
+  errors?: Maybe<Array<FieldError>>;
+  pengguna?: Maybe<Pengguna>;
+};
+
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   me?: Maybe<User>;
+  penggunas: PenggunaPaginated;
+};
+
+
+export type QueryPenggunasArgs = {
+  limit: Scalars['Float'];
 };
 
 export type User = {
@@ -72,6 +117,18 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type CreatePenggunaMutationVariables = Exact<{
+  nip: Scalars['String'];
+  nama: Scalars['String'];
+  jabatan: Scalars['String'];
+  instansi: Scalars['String'];
+  subBagian: Scalars['String'];
+  fotoProfil: Scalars['String'];
+}>;
+
+
+export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
@@ -90,6 +147,57 @@ export type RegisterMutationVariables = Exact<{
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
 
 
+export const CreatePenggunaDocument = gql`
+    mutation CreatePengguna($nip: String!, $nama: String!, $jabatan: String!, $instansi: String!, $subBagian: String!, $fotoProfil: String!) {
+  createPengguna(
+    payload: {nip: $nip, nama: $nama, jabatan: $jabatan, instansi: $instansi, subBagian: $subBagian, fotoProfil: $fotoProfil}
+  ) {
+    errors {
+      field
+      message
+    }
+    pengguna {
+      nip
+      nama
+      jabatan
+      instansi
+      subBagian
+      fotoProfil
+    }
+  }
+}
+    `;
+export type CreatePenggunaMutationFn = Apollo.MutationFunction<CreatePenggunaMutation, CreatePenggunaMutationVariables>;
+
+/**
+ * __useCreatePenggunaMutation__
+ *
+ * To run a mutation, you first call `useCreatePenggunaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePenggunaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPenggunaMutation, { data, loading, error }] = useCreatePenggunaMutation({
+ *   variables: {
+ *      nip: // value for 'nip'
+ *      nama: // value for 'nama'
+ *      jabatan: // value for 'jabatan'
+ *      instansi: // value for 'instansi'
+ *      subBagian: // value for 'subBagian'
+ *      fotoProfil: // value for 'fotoProfil'
+ *   },
+ * });
+ */
+export function useCreatePenggunaMutation(baseOptions?: Apollo.MutationHookOptions<CreatePenggunaMutation, CreatePenggunaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePenggunaMutation, CreatePenggunaMutationVariables>(CreatePenggunaDocument, options);
+      }
+export type CreatePenggunaMutationHookResult = ReturnType<typeof useCreatePenggunaMutation>;
+export type CreatePenggunaMutationResult = Apollo.MutationResult<CreatePenggunaMutation>;
+export type CreatePenggunaMutationOptions = Apollo.BaseMutationOptions<CreatePenggunaMutation, CreatePenggunaMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(payload: {usernameOrEmail: $usernameOrEmail, password: $password}) {
