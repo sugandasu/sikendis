@@ -1,4 +1,13 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { isOperator } from "./../middlewares/isOperator";
+import { isAuth } from "./../middlewares/isAuth";
+import {
+  Arg,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from "type-graphql";
 import { getConnection } from "typeorm";
 import { Pengguna } from "../entities/Pengguna";
 import { PenggunaInput } from "./inputs/PenggunaInput";
@@ -9,6 +18,7 @@ import { penggunaValidation } from "./validations/penggunaValidation";
 @Resolver(Pengguna)
 export class PenggunaResolver {
   @Mutation(() => PenggunaResponse)
+  @UseMiddleware(isOperator)
   async createPengguna(
     @Arg("payload") payload: PenggunaInput
   ): Promise<PenggunaResponse> {
@@ -21,7 +31,10 @@ export class PenggunaResolver {
   }
 
   @Query(() => PenggunaPaginated)
-  async penggunas(@Arg("limit") limit: number): Promise<PenggunaPaginated> {
+  @UseMiddleware(isAuth)
+  async penggunas(
+    @Arg("limit", () => Int) limit: number
+  ): Promise<PenggunaPaginated> {
     const penggunas = await getConnection()
       .getRepository(Pengguna)
       .createQueryBuilder()
