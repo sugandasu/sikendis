@@ -52,8 +52,8 @@ export class UserResolver {
       return {
         errors: [
           {
-            field: "username",
-            message: "Username tidak ditemukan",
+            field: "usernameOrEmail",
+            message: "Username atau email tidak ditemukan",
           },
         ],
       };
