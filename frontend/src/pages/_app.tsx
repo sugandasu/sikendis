@@ -1,14 +1,22 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ChakraProvider } from "@chakra-ui/react";
+import { AppProps } from "next/app";
+import theme from "../theme";
 
-import theme from '../theme'
-import { AppProps } from 'next/app'
+const client = new ApolloClient({
+  uri: process.env.NEXT_PUBLIC_API_URL as string,
+  credentials: "include",
+  cache: new InMemoryCache(),
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider resetCSS theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
-  )
+    <ApolloProvider client={client}>
+      <ChakraProvider resetCSS theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </ApolloProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
