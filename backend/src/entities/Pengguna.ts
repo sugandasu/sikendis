@@ -28,6 +28,10 @@ export class Pengguna extends BaseEntity {
 
   @Field()
   @Column()
+  instansi!: string;
+
+  @Field()
+  @Column()
   subBagian!: string;
 
   @Field()

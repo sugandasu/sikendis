@@ -11,6 +11,9 @@ export class PenggunaInput {
   jabatan: string;
 
   @Field()
+  instansi: string;
+
+  @Field()
   subBagian: string;
 
   // Change to file later
