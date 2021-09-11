@@ -5,6 +5,7 @@ import { MyContext } from "../types/myContext";
 import { LoginInput } from "./inputs/LoginInput";
 import { UserInput } from "./inputs/UserInput";
 import { UserResponse } from "./responses/UserResponse";
+import { registerValidation } from "./validations/registerValidations";
 
 @Resolver(User)
 export class UserResolver {
@@ -18,26 +19,18 @@ export class UserResolver {
 
   @Mutation(() => UserResponse)
   async register(
-    @Arg("payload") { username, email, password }: UserInput,
+    @Arg("payload") payload: UserInput,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const userExists = await User.findOne({ username });
-    if (userExists) {
-      return {
-        errors: [
-          {
-            field: "username",
-            message: "Username telah terdaftar",
-          },
-        ],
-      };
+    const errors = await registerValidation(payload);
+    if (errors) {
+      return { errors };
     }
 
-    const hashedPassword = await argon2.hash(password);
-    password = hashedPassword;
+    const hashedPassword = await argon2.hash(payload.password);
     const user = await User.create({
-      username,
-      email,
+      username: payload.username,
+      email: payload.email,
       password: hashedPassword,
     }).save();
     req.session.userId = user.id;
