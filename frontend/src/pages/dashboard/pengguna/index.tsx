@@ -1,8 +1,10 @@
 import { Box } from "@chakra-ui/layout";
 import { Table, TableCaption, Tbody, Th, Thead, Tr } from "@chakra-ui/table";
 import React from "react";
+import { useIsAuth } from "../../../middlewares/useIsAuth";
 
 const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
+  useIsAuth();
   return (
     <Box>
       <Box>Pengguna Index</Box>

@@ -92,7 +92,7 @@ export type Query = {
 
 
 export type QueryPenggunasArgs = {
-  limit: Scalars['Float'];
+  limit: Scalars['Int'];
 };
 
 export type User = {
@@ -116,6 +116,8 @@ export type UserResponse = {
   errors?: Maybe<Array<FieldError>>;
   user?: Maybe<User>;
 };
+
+export type RegularPenggunaFragment = { __typename?: 'Pengguna', nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string };
 
 export type CreatePenggunaMutationVariables = Exact<{
   nip: Scalars['String'];
@@ -146,7 +148,28 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
 
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
+
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, role: string }> };
+
+export type PenggunasQueryVariables = Exact<{
+  limit: Scalars['Int'];
+}>;
+
+
+export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', jumlah: number, penggunas: Array<{ __typename?: 'Pengguna', nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+
+export const RegularPenggunaFragmentDoc = gql`
+    fragment RegularPengguna on Pengguna {
+  nip
+  nama
+  jabatan
+  instansi
+  subBagian
+  fotoProfil
+}
+    `;
 export const CreatePenggunaDocument = gql`
     mutation CreatePengguna($nip: String!, $nama: String!, $jabatan: String!, $instansi: String!, $subBagian: String!, $fotoProfil: String!) {
   createPengguna(
@@ -157,16 +180,11 @@ export const CreatePenggunaDocument = gql`
       message
     }
     pengguna {
-      nip
-      nama
-      jabatan
-      instansi
-      subBagian
-      fotoProfil
+      ...RegularPengguna
     }
   }
 }
-    `;
+    ${RegularPenggunaFragmentDoc}`;
 export type CreatePenggunaMutationFn = Apollo.MutationFunction<CreatePenggunaMutation, CreatePenggunaMutationVariables>;
 
 /**
@@ -281,3 +299,78 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const MeDocument = gql`
+    query Me {
+  me {
+    id
+    username
+    email
+    role
+  }
+}
+    `;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const PenggunasDocument = gql`
+    query Penggunas($limit: Int!) {
+  penggunas(limit: $limit) {
+    penggunas {
+      ...RegularPengguna
+    }
+    jumlah
+  }
+}
+    ${RegularPenggunaFragmentDoc}`;
+
+/**
+ * __usePenggunasQuery__
+ *
+ * To run a query within a React component, call `usePenggunasQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePenggunasQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePenggunasQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function usePenggunasQuery(baseOptions: Apollo.QueryHookOptions<PenggunasQuery, PenggunasQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PenggunasQuery, PenggunasQueryVariables>(PenggunasDocument, options);
+      }
+export function usePenggunasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PenggunasQuery, PenggunasQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PenggunasQuery, PenggunasQueryVariables>(PenggunasDocument, options);
+        }
+export type PenggunasQueryHookResult = ReturnType<typeof usePenggunasQuery>;
+export type PenggunasLazyQueryHookResult = ReturnType<typeof usePenggunasLazyQuery>;
+export type PenggunasQueryResult = Apollo.QueryResult<PenggunasQuery, PenggunasQueryVariables>;

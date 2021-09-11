@@ -5,9 +5,11 @@ import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { InputField } from "../../../components/InputField";
 import { useCreatePenggunaMutation } from "../../../generated/graphql";
+import { useIsOperator } from "../../../middlewares/useIsOperator";
 import { toErrorMap } from "../../../utils/toErrorMap";
 
 const DashboardPenggunaCreate: React.FC<{}> = ({}) => {
+  useIsOperator();
   const router = useRouter();
   const [createPengguna] = useCreatePenggunaMutation();
   return (

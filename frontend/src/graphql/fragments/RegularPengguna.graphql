@@ -1,0 +1,8 @@
+fragment RegularPengguna on Pengguna {
+  nip
+  nama
+  jabatan
+  instansi
+  subBagian
+  fotoProfil
+}
