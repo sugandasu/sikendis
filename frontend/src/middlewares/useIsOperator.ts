@@ -6,9 +6,11 @@ export const useIsOperator = () => {
   const { data, loading } = useMeQuery();
   const router = useRouter();
   useEffect(() => {
-    console.log(data);
-    if ((!loading && !data?.me) || data?.me.role !== "operator") {
+    if (!loading && data?.me && data?.me.role !== "operator") {
       router.back();
+    }
+    if (!loading && !data?.me) {
+      router.replace("/login?next=" + router.pathname);
     }
   }, [loading, data, router]);
 };
