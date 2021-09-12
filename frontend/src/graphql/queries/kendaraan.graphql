@@ -1,0 +1,5 @@
+query Kendaraan($id: Int!) {
+  kendaraan(id: $id) {
+    ...RegularKendaraan
+  }
+}

@@ -1,0 +1,3 @@
+mutation DeleteKendaraan($id: Int!) {
+  deleteKendaraan(id: $id)
+}

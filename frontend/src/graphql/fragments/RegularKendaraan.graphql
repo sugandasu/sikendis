@@ -1,0 +1,20 @@
+fragment RegularKendaraan on Kendaraan {
+  id
+  tipeRoda
+  kode
+  nama
+  nomorRegister
+  merek
+  ukuranCc
+  bahan
+  tahunPembelian
+  nomorRangka
+  nomorMesin
+  nomorPolisi
+  nomorBpkb
+  asalUsul
+  harga
+  keterangan
+  createdAt
+  updatedAt
+}

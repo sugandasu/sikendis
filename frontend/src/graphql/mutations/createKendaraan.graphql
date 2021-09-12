@@ -1,0 +1,11 @@
+mutation CreateKendaraan($payload: KendaraanInput!) {
+  createKendaraan(payload: $payload) {
+    errors {
+      field
+      message
+    }
+    kendaraan {
+      ...RegularKendaraan
+    }
+  }
+}

@@ -14,6 +14,7 @@ import { Peminjaman } from "./entities/Peminjaman";
 import { Pengguna } from "./entities/Pengguna";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/HelloResolver";
+import { KendaraanResolver } from "./resolvers/KendaraanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
@@ -64,7 +65,12 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver, PenggunaResolver],
+      resolvers: [
+        HelloResolver,
+        UserResolver,
+        PenggunaResolver,
+        KendaraanResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({

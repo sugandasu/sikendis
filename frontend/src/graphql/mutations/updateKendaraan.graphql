@@ -1,0 +1,11 @@
+mutation UpdateKendaraan($id: Int!, $payload: KendaraanInput!) {
+  updateKendaraan(id: $id, payload: $payload) {
+    errors {
+      field
+      message
+    }
+    kendaraan {
+      ...RegularKendaraan
+    }
+  }
+}

@@ -1,0 +1,8 @@
+query Kendaraans($limit: Int!) {
+  kendaraans(limit: $limit) {
+    kendaraans {
+      ...RegularKendaraan
+    }
+    jumlah
+  }
+}
