@@ -77,7 +77,7 @@ const DashboardPenggunaEdit: React.FC<{}> = ({}) => {
               isLoading={isSubmitting}
               colorScheme="teal"
             >
-              Tambah Pengguna
+              Edit Pengguna
             </Button>
           </Form>
         )}
