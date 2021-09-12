@@ -50,7 +50,7 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
           </Tbody>
         ) : (
           <Tbody>
-            {data.penggunas.penggunas.map((pengguna) =>
+            {data.penggunas?.penggunas.map((pengguna) =>
               !pengguna ? null : (
                 <Tr key={pengguna.id}>
                   <Td></Td>
