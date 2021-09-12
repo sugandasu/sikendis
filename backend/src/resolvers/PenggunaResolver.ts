@@ -89,4 +89,15 @@ export class PenggunaResolver {
 
     return { pengguna: result.raw[0] };
   }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isOperator)
+  async deletePengguna(@Arg("id", () => Int) id: number): Promise<Boolean> {
+    try {
+      await Pengguna.delete({ id });
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

@@ -12,7 +12,10 @@ import React from "react";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import NextLink from "next/link";
 import { Button, IconButton } from "@chakra-ui/button";
-import { usePenggunasQuery } from "../../../generated/graphql";
+import {
+  usePenggunasQuery,
+  useDeletePenggunaMutation,
+} from "../../../generated/graphql";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
@@ -21,6 +24,7 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
     variables: { limit: 10 },
     notifyOnNetworkStatusChange: true,
   });
+  const [deletePengguna] = useDeletePenggunaMutation();
   return (
     <Box>
       <Box>Pengguna Index</Box>
@@ -77,6 +81,9 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
                         colorScheme="red"
                         aria-label="Delete"
                         icon={<DeleteIcon />}
+                        onClick={() => {
+                          deletePengguna({ variables: { id: pengguna.id } });
+                        }}
                       />
                     </Flex>
                   </Td>

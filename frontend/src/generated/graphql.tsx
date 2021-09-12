@@ -30,6 +30,7 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createPengguna: PenggunaResponse;
+  deletePengguna: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
@@ -39,6 +40,11 @@ export type Mutation = {
 
 export type MutationCreatePenggunaArgs = {
   payload: PenggunaInput;
+};
+
+
+export type MutationDeletePenggunaArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -145,6 +151,13 @@ export type CreatePenggunaMutationVariables = Exact<{
 
 export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
 
+export type DeletePenggunaMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeletePenggunaMutation = { __typename?: 'Mutation', deletePengguna: boolean };
+
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
@@ -246,6 +259,37 @@ export function useCreatePenggunaMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreatePenggunaMutationHookResult = ReturnType<typeof useCreatePenggunaMutation>;
 export type CreatePenggunaMutationResult = Apollo.MutationResult<CreatePenggunaMutation>;
 export type CreatePenggunaMutationOptions = Apollo.BaseMutationOptions<CreatePenggunaMutation, CreatePenggunaMutationVariables>;
+export const DeletePenggunaDocument = gql`
+    mutation DeletePengguna($id: Int!) {
+  deletePengguna(id: $id)
+}
+    `;
+export type DeletePenggunaMutationFn = Apollo.MutationFunction<DeletePenggunaMutation, DeletePenggunaMutationVariables>;
+
+/**
+ * __useDeletePenggunaMutation__
+ *
+ * To run a mutation, you first call `useDeletePenggunaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePenggunaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePenggunaMutation, { data, loading, error }] = useDeletePenggunaMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePenggunaMutation(baseOptions?: Apollo.MutationHookOptions<DeletePenggunaMutation, DeletePenggunaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePenggunaMutation, DeletePenggunaMutationVariables>(DeletePenggunaDocument, options);
+      }
+export type DeletePenggunaMutationHookResult = ReturnType<typeof useDeletePenggunaMutation>;
+export type DeletePenggunaMutationResult = Apollo.MutationResult<DeletePenggunaMutation>;
+export type DeletePenggunaMutationOptions = Apollo.BaseMutationOptions<DeletePenggunaMutation, DeletePenggunaMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(payload: {usernameOrEmail: $usernameOrEmail, password: $password}) {
