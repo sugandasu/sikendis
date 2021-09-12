@@ -8,7 +8,7 @@ import { useCreatePenggunaMutation } from "../../../generated/graphql";
 import { useIsOperator } from "../../../middlewares/useIsOperator";
 import { toErrorMap } from "../../../utils/toErrorMap";
 
-const DashboardPenggunaCreate: React.FC<{}> = ({}) => {
+const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
   useIsOperator();
   const router = useRouter();
   const [createPengguna] = useCreatePenggunaMutation();
@@ -68,4 +68,4 @@ const DashboardPenggunaCreate: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardPenggunaCreate;
+export default DashboardPenggunaTambah;
