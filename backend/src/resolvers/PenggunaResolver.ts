@@ -60,7 +60,7 @@ export class PenggunaResolver {
     @Arg("id", () => Int) id: number,
     @Arg("payload") payload: PenggunaInput
   ): Promise<PenggunaResponse> {
-    const errors = await penggunaValidation(payload);
+    const errors = await penggunaValidation(payload, id);
     if (errors) {
       return { errors };
     }
