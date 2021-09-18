@@ -1,8 +1,11 @@
-query Penggunas($limit: Int!) {
-  penggunas(limit: $limit) {
-    penggunas {
+query Penggunas($options: PaginatedInput!) {
+  penggunas(options: $options) {
+    data {
       ...RegularPengguna
     }
-    jumlah
+    total
+    limit
+    page
+    filter
   }
 }
