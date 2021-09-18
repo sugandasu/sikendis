@@ -29,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         aria-label="menu"
         bg="transparent"
         color="white"
-        icon={<HamburgerIcon w="100%" />}
+        icon={<HamburgerIcon />}
       ></IconButton>
       <Spacer />
       <IconButton aria-label="avatar" isRound bg="transparent" color="white">
