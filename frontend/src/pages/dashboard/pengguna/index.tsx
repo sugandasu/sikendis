@@ -1,99 +1,134 @@
-import { Box, Flex, Link } from "@chakra-ui/layout";
-import {
-  Table,
-  TableCaption,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/table";
-import React from "react";
-import { useIsAuth } from "../../../middlewares/useIsAuth";
-import NextLink from "next/link";
 import { Button, IconButton } from "@chakra-ui/button";
 import {
-  usePenggunasQuery,
+  ChevronDownIcon,
+  DeleteIcon,
+  EditIcon,
+  ViewIcon,
+} from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  Icon,
+  Link,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import NextLink from "next/link";
+import React from "react";
+import { FaEllipsisV } from "react-icons/fa";
+import { DashboardLayout } from "../../../components/DashboardLayout";
+import { SimpleTable } from "../../../components/SimpleTable";
+import {
   useDeletePenggunaMutation,
+  usePenggunasQuery,
 } from "../../../generated/graphql";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { useIsAuth } from "../../../middlewares/useIsAuth";
 
 const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
   useIsAuth();
+  const breadCrumbs = [
+    { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
+    { text: "Pengguna", link: "#", isCurrentPage: true },
+  ];
   const { data, loading } = usePenggunasQuery({
-    variables: { limit: 10 },
+    variables: {
+      options: {
+        limit: 10,
+        page: 1,
+      },
+    },
     notifyOnNetworkStatusChange: true,
   });
   const [deletePengguna] = useDeletePenggunaMutation();
+  if (loading) {
+    return <Box>Loading...</Box>;
+  }
+  if (!loading && !data?.penggunas?.data) {
+    return <Box>Error data...</Box>;
+  }
+
+  const headers = [
+    { label: "#", key: "fotoProfil", hideSm: true },
+    { label: "Nama", key: "nama" },
+    { label: "Nip", key: "nip", hideSms: true },
+    { label: "Jabatan", key: "jabatan", hideSm: true, hideMd: true },
+    { label: "Instansi", key: "instansi", hideSm: true, hideMd: true },
+    { label: "Sub Bagian", key: "subBagian", hideSm: true, hideMd: true },
+    {
+      label: "Aksi",
+      key: "id",
+      render: (row: any, showView: boolean, setViewRow: any, onOpen: any) => {
+        return (
+          <Menu>
+            <MenuButton as={Button}>
+              <FaEllipsisV></FaEllipsisV>
+            </MenuButton>
+            <MenuList>
+              {showView ? (
+                <MenuItem
+                  onClick={() => {
+                    setViewRow(row);
+                    onOpen();
+                  }}
+                >
+                  <Text>View</Text>
+                </MenuItem>
+              ) : null}
+              <MenuItem>
+                <NextLink
+                  href="/dashboard/pengguna/edit/[id]"
+                  as={`/dashboard/pengguna/edit/${row.id}`}
+                >
+                  <Link>
+                    <Text>Edit</Text>
+                  </Link>
+                </NextLink>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  deletePengguna({
+                    variables: { id: row.id },
+                  });
+                }}
+              >
+                Delete
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        );
+      },
+    },
+  ];
+
   return (
-    <Box>
-      <Box>Pengguna Index</Box>
-      <NextLink href="/dashboard/pengguna/tambah">
-        <Link>
-          <Button>Tambah</Button>
-        </Link>
-      </NextLink>
-      <Table>
-        <TableCaption>Pengguna kendaraan</TableCaption>
-        <Thead>
-          <Tr>
-            <Th>Foto</Th>
-            <Th>Nip</Th>
-            <Th>Nama</Th>
-            <Th>Jabatan</Th>
-            <Th>Instansi</Th>
-            <Th>Sub Bagian</Th>
-            <Th>Aksi</Th>
-          </Tr>
-        </Thead>
-        {!data && loading ? (
-          <Tbody>
-            <Tr>
-              <Td colSpan={7}>Data kendaraan kosong</Td>
-            </Tr>
-          </Tbody>
-        ) : (
-          <Tbody>
-            {data.penggunas?.penggunas.map((pengguna) =>
-              !pengguna ? null : (
-                <Tr key={pengguna.id}>
-                  <Td></Td>
-                  <Td>{pengguna.nip}</Td>
-                  <Td>{pengguna.nama}</Td>
-                  <Td>{pengguna.jabatan}</Td>
-                  <Td>{pengguna.instansi}</Td>
-                  <Td>{pengguna.subBagian}</Td>
-                  <Td>
-                    <Flex>
-                      <NextLink
-                        href="/dashboard/pengguna/edit/[id]"
-                        as={`/dashboard/pengguna/edit/${pengguna.id}`}
-                      >
-                        <Link>
-                          <IconButton
-                            colorScheme="blue"
-                            aria-label="Edit"
-                            icon={<EditIcon />}
-                          />
-                        </Link>
-                      </NextLink>
-                      <IconButton
-                        colorScheme="red"
-                        aria-label="Delete"
-                        icon={<DeleteIcon />}
-                        onClick={() => {
-                          deletePengguna({ variables: { id: pengguna.id } });
-                        }}
-                      />
-                    </Flex>
-                  </Td>
-                </Tr>
-              )
-            )}
-          </Tbody>
-        )}
-      </Table>
-    </Box>
+    <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
+      <Stack>
+        <Box borderWidth="1px" borderRadius="md">
+          <Box p={5}>
+            <Flex align="center" justifyContent="space-between" mb={2}>
+              <Text fontSize="l">Pengguna</Text>
+              <NextLink href="/dashboard/pengguna/tambah">
+                <Link>
+                  <Button bg="blue.500" color="white">
+                    Tambah
+                  </Button>
+                </Link>
+              </NextLink>
+            </Flex>
+            <Box>
+              <SimpleTable
+                headers={headers}
+                data={data.penggunas}
+              ></SimpleTable>
+            </Box>
+          </Box>
+        </Box>
+      </Stack>
+    </DashboardLayout>
   );
 };
 
