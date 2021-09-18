@@ -14,6 +14,7 @@ import { PenggunaInput } from "./inputs/PenggunaInput";
 import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { PenggunaResponse } from "./responses/PenggunaResponse";
 import { penggunaValidation } from "./validations/penggunaValidation";
+import { PaginatedInput } from "./inputs/PaginatedInput";
 
 @Resolver(Pengguna)
 export class PenggunaResolver {
@@ -33,19 +34,46 @@ export class PenggunaResolver {
   @Query(() => PenggunaPaginated)
   @UseMiddleware(isAuth)
   async penggunas(
-    @Arg("limit", () => Int) limit: number
+    @Arg("options") options: PaginatedInput
   ): Promise<PenggunaPaginated> {
-    const penggunas = await getConnection()
+    const realLimit = Math.min(10, options.limit);
+    const offset = options.page * options.limit - options.limit;
+    let params = [];
+    params.push(realLimit);
+    params.push(offset);
+    if (options.filter) {
+      params.push(options.filter);
+    }
+
+    const data = await getConnection().query(
+      `
+      SELECT *,
+      (SELECT COUNT(*) FROM pengguna) as total
+      FROM pengguna
+      ${
+        options.filter
+          ? `
+      WHERE
+      nama = $3 OR 
+      nip = $3 OR 
+      jabatan = $3 OR 
+      instansi = $3 OR
+      "subBagian" = $3
+      `
+          : ``
+      }
+      LIMIT $1
+      OFFSET $2
+      `,
+      params
+    );
+    const { total } = await getConnection()
       .getRepository(Pengguna)
       .createQueryBuilder()
-      .limit(limit)
-      .getMany();
-    const { jumlah } = await getConnection()
-      .getRepository(Pengguna)
-      .createQueryBuilder()
-      .select("COUNT(id)", "jumlah")
+      .select("COUNT(id)", "total")
       .getRawOne();
-    return { penggunas, jumlah };
+
+    return { data, total, ...options };
   }
 
   @Query(() => Pengguna, { nullable: true })
