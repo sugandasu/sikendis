@@ -58,7 +58,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({ headers, data }) => {
   const [viewRow, setViewRow] = useState();
 
   const totalPage = Math.ceil(data.total / data.limit);
-  const onlyOnePage = data.page === totalPage;
+  const onlyOnePage = totalPage === 0 || totalPage === 1;
 
   const hideFirstPage = onlyOnePage;
   const hidePreviousPage = onlyOnePage;
