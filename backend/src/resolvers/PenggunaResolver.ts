@@ -47,8 +47,7 @@ export class PenggunaResolver {
 
     const data = await getConnection().query(
       `
-      SELECT *,
-      (SELECT COUNT(*) FROM pengguna) as total
+      SELECT *
       FROM pengguna
       ${
         options.filter
