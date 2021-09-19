@@ -65,6 +65,9 @@ const DashboardPenggunaEdit: React.FC<{}> = ({}) => {
                 onSubmit={async (values, { setErrors }) => {
                   const response = await updatePengguna({
                     variables: { id: intId, payload: values },
+                    update: (cache) => {
+                      cache.evict({ fieldName: "penggunas" });
+                    },
                   });
                   if (response.data?.updatePengguna.errors) {
                     setErrors(toErrorMap(response.data.updatePengguna.errors));

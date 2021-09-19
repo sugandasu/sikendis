@@ -42,6 +42,14 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
 
   const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
   const [deletePengguna] = useDeletePenggunaMutation();
+  const deleteConfirm = () => {
+    deletePengguna({
+      variables: { id: currentRow.id },
+      update: (cache) => {
+        cache.evict({ id: `Pengguna:${currentRow.id}` });
+      },
+    });
+  };
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const deleteDialogClose = () => setDeleteDialogOpen(false);
@@ -144,7 +152,7 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
         deleteDialogClose={deleteDialogClose}
         currentRow={currentRow}
         dialogKey={dialogKey}
-        deleteConfirm={deletePengguna}
+        deleteConfirm={deleteConfirm}
       ></DeleteDialog>
     </DashboardLayout>
   );
