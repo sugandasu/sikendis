@@ -1,14 +1,9 @@
-import { Button, IconButton } from "@chakra-ui/button";
+import { Button } from "@chakra-ui/button";
 import {
-  ChevronDownIcon,
-  DeleteIcon,
-  EditIcon,
-  ViewIcon,
-} from "@chakra-ui/icons";
-import {
+  Avatar,
+  AvatarBadge,
   Box,
   Flex,
-  Icon,
   Link,
   Menu,
   MenuButton,
@@ -18,9 +13,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { DashboardLayout } from "../../../components/DashboardLayout";
+import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
   useDeletePenggunaMutation,
@@ -43,7 +39,15 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
     },
     notifyOnNetworkStatusChange: true,
   });
+
+  const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
   const [deletePengguna] = useDeletePenggunaMutation();
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const deleteDialogClose = () => setDeleteDialogOpen(false);
+  const deleteDialogCancel = React.useRef();
+  const dialogKey = "nama";
+
   if (loading) {
     return <Box>Loading...</Box>;
   }
@@ -52,7 +56,14 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
   }
 
   const headers = [
-    { label: "#", key: "fotoProfil", hideSm: true },
+    {
+      label: "#",
+      key: "fotoProfil",
+      hideSm: true,
+      render: (row) => {
+        return <Avatar size="sm"></Avatar>;
+      },
+    },
     { label: "Nama", key: "nama" },
     { label: "Nip", key: "nip", hideSms: true },
     { label: "Jabatan", key: "jabatan", hideSm: true, hideMd: true },
@@ -78,21 +89,20 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
                   <Text>View</Text>
                 </MenuItem>
               ) : null}
-              <MenuItem>
-                <NextLink
-                  href="/dashboard/pengguna/edit/[id]"
-                  as={`/dashboard/pengguna/edit/${row.id}`}
-                >
-                  <Link>
-                    <Text>Edit</Text>
-                  </Link>
-                </NextLink>
-              </MenuItem>
+
+              <NextLink
+                href="/dashboard/pengguna/edit/[id]"
+                as={`/dashboard/pengguna/edit/${row.id}`}
+              >
+                <Link>
+                  <MenuItem>Edit</MenuItem>
+                </Link>
+              </NextLink>
+
               <MenuItem
                 onClick={() => {
-                  deletePengguna({
-                    variables: { id: row.id },
-                  });
+                  setCurrentRow(row);
+                  setDeleteDialogOpen(true);
                 }}
               >
                 Delete
@@ -128,6 +138,14 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
           </Box>
         </Box>
       </Stack>
+      <DeleteDialog
+        deleteDialogOpen={deleteDialogOpen}
+        deleteDialogCancel={deleteDialogCancel}
+        deleteDialogClose={deleteDialogClose}
+        currentRow={currentRow}
+        dialogKey={dialogKey}
+        deleteConfirm={deletePengguna}
+      ></DeleteDialog>
     </DashboardLayout>
   );
 };
