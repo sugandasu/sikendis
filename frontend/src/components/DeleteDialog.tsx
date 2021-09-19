@@ -36,7 +36,7 @@ export const DeleteDialog: React.FC<DeleteDialogProps> = ({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Hapus Pengguna
+            Konfirmasi Penghapusan
           </AlertDialogHeader>
 
           <AlertDialogBody>
@@ -52,12 +52,7 @@ export const DeleteDialog: React.FC<DeleteDialogProps> = ({
               colorScheme="red"
               onClick={() => {
                 if (currentRow && currentRow?.id) {
-                  deleteConfirm({
-                    variables: { id: currentRow.id },
-                    update: (cache) => {
-                      cache.evict({ id: `Pengguna:${currentRow.id}` });
-                    },
-                  });
+                  deleteConfirm();
                 }
                 deleteDialogClose();
               }}
