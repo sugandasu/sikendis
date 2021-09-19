@@ -4,8 +4,17 @@ import { ObjectType, Field, Int } from "type-graphql";
 @ObjectType()
 export class KendaraanPaginated {
   @Field(() => [Kendaraan])
-  kendaraans: Kendaraan[];
+  data: Kendaraan[];
 
   @Field(() => Int)
-  jumlah: number;
+  total: number;
+
+  @Field(() => Int)
+  limit: number;
+
+  @Field(() => Int)
+  page: number;
+
+  @Field(() => String, { nullable: true })
+  filter?: string | null;
 }

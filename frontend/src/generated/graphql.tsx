@@ -68,8 +68,11 @@ export type KendaraanInput = {
 
 export type KendaraanPaginated = {
   __typename?: "KendaraanPaginated";
-  jumlah: Scalars["Int"];
-  kendaraans: Array<Kendaraan>;
+  data: Array<Kendaraan>;
+  filter?: Maybe<Scalars["String"]>;
+  limit: Scalars["Int"];
+  page: Scalars["Int"];
+  total: Scalars["Int"];
 };
 
 export type KendaraanResponse = {
@@ -188,7 +191,7 @@ export type QueryKendaraanArgs = {
 };
 
 export type QueryKendaraansArgs = {
-  limit: Scalars["Int"];
+  options: PaginatedInput;
 };
 
 export type QueryPenggunaArgs = {
@@ -460,15 +463,18 @@ export type KendaraanQuery = {
 };
 
 export type KendaraansQueryVariables = Exact<{
-  limit: Scalars["Int"];
+  options: PaginatedInput;
 }>;
 
 export type KendaraansQuery = {
   __typename?: "Query";
   kendaraans: {
     __typename?: "KendaraanPaginated";
-    jumlah: number;
-    kendaraans: Array<{
+    total: number;
+    limit: number;
+    page: number;
+    filter?: Maybe<string>;
+    data: Array<{
       __typename?: "Kendaraan";
       id: number;
       tipeRoda: string;
@@ -1096,12 +1102,15 @@ export type KendaraanQueryResult = Apollo.QueryResult<
   KendaraanQueryVariables
 >;
 export const KendaraansDocument = gql`
-  query Kendaraans($limit: Int!) {
-    kendaraans(limit: $limit) {
-      kendaraans {
+  query Kendaraans($options: PaginatedInput!) {
+    kendaraans(options: $options) {
+      data {
         ...RegularKendaraan
       }
-      jumlah
+      total
+      limit
+      page
+      filter
     }
   }
   ${RegularKendaraanFragmentDoc}
@@ -1119,7 +1128,7 @@ export const KendaraansDocument = gql`
  * @example
  * const { data, loading, error } = useKendaraansQuery({
  *   variables: {
- *      limit: // value for 'limit'
+ *      options: // value for 'options'
  *   },
  * });
  */

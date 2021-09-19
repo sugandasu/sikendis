@@ -14,6 +14,7 @@ import { KendaraanInput } from "./inputs/KendaraanInput";
 import { KendaraanResponse } from "./responses/KendaraanResponse";
 import { kendaraanValidation } from "./validations/kendaraanValidation";
 import { KendaraanPaginated } from "./responses/KendaraanPaginates";
+import { PaginatedInput } from "./inputs/PaginatedInput";
 
 @Resolver(Kendaraan)
 export class KendaraanResolver {
@@ -33,19 +34,56 @@ export class KendaraanResolver {
   @Query(() => KendaraanPaginated)
   @UseMiddleware(isAuth)
   async kendaraans(
-    @Arg("limit", () => Int) limit: number
+    @Arg("options") options: PaginatedInput
   ): Promise<KendaraanPaginated> {
-    const kendaraans = await getConnection()
+    const realLimit = Math.min(10, options.limit);
+    const offset = options.page * options.limit - options.limit;
+    let params = [];
+    params.push(realLimit);
+    params.push(offset);
+    if (options.filter) {
+      params.push(options.filter);
+    }
+
+    const data = await getConnection().query(
+      `
+      SELECT *
+      FROM kendaraan
+      ${
+        options.filter
+          ? `
+      WHERE
+      "tipeRoda" = $3 OR 
+      kode = $3 OR 
+      nama = $3 OR 
+      "nomorRegister" = $3 OR
+      merek = $3 OR 
+      "ukuranCc" = $3 OR 
+      bahan = $3 OR
+      "tahunPembelian" = $3 OR
+      "nomorRangka" = $3 OR
+      "nomorMesin" = $3 OR
+      "nomorPolisi" = $3 OR
+      "nomorBpkb" = $3 OR
+      "asalUsul" = $3 OR
+      harga = $3 OR
+      keterangan = $3
+      `
+          : ``
+      }
+      LIMIT $1
+      OFFSET $2
+      `,
+      params
+    );
+
+    const { total } = await getConnection()
       .getRepository(Kendaraan)
       .createQueryBuilder()
-      .limit(limit)
-      .getMany();
-    const { jumlah } = await getConnection()
-      .getRepository(Kendaraan)
-      .createQueryBuilder()
-      .select("COUNT(id)", "jumlah")
+      .select("COUNT(id)", "total")
       .getRawOne();
-    return { kendaraans, jumlah };
+
+    return { data, total, ...options };
   }
 
   @Query(() => Kendaraan, { nullable: true })

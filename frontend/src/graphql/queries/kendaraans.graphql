@@ -1,8 +1,11 @@
-query Kendaraans($limit: Int!) {
-  kendaraans(limit: $limit) {
-    kendaraans {
+query Kendaraans($options: PaginatedInput!) {
+  kendaraans(options: $options) {
+    data {
       ...RegularKendaraan
     }
-    jumlah
+    total
+    limit
+    page
+    filter
   }
 }

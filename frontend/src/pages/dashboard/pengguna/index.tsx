@@ -65,7 +65,7 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
       },
     },
     { label: "Nama", key: "nama" },
-    { label: "Nip", key: "nip", hideSms: true },
+    { label: "Nip", key: "nip", hideSm: true },
     { label: "Jabatan", key: "jabatan", hideSm: true, hideMd: true },
     { label: "Instansi", key: "instansi", hideSm: true, hideMd: true },
     { label: "Sub Bagian", key: "subBagian", hideSm: true, hideMd: true },
