@@ -40,11 +40,19 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
 
   const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
   const [deleteKendaraan] = useDeleteKendaraanMutation();
+  const deleteConfirm = () => {
+    deleteKendaraan({
+      variables: { id: currentRow.id },
+      update: (cache) => {
+        cache.evict({ id: `Kendaraan:${currentRow.id}` });
+      },
+    });
+  };
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const deleteDialogClose = () => setDeleteDialogOpen(false);
   const deleteDialogCancel = React.useRef();
-  const dialogKey = "nama";
+  const dialogKey = "nomorPolisi";
 
   if (loading) {
     return <Box>Loading...</Box>;
@@ -184,7 +192,7 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
         deleteDialogClose={deleteDialogClose}
         currentRow={currentRow}
         dialogKey={dialogKey}
-        deleteConfirm={deleteKendaraan}
+        deleteConfirm={deleteConfirm}
       ></DeleteDialog>
     </DashboardLayout>
   );

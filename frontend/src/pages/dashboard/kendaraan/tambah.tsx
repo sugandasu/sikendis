@@ -23,7 +23,7 @@ const DashboardKendaraanTambah: React.FC<{}> = ({}) => {
   const [createKendaraan] = useCreateKendaraanMutation();
   const tipeRodas = [
     { text: "Kendaraan Roda 2", value: "roda 2" },
-    { text: "Kendaraan Roda 3", value: "roda 3" },
+    { text: "Kendaraan Roda 4", value: "roda 4" },
   ];
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
@@ -62,6 +62,9 @@ const DashboardKendaraanTambah: React.FC<{}> = ({}) => {
                 onSubmit={async (values, { setErrors }) => {
                   const response = await createKendaraan({
                     variables: { payload: values },
+                    update: (cache) => {
+                      cache.evict({ fieldName: "kendaraans" });
+                    },
                   });
                   if (response.data?.createKendaraan.errors) {
                     setErrors(toErrorMap(response.data.createKendaraan.errors));
