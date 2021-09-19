@@ -29,6 +29,7 @@ import { SimpleTableModal } from "./SimpleTableModal";
 interface Header {
   label: string;
   key: string;
+  hide?: boolean;
   hideSm?: boolean;
   hideMd?: boolean;
   render?: (
@@ -107,7 +108,9 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({ headers, data }) => {
               <Th
                 key={header.key}
                 display={
-                  (isSm && header.hideSm) || (isMd && header.hideMd)
+                  header.hide ||
+                  (isSm && header.hideSm) ||
+                  (isMd && header.hideMd)
                     ? "none"
                     : null
                 }
@@ -124,7 +127,9 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({ headers, data }) => {
                 <Td
                   key={row.id + header.key}
                   display={
-                    (isSm && header.hideSm) || (isMd && header.hideMd)
+                    header.hide ||
+                    (isSm && header.hideSm) ||
+                    (isMd && header.hideMd)
                       ? "none"
                       : null
                   }

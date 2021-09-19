@@ -55,7 +55,7 @@ export const kendaraanValidation = async (
     .createQueryBuilder("kendaraan")
     .where(
       `kendaraan."nomorRangka" = :nomorRangka ${
-        skipId ? "AND kendaraan.id != :id" : null
+        skipId ? "AND kendaraan.id != :id" : ""
       }`,
       skipId
         ? {
@@ -86,7 +86,7 @@ export const kendaraanValidation = async (
     .createQueryBuilder("kendaraan")
     .where(
       `kendaraan."nomorMesin" = :nomorMesin ${
-        skipId ? "AND kendaraan.id != :id" : null
+        skipId ? "AND kendaraan.id != :id" : ""
       }`,
       skipId
         ? {
@@ -119,7 +119,7 @@ export const kendaraanValidation = async (
     .createQueryBuilder("kendaraan")
     .where(
       `kendaraan."nomorPolisi" = :nomorPolisi ${
-        skipId ? "AND kendaraan.id != :id" : null
+        skipId ? "AND kendaraan.id != :id" : ""
       }`,
       skipId
         ? {
@@ -150,7 +150,7 @@ export const kendaraanValidation = async (
     .createQueryBuilder("kendaraan")
     .where(
       `kendaraan."nomorBpkb" = :nomorBpkb ${
-        skipId ? "AND kendaraan.id != :id" : null
+        skipId ? "AND kendaraan.id != :id" : ""
       }`,
       skipId
         ? {

@@ -55,17 +55,20 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
 
   const headers = [
     { label: "Tipe Kendaraan", key: "tipeRoda" },
-    { label: "Kode", key: "kode", hideSm: true, hideMd: true },
-    { label: "Nama", key: "nama", hideSm: true, hideMd: true },
+    { label: "Kode", key: "kode", hide: true },
+    { label: "Nama", key: "nama", hide: true },
     {
       label: "Nomor Register",
       key: "nomorRegister",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
     { label: "merek", key: "merek", hideSm: true, hideMd: true },
-    { label: "Ukuran CC", key: "ukuranCc", hideSm: true, hideMd: true },
-    { label: "Bahan", key: "bahan", hideSm: true, hideMd: true },
+    {
+      label: "Ukuran CC",
+      key: "ukuranCc",
+      hide: true,
+    },
+    { label: "Bahan", key: "bahan", hide: true },
     {
       label: "Tahun Pembelian",
       key: "tahunPembelian",
@@ -75,14 +78,12 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
     {
       label: "Nomor Rangka",
       key: "nomorRangka",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
     {
       label: "Nomor Mesin",
       key: "nomorMesin",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
     {
       label: "Nomor Polisi",
@@ -91,8 +92,7 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
     {
       label: "Nomor Bpkb",
       key: "nomorBpkb",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
     {
       label: "Asal Usul",
@@ -103,14 +103,12 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
     {
       label: "Harga",
       key: "harga",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
     {
-      label: "eterangan",
+      label: "Keterangan",
       key: "keterangan",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
     {
       label: "Aksi",
