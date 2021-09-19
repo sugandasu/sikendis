@@ -13,7 +13,7 @@ export const penggunaValidation = async (
     .getRepository(Pengguna)
     .createQueryBuilder("pengguna")
     .where(
-      `pengguna."nip" = :nip ${skipId ? "AND pengguna.id != :id" : null}`,
+      `pengguna."nip" = :nip ${skipId ? "AND pengguna.id != :id" : ""}`,
       skipId
         ? {
             nip: payload.nip,
