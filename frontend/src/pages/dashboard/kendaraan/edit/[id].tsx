@@ -174,7 +174,7 @@ const DashboardKendaraanEdit: React.FC<{}> = ({}) => {
                       isLoading={isSubmitting}
                       colorScheme="teal"
                     >
-                      Edit Pengguna
+                      Edit Kendaraan
                     </Button>
                   </Form>
                 )}
