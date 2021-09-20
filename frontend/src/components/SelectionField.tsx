@@ -28,7 +28,9 @@ export const SelectionField: React.FC<SelectionFieldProps> = ({
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
       <Select {...field} {...props} id={field.name}>
         {options.map((option) => (
-          <option value={option.value}>{option.text}</option>
+          <option key={option.value} value={option.value}>
+            {option.text}
+          </option>
         ))}
       </Select>
       {!!error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
