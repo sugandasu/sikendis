@@ -1,21 +1,5 @@
-mutation CreatePengguna(
-  $nip: String!
-  $nama: String!
-  $jabatan: String!
-  $instansi: String!
-  $subBagian: String!
-  $fotoProfil: String!
-) {
-  createPengguna(
-    payload: {
-      nip: $nip
-      nama: $nama
-      jabatan: $jabatan
-      instansi: $instansi
-      subBagian: $subBagian
-      fotoProfil: $fotoProfil
-    }
-  ) {
+mutation CreatePengguna($payload: PenggunaInput!, $fotoProfil: Upload!) {
+  createPengguna(payload: $payload, fotoProfil: $fotoProfil) {
     errors {
       field
       message

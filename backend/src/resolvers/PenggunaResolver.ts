@@ -1,5 +1,5 @@
-import { isOperator } from "./../middlewares/isOperator";
-import { isAuth } from "./../middlewares/isAuth";
+import { createWriteStream } from "fs";
+import { FileUpload } from "graphql-upload";
 import {
   Arg,
   Int,
@@ -10,23 +10,68 @@ import {
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Pengguna } from "../entities/Pengguna";
+import { isAuth } from "./../middlewares/isAuth";
+import { isOperator } from "./../middlewares/isOperator";
+import { PaginatedInput } from "./inputs/PaginatedInput";
 import { PenggunaInput } from "./inputs/PenggunaInput";
 import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { PenggunaResponse } from "./responses/PenggunaResponse";
 import { penggunaValidation } from "./validations/penggunaValidation";
-import { PaginatedInput } from "./inputs/PaginatedInput";
+// import { GraphQLUpload } from "../types/GraphQLUpload";
+import { GraphQLUpload } from "graphql-upload";
 
 @Resolver(Pengguna)
 export class PenggunaResolver {
+  @Mutation(() => Boolean)
+  async singleUpload(
+    //1
+    @Arg("file", () => GraphQLUpload)
+    { createReadStream, filename }: FileUpload
+  ): Promise<Boolean> {
+    //2
+    return await new Promise(async (resolve, reject) =>
+      createReadStream()
+        .pipe(
+          createWriteStream(`${__dirname}/../../uploads/${filename}`, {
+            autoClose: true,
+          })
+        )
+        .on("finish", () => resolve(true))
+        .on("error", () => reject(false))
+    );
+  }
+
   @Mutation(() => PenggunaResponse)
   @UseMiddleware(isOperator)
   async createPengguna(
-    @Arg("payload") payload: PenggunaInput
+    @Arg("payload") payload: PenggunaInput,
+    @Arg("fotoProfil", () => GraphQLUpload)
+    { createReadStream, filename }: FileUpload
   ): Promise<PenggunaResponse> {
     const errors = await penggunaValidation(payload);
     if (errors) {
       return { errors };
     }
+
+    const upload = await new Promise(async (resolve, reject) =>
+      createReadStream()
+        .pipe(
+          createWriteStream(`${__dirname}/../../uploads/${filename}`, {
+            autoClose: true,
+          })
+        )
+        .on("finish", () => resolve(true))
+        .on("error", () => reject(false))
+    );
+
+    if (!upload) {
+      return {
+        errors: [
+          { field: "fotoProfil", message: "Foto profil tidak boleh kosong" },
+        ],
+      };
+    }
+
     const pengguna = await Pengguna.create({ ...payload }).save();
     return { pengguna };
   }

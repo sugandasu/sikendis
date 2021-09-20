@@ -15,8 +15,4 @@ export class PenggunaInput {
 
   @Field()
   subBagian: string;
-
-  // Change to file later
-  @Field()
-  fotoProfil: string;
 }
