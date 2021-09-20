@@ -1,4 +1,4 @@
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, Config, ExpressContext } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
 import "dotenv-safe/config";
@@ -18,6 +18,8 @@ import { KendaraanResolver } from "./resolvers/KendaraanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
+import { graphqlUploadExpress } from "graphql-upload";
+import { GraphQLUpload } from "graphql-upload";
 
 const main = async () => {
   // const conection = await createConnection({
@@ -32,10 +34,31 @@ const main = async () => {
 
   // await conection.runMigrations();
 
-  const app = express();
+  const apolloServer = new ApolloServer({
+    // uploads: false, // disable apollo upload property
+    Upload: GraphQLUpload,
+    schema: await buildSchema({
+      resolvers: [
+        HelloResolver,
+        UserResolver,
+        PenggunaResolver,
+        KendaraanResolver,
+      ],
+      validate: false,
+    }),
+    context: ({ req, res }): MyContext => ({
+      req,
+      res,
+      redis,
+    }),
+  } as Config<ExpressContext>);
 
+  await apolloServer.start();
+  const app = express();
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
+
+  app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
 
   app.use(
     cors({
@@ -62,25 +85,6 @@ const main = async () => {
       resave: false,
     })
   );
-
-  const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [
-        HelloResolver,
-        UserResolver,
-        PenggunaResolver,
-        KendaraanResolver,
-      ],
-      validate: false,
-    }),
-    context: ({ req, res }): MyContext => ({
-      req,
-      res,
-      redis,
-    }),
-  });
-
-  await apolloServer.start();
 
   apolloServer.applyMiddleware({
     app,
