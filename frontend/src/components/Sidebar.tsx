@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
           <Box
             height="100vh"
             width="320px"
-            bgColor="gray.50"
+            bgColor="white"
             position={lessThan640 ? "absolute" : null}
             zIndex={2}
           >
