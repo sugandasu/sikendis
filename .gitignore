@@ -2,3 +2,4 @@
 .*_infrax
 */dist
 */.env
+/backend/uploads/*
