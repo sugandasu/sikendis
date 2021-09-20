@@ -1,14 +1,10 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -18,167 +14,183 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type FieldError = {
-  __typename?: "FieldError";
-  field: Scalars["String"];
-  message: Scalars["String"];
+  __typename?: 'FieldError';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type Kendaraan = {
-  __typename?: "Kendaraan";
-  asalUsul: Scalars["String"];
-  bahan: Scalars["String"];
-  createdAt: Scalars["DateTime"];
-  harga: Scalars["String"];
-  id: Scalars["Float"];
-  keterangan?: Maybe<Scalars["String"]>;
-  kode: Scalars["String"];
-  merek: Scalars["String"];
-  nama: Scalars["String"];
-  nomorBpkb: Scalars["String"];
-  nomorMesin: Scalars["String"];
-  nomorPolisi: Scalars["String"];
-  nomorRangka: Scalars["String"];
-  nomorRegister?: Maybe<Scalars["String"]>;
-  tahunPembelian: Scalars["String"];
-  tipeRoda: Scalars["String"];
-  ukuranCc: Scalars["String"];
-  updatedAt: Scalars["DateTime"];
+  __typename?: 'Kendaraan';
+  asalUsul: Scalars['String'];
+  bahan: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  harga: Scalars['String'];
+  id: Scalars['Float'];
+  keterangan?: Maybe<Scalars['String']>;
+  kode: Scalars['String'];
+  merek: Scalars['String'];
+  nama: Scalars['String'];
+  nomorBpkb: Scalars['String'];
+  nomorMesin: Scalars['String'];
+  nomorPolisi: Scalars['String'];
+  nomorRangka: Scalars['String'];
+  nomorRegister?: Maybe<Scalars['String']>;
+  tahunPembelian: Scalars['String'];
+  tipeRoda: Scalars['String'];
+  ukuranCc: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type KendaraanInput = {
-  asalUsul: Scalars["String"];
-  bahan: Scalars["String"];
-  harga: Scalars["String"];
-  keterangan?: Maybe<Scalars["String"]>;
-  kode: Scalars["String"];
-  merek: Scalars["String"];
-  nama: Scalars["String"];
-  nomorBpkb: Scalars["String"];
-  nomorMesin: Scalars["String"];
-  nomorPolisi: Scalars["String"];
-  nomorRangka: Scalars["String"];
-  nomorRegister?: Maybe<Scalars["String"]>;
-  tahunPembelian: Scalars["String"];
-  tipeRoda: Scalars["String"];
-  ukuranCc: Scalars["String"];
+  asalUsul: Scalars['String'];
+  bahan: Scalars['String'];
+  harga: Scalars['String'];
+  keterangan?: Maybe<Scalars['String']>;
+  kode: Scalars['String'];
+  merek: Scalars['String'];
+  nama: Scalars['String'];
+  nomorBpkb: Scalars['String'];
+  nomorMesin: Scalars['String'];
+  nomorPolisi: Scalars['String'];
+  nomorRangka: Scalars['String'];
+  nomorRegister?: Maybe<Scalars['String']>;
+  tahunPembelian: Scalars['String'];
+  tipeRoda: Scalars['String'];
+  ukuranCc: Scalars['String'];
 };
 
 export type KendaraanPaginated = {
-  __typename?: "KendaraanPaginated";
+  __typename?: 'KendaraanPaginated';
   data: Array<Kendaraan>;
-  filter?: Maybe<Scalars["String"]>;
-  limit: Scalars["Int"];
-  page: Scalars["Int"];
-  total: Scalars["Int"];
+  filter?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+  total: Scalars['Int'];
 };
 
 export type KendaraanResponse = {
-  __typename?: "KendaraanResponse";
+  __typename?: 'KendaraanResponse';
   errors?: Maybe<Array<FieldError>>;
   kendaraan?: Maybe<Kendaraan>;
 };
 
 export type LoginInput = {
-  password: Scalars["String"];
-  usernameOrEmail: Scalars["String"];
+  password: Scalars['String'];
+  usernameOrEmail: Scalars['String'];
 };
 
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   createKendaraan: KendaraanResponse;
   createPengguna: PenggunaResponse;
-  deleteKendaraan: Scalars["Boolean"];
-  deletePengguna: Scalars["Boolean"];
+  deleteKendaraan: Scalars['Boolean'];
+  deletePengguna: Scalars['Boolean'];
   login: UserResponse;
-  logout: Scalars["Boolean"];
+  logout: Scalars['Boolean'];
   register: UserResponse;
+  singleUpload: Scalars['Boolean'];
   updateKendaraan: KendaraanResponse;
   updatePengguna: PenggunaResponse;
 };
+
 
 export type MutationCreateKendaraanArgs = {
   payload: KendaraanInput;
 };
 
+
 export type MutationCreatePenggunaArgs = {
+  fotoProfil: Scalars['Upload'];
   payload: PenggunaInput;
 };
 
+
 export type MutationDeleteKendaraanArgs = {
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 };
 
+
 export type MutationDeletePenggunaArgs = {
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 };
+
 
 export type MutationLoginArgs = {
   payload: LoginInput;
 };
 
+
 export type MutationRegisterArgs = {
   payload: UserInput;
 };
 
+
+export type MutationSingleUploadArgs = {
+  file: Scalars['Upload'];
+};
+
+
 export type MutationUpdateKendaraanArgs = {
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   payload: KendaraanInput;
 };
 
+
 export type MutationUpdatePenggunaArgs = {
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   payload: PenggunaInput;
 };
 
 export type PaginatedInput = {
-  filter?: Maybe<Scalars["String"]>;
-  limit: Scalars["Int"];
-  page: Scalars["Int"];
+  filter?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
 };
 
 export type Pengguna = {
-  __typename?: "Pengguna";
-  createdAt: Scalars["DateTime"];
-  fotoProfil: Scalars["String"];
-  id: Scalars["Float"];
-  instansi: Scalars["String"];
-  jabatan: Scalars["String"];
-  nama: Scalars["String"];
-  nip: Scalars["String"];
-  subBagian: Scalars["String"];
-  updatedAt: Scalars["DateTime"];
+  __typename?: 'Pengguna';
+  createdAt: Scalars['DateTime'];
+  fotoProfil: Scalars['String'];
+  id: Scalars['Float'];
+  instansi: Scalars['String'];
+  jabatan: Scalars['String'];
+  nama: Scalars['String'];
+  nip: Scalars['String'];
+  subBagian: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type PenggunaInput = {
-  fotoProfil: Scalars["String"];
-  instansi: Scalars["String"];
-  jabatan: Scalars["String"];
-  nama: Scalars["String"];
-  nip: Scalars["String"];
-  subBagian: Scalars["String"];
+  instansi: Scalars['String'];
+  jabatan: Scalars['String'];
+  nama: Scalars['String'];
+  nip: Scalars['String'];
+  subBagian: Scalars['String'];
 };
 
 export type PenggunaPaginated = {
-  __typename?: "PenggunaPaginated";
+  __typename?: 'PenggunaPaginated';
   data: Array<Pengguna>;
-  filter?: Maybe<Scalars["String"]>;
-  limit: Scalars["Int"];
-  page: Scalars["Int"];
-  total: Scalars["Int"];
+  filter?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+  total: Scalars['Int'];
 };
 
 export type PenggunaResponse = {
-  __typename?: "PenggunaResponse";
+  __typename?: 'PenggunaResponse';
   errors?: Maybe<Array<FieldError>>;
   pengguna?: Maybe<Pengguna>;
 };
 
 export type Query = {
-  __typename?: "Query";
-  hello: Scalars["String"];
+  __typename?: 'Query';
+  hello: Scalars['String'];
   kendaraan?: Maybe<Kendaraan>;
   kendaraans: KendaraanPaginated;
   me?: Maybe<User>;
@@ -186,425 +198,201 @@ export type Query = {
   penggunas: PenggunaPaginated;
 };
 
+
 export type QueryKendaraanArgs = {
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 };
+
 
 export type QueryKendaraansArgs = {
   options: PaginatedInput;
 };
 
+
 export type QueryPenggunaArgs = {
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 };
+
 
 export type QueryPenggunasArgs = {
   options: PaginatedInput;
 };
 
 export type User = {
-  __typename?: "User";
-  createdAt: Scalars["DateTime"];
-  email: Scalars["String"];
-  id: Scalars["Float"];
-  role: Scalars["String"];
-  updatedAt: Scalars["DateTime"];
-  username: Scalars["String"];
+  __typename?: 'User';
+  createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  id: Scalars['Float'];
+  role: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  username: Scalars['String'];
 };
 
 export type UserInput = {
-  email: Scalars["String"];
-  password: Scalars["String"];
-  username: Scalars["String"];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type UserResponse = {
-  __typename?: "UserResponse";
+  __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
   user?: Maybe<User>;
 };
 
-export type RegularKendaraanFragment = {
-  __typename?: "Kendaraan";
-  id: number;
-  tipeRoda: string;
-  kode: string;
-  nama: string;
-  nomorRegister?: Maybe<string>;
-  merek: string;
-  ukuranCc: string;
-  bahan: string;
-  tahunPembelian: string;
-  nomorRangka: string;
-  nomorMesin: string;
-  nomorPolisi: string;
-  nomorBpkb: string;
-  asalUsul: string;
-  harga: string;
-  keterangan?: Maybe<string>;
-  createdAt: any;
-  updatedAt: any;
-};
+export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any };
 
-export type RegularPenggunaFragment = {
-  __typename?: "Pengguna";
-  id: number;
-  nip: string;
-  nama: string;
-  jabatan: string;
-  instansi: string;
-  subBagian: string;
-  fotoProfil: string;
-};
+export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string };
 
 export type CreateKendaraanMutationVariables = Exact<{
   payload: KendaraanInput;
 }>;
 
-export type CreateKendaraanMutation = {
-  __typename?: "Mutation";
-  createKendaraan: {
-    __typename?: "KendaraanResponse";
-    errors?: Maybe<
-      Array<{ __typename?: "FieldError"; field: string; message: string }>
-    >;
-    kendaraan?: Maybe<{
-      __typename?: "Kendaraan";
-      id: number;
-      tipeRoda: string;
-      kode: string;
-      nama: string;
-      nomorRegister?: Maybe<string>;
-      merek: string;
-      ukuranCc: string;
-      bahan: string;
-      tahunPembelian: string;
-      nomorRangka: string;
-      nomorMesin: string;
-      nomorPolisi: string;
-      nomorBpkb: string;
-      asalUsul: string;
-      harga: string;
-      keterangan?: Maybe<string>;
-      createdAt: any;
-      updatedAt: any;
-    }>;
-  };
-};
+
+export type CreateKendaraanMutation = { __typename?: 'Mutation', createKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
 export type CreatePenggunaMutationVariables = Exact<{
-  nip: Scalars["String"];
-  nama: Scalars["String"];
-  jabatan: Scalars["String"];
-  instansi: Scalars["String"];
-  subBagian: Scalars["String"];
-  fotoProfil: Scalars["String"];
+  payload: PenggunaInput;
+  fotoProfil: Scalars['Upload'];
 }>;
 
-export type CreatePenggunaMutation = {
-  __typename?: "Mutation";
-  createPengguna: {
-    __typename?: "PenggunaResponse";
-    errors?: Maybe<
-      Array<{ __typename?: "FieldError"; field: string; message: string }>
-    >;
-    pengguna?: Maybe<{
-      __typename?: "Pengguna";
-      id: number;
-      nip: string;
-      nama: string;
-      jabatan: string;
-      instansi: string;
-      subBagian: string;
-      fotoProfil: string;
-    }>;
-  };
-};
+
+export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
 
 export type DeleteKendaraanMutationVariables = Exact<{
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 }>;
 
-export type DeleteKendaraanMutation = {
-  __typename?: "Mutation";
-  deleteKendaraan: boolean;
-};
+
+export type DeleteKendaraanMutation = { __typename?: 'Mutation', deleteKendaraan: boolean };
 
 export type DeletePenggunaMutationVariables = Exact<{
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 }>;
 
-export type DeletePenggunaMutation = {
-  __typename?: "Mutation";
-  deletePengguna: boolean;
-};
+
+export type DeletePenggunaMutation = { __typename?: 'Mutation', deletePengguna: boolean };
 
 export type LoginMutationVariables = Exact<{
-  usernameOrEmail: Scalars["String"];
-  password: Scalars["String"];
+  usernameOrEmail: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
-export type LoginMutation = {
-  __typename?: "Mutation";
-  login: {
-    __typename?: "UserResponse";
-    errors?: Maybe<
-      Array<{ __typename?: "FieldError"; field: string; message: string }>
-    >;
-    user?: Maybe<{ __typename?: "User"; username: string; email: string }>;
-  };
-};
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
 
 export type RegisterMutationVariables = Exact<{
-  username: Scalars["String"];
-  email: Scalars["String"];
-  password: Scalars["String"];
+  username: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
-export type RegisterMutation = {
-  __typename?: "Mutation";
-  register: {
-    __typename?: "UserResponse";
-    errors?: Maybe<
-      Array<{ __typename?: "FieldError"; field: string; message: string }>
-    >;
-    user?: Maybe<{ __typename?: "User"; username: string; email: string }>;
-  };
-};
+
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
+
+export type SingleUploadMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type SingleUploadMutation = { __typename?: 'Mutation', singleUpload: boolean };
 
 export type UpdateKendaraanMutationVariables = Exact<{
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   payload: KendaraanInput;
 }>;
 
-export type UpdateKendaraanMutation = {
-  __typename?: "Mutation";
-  updateKendaraan: {
-    __typename?: "KendaraanResponse";
-    errors?: Maybe<
-      Array<{ __typename?: "FieldError"; field: string; message: string }>
-    >;
-    kendaraan?: Maybe<{
-      __typename?: "Kendaraan";
-      id: number;
-      tipeRoda: string;
-      kode: string;
-      nama: string;
-      nomorRegister?: Maybe<string>;
-      merek: string;
-      ukuranCc: string;
-      bahan: string;
-      tahunPembelian: string;
-      nomorRangka: string;
-      nomorMesin: string;
-      nomorPolisi: string;
-      nomorBpkb: string;
-      asalUsul: string;
-      harga: string;
-      keterangan?: Maybe<string>;
-      createdAt: any;
-      updatedAt: any;
-    }>;
-  };
-};
+
+export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
 export type UpdatePenggunaMutationVariables = Exact<{
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   payload: PenggunaInput;
 }>;
 
-export type UpdatePenggunaMutation = {
-  __typename?: "Mutation";
-  updatePengguna: {
-    __typename?: "PenggunaResponse";
-    errors?: Maybe<
-      Array<{ __typename?: "FieldError"; field: string; message: string }>
-    >;
-    pengguna?: Maybe<{
-      __typename?: "Pengguna";
-      id: number;
-      nip: string;
-      nama: string;
-      jabatan: string;
-      instansi: string;
-      subBagian: string;
-      fotoProfil: string;
-    }>;
-  };
-};
+
+export type UpdatePenggunaMutation = { __typename?: 'Mutation', updatePengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
 
 export type KendaraanQueryVariables = Exact<{
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 }>;
 
-export type KendaraanQuery = {
-  __typename?: "Query";
-  kendaraan?: Maybe<{
-    __typename?: "Kendaraan";
-    id: number;
-    tipeRoda: string;
-    kode: string;
-    nama: string;
-    nomorRegister?: Maybe<string>;
-    merek: string;
-    ukuranCc: string;
-    bahan: string;
-    tahunPembelian: string;
-    nomorRangka: string;
-    nomorMesin: string;
-    nomorPolisi: string;
-    nomorBpkb: string;
-    asalUsul: string;
-    harga: string;
-    keterangan?: Maybe<string>;
-    createdAt: any;
-    updatedAt: any;
-  }>;
-};
+
+export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> };
 
 export type KendaraansQueryVariables = Exact<{
   options: PaginatedInput;
 }>;
 
-export type KendaraansQuery = {
-  __typename?: "Query";
-  kendaraans: {
-    __typename?: "KendaraanPaginated";
-    total: number;
-    limit: number;
-    page: number;
-    filter?: Maybe<string>;
-    data: Array<{
-      __typename?: "Kendaraan";
-      id: number;
-      tipeRoda: string;
-      kode: string;
-      nama: string;
-      nomorRegister?: Maybe<string>;
-      merek: string;
-      ukuranCc: string;
-      bahan: string;
-      tahunPembelian: string;
-      nomorRangka: string;
-      nomorMesin: string;
-      nomorPolisi: string;
-      nomorBpkb: string;
-      asalUsul: string;
-      harga: string;
-      keterangan?: Maybe<string>;
-      createdAt: any;
-      updatedAt: any;
-    }>;
-  };
-};
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
+export type KendaraansQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
-export type MeQuery = {
-  __typename?: "Query";
-  me?: Maybe<{
-    __typename?: "User";
-    id: number;
-    username: string;
-    email: string;
-    role: string;
-  }>;
-};
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, role: string }> };
 
 export type PenggunaQueryVariables = Exact<{
-  id: Scalars["Int"];
+  id: Scalars['Int'];
 }>;
 
-export type PenggunaQuery = {
-  __typename?: "Query";
-  pengguna?: Maybe<{
-    __typename?: "Pengguna";
-    id: number;
-    nip: string;
-    nama: string;
-    jabatan: string;
-    instansi: string;
-    subBagian: string;
-    fotoProfil: string;
-  }>;
-};
+
+export type PenggunaQuery = { __typename?: 'Query', pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> };
 
 export type PenggunasQueryVariables = Exact<{
   options: PaginatedInput;
 }>;
 
-export type PenggunasQuery = {
-  __typename?: "Query";
-  penggunas: {
-    __typename?: "PenggunaPaginated";
-    total: number;
-    limit: number;
-    page: number;
-    filter?: Maybe<string>;
-    data: Array<{
-      __typename?: "Pengguna";
-      id: number;
-      nip: string;
-      nama: string;
-      jabatan: string;
-      instansi: string;
-      subBagian: string;
-      fotoProfil: string;
-    }>;
-  };
-};
+
+export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
 
 export const RegularKendaraanFragmentDoc = gql`
-  fragment RegularKendaraan on Kendaraan {
-    id
-    tipeRoda
-    kode
-    nama
-    nomorRegister
-    merek
-    ukuranCc
-    bahan
-    tahunPembelian
-    nomorRangka
-    nomorMesin
-    nomorPolisi
-    nomorBpkb
-    asalUsul
-    harga
-    keterangan
-    createdAt
-    updatedAt
-  }
-`;
+    fragment RegularKendaraan on Kendaraan {
+  id
+  tipeRoda
+  kode
+  nama
+  nomorRegister
+  merek
+  ukuranCc
+  bahan
+  tahunPembelian
+  nomorRangka
+  nomorMesin
+  nomorPolisi
+  nomorBpkb
+  asalUsul
+  harga
+  keterangan
+  createdAt
+  updatedAt
+}
+    `;
 export const RegularPenggunaFragmentDoc = gql`
-  fragment RegularPengguna on Pengguna {
-    id
-    nip
-    nama
-    jabatan
-    instansi
-    subBagian
-    fotoProfil
-  }
-`;
+    fragment RegularPengguna on Pengguna {
+  id
+  nip
+  nama
+  jabatan
+  instansi
+  subBagian
+  fotoProfil
+}
+    `;
 export const CreateKendaraanDocument = gql`
-  mutation CreateKendaraan($payload: KendaraanInput!) {
-    createKendaraan(payload: $payload) {
-      errors {
-        field
-        message
-      }
-      kendaraan {
-        ...RegularKendaraan
-      }
+    mutation CreateKendaraan($payload: KendaraanInput!) {
+  createKendaraan(payload: $payload) {
+    errors {
+      field
+      message
+    }
+    kendaraan {
+      ...RegularKendaraan
     }
   }
-  ${RegularKendaraanFragmentDoc}
-`;
-export type CreateKendaraanMutationFn = Apollo.MutationFunction<
-  CreateKendaraanMutation,
-  CreateKendaraanMutationVariables
->;
+}
+    ${RegularKendaraanFragmentDoc}`;
+export type CreateKendaraanMutationFn = Apollo.MutationFunction<CreateKendaraanMutation, CreateKendaraanMutationVariables>;
 
 /**
  * __useCreateKendaraanMutation__
@@ -623,61 +411,27 @@ export type CreateKendaraanMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateKendaraanMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateKendaraanMutation,
-    CreateKendaraanMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateKendaraanMutation,
-    CreateKendaraanMutationVariables
-  >(CreateKendaraanDocument, options);
-}
-export type CreateKendaraanMutationHookResult = ReturnType<
-  typeof useCreateKendaraanMutation
->;
-export type CreateKendaraanMutationResult =
-  Apollo.MutationResult<CreateKendaraanMutation>;
-export type CreateKendaraanMutationOptions = Apollo.BaseMutationOptions<
-  CreateKendaraanMutation,
-  CreateKendaraanMutationVariables
->;
+export function useCreateKendaraanMutation(baseOptions?: Apollo.MutationHookOptions<CreateKendaraanMutation, CreateKendaraanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateKendaraanMutation, CreateKendaraanMutationVariables>(CreateKendaraanDocument, options);
+      }
+export type CreateKendaraanMutationHookResult = ReturnType<typeof useCreateKendaraanMutation>;
+export type CreateKendaraanMutationResult = Apollo.MutationResult<CreateKendaraanMutation>;
+export type CreateKendaraanMutationOptions = Apollo.BaseMutationOptions<CreateKendaraanMutation, CreateKendaraanMutationVariables>;
 export const CreatePenggunaDocument = gql`
-  mutation CreatePengguna(
-    $nip: String!
-    $nama: String!
-    $jabatan: String!
-    $instansi: String!
-    $subBagian: String!
-    $fotoProfil: String!
-  ) {
-    createPengguna(
-      payload: {
-        nip: $nip
-        nama: $nama
-        jabatan: $jabatan
-        instansi: $instansi
-        subBagian: $subBagian
-        fotoProfil: $fotoProfil
-      }
-    ) {
-      errors {
-        field
-        message
-      }
-      pengguna {
-        ...RegularPengguna
-      }
+    mutation CreatePengguna($payload: PenggunaInput!, $fotoProfil: Upload!) {
+  createPengguna(payload: $payload, fotoProfil: $fotoProfil) {
+    errors {
+      field
+      message
+    }
+    pengguna {
+      ...RegularPengguna
     }
   }
-  ${RegularPenggunaFragmentDoc}
-`;
-export type CreatePenggunaMutationFn = Apollo.MutationFunction<
-  CreatePenggunaMutation,
-  CreatePenggunaMutationVariables
->;
+}
+    ${RegularPenggunaFragmentDoc}`;
+export type CreatePenggunaMutationFn = Apollo.MutationFunction<CreatePenggunaMutation, CreatePenggunaMutationVariables>;
 
 /**
  * __useCreatePenggunaMutation__
@@ -692,45 +446,24 @@ export type CreatePenggunaMutationFn = Apollo.MutationFunction<
  * @example
  * const [createPenggunaMutation, { data, loading, error }] = useCreatePenggunaMutation({
  *   variables: {
- *      nip: // value for 'nip'
- *      nama: // value for 'nama'
- *      jabatan: // value for 'jabatan'
- *      instansi: // value for 'instansi'
- *      subBagian: // value for 'subBagian'
+ *      payload: // value for 'payload'
  *      fotoProfil: // value for 'fotoProfil'
  *   },
  * });
  */
-export function useCreatePenggunaMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreatePenggunaMutation,
-    CreatePenggunaMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreatePenggunaMutation,
-    CreatePenggunaMutationVariables
-  >(CreatePenggunaDocument, options);
-}
-export type CreatePenggunaMutationHookResult = ReturnType<
-  typeof useCreatePenggunaMutation
->;
-export type CreatePenggunaMutationResult =
-  Apollo.MutationResult<CreatePenggunaMutation>;
-export type CreatePenggunaMutationOptions = Apollo.BaseMutationOptions<
-  CreatePenggunaMutation,
-  CreatePenggunaMutationVariables
->;
+export function useCreatePenggunaMutation(baseOptions?: Apollo.MutationHookOptions<CreatePenggunaMutation, CreatePenggunaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePenggunaMutation, CreatePenggunaMutationVariables>(CreatePenggunaDocument, options);
+      }
+export type CreatePenggunaMutationHookResult = ReturnType<typeof useCreatePenggunaMutation>;
+export type CreatePenggunaMutationResult = Apollo.MutationResult<CreatePenggunaMutation>;
+export type CreatePenggunaMutationOptions = Apollo.BaseMutationOptions<CreatePenggunaMutation, CreatePenggunaMutationVariables>;
 export const DeleteKendaraanDocument = gql`
-  mutation DeleteKendaraan($id: Int!) {
-    deleteKendaraan(id: $id)
-  }
-`;
-export type DeleteKendaraanMutationFn = Apollo.MutationFunction<
-  DeleteKendaraanMutation,
-  DeleteKendaraanMutationVariables
->;
+    mutation DeleteKendaraan($id: Int!) {
+  deleteKendaraan(id: $id)
+}
+    `;
+export type DeleteKendaraanMutationFn = Apollo.MutationFunction<DeleteKendaraanMutation, DeleteKendaraanMutationVariables>;
 
 /**
  * __useDeleteKendaraanMutation__
@@ -749,36 +482,19 @@ export type DeleteKendaraanMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteKendaraanMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteKendaraanMutation,
-    DeleteKendaraanMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteKendaraanMutation,
-    DeleteKendaraanMutationVariables
-  >(DeleteKendaraanDocument, options);
-}
-export type DeleteKendaraanMutationHookResult = ReturnType<
-  typeof useDeleteKendaraanMutation
->;
-export type DeleteKendaraanMutationResult =
-  Apollo.MutationResult<DeleteKendaraanMutation>;
-export type DeleteKendaraanMutationOptions = Apollo.BaseMutationOptions<
-  DeleteKendaraanMutation,
-  DeleteKendaraanMutationVariables
->;
+export function useDeleteKendaraanMutation(baseOptions?: Apollo.MutationHookOptions<DeleteKendaraanMutation, DeleteKendaraanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteKendaraanMutation, DeleteKendaraanMutationVariables>(DeleteKendaraanDocument, options);
+      }
+export type DeleteKendaraanMutationHookResult = ReturnType<typeof useDeleteKendaraanMutation>;
+export type DeleteKendaraanMutationResult = Apollo.MutationResult<DeleteKendaraanMutation>;
+export type DeleteKendaraanMutationOptions = Apollo.BaseMutationOptions<DeleteKendaraanMutation, DeleteKendaraanMutationVariables>;
 export const DeletePenggunaDocument = gql`
-  mutation DeletePengguna($id: Int!) {
-    deletePengguna(id: $id)
-  }
-`;
-export type DeletePenggunaMutationFn = Apollo.MutationFunction<
-  DeletePenggunaMutation,
-  DeletePenggunaMutationVariables
->;
+    mutation DeletePengguna($id: Int!) {
+  deletePengguna(id: $id)
+}
+    `;
+export type DeletePenggunaMutationFn = Apollo.MutationFunction<DeletePenggunaMutation, DeletePenggunaMutationVariables>;
 
 /**
  * __useDeletePenggunaMutation__
@@ -797,45 +513,28 @@ export type DeletePenggunaMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeletePenggunaMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeletePenggunaMutation,
-    DeletePenggunaMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeletePenggunaMutation,
-    DeletePenggunaMutationVariables
-  >(DeletePenggunaDocument, options);
-}
-export type DeletePenggunaMutationHookResult = ReturnType<
-  typeof useDeletePenggunaMutation
->;
-export type DeletePenggunaMutationResult =
-  Apollo.MutationResult<DeletePenggunaMutation>;
-export type DeletePenggunaMutationOptions = Apollo.BaseMutationOptions<
-  DeletePenggunaMutation,
-  DeletePenggunaMutationVariables
->;
+export function useDeletePenggunaMutation(baseOptions?: Apollo.MutationHookOptions<DeletePenggunaMutation, DeletePenggunaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePenggunaMutation, DeletePenggunaMutationVariables>(DeletePenggunaDocument, options);
+      }
+export type DeletePenggunaMutationHookResult = ReturnType<typeof useDeletePenggunaMutation>;
+export type DeletePenggunaMutationResult = Apollo.MutationResult<DeletePenggunaMutation>;
+export type DeletePenggunaMutationOptions = Apollo.BaseMutationOptions<DeletePenggunaMutation, DeletePenggunaMutationVariables>;
 export const LoginDocument = gql`
-  mutation Login($usernameOrEmail: String!, $password: String!) {
-    login(payload: { usernameOrEmail: $usernameOrEmail, password: $password }) {
-      errors {
-        field
-        message
-      }
-      user {
-        username
-        email
-      }
+    mutation Login($usernameOrEmail: String!, $password: String!) {
+  login(payload: {usernameOrEmail: $usernameOrEmail, password: $password}) {
+    errors {
+      field
+      message
+    }
+    user {
+      username
+      email
     }
   }
-`;
-export type LoginMutationFn = Apollo.MutationFunction<
-  LoginMutation,
-  LoginMutationVariables
->;
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
  * __useLoginMutation__
@@ -855,44 +554,28 @@ export type LoginMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LoginMutation,
-    LoginMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
-    LoginDocument,
-    options
-  );
-}
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
->;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = gql`
-  mutation Register($username: String!, $email: String!, $password: String!) {
-    register(
-      payload: { username: $username, email: $email, password: $password }
-    ) {
-      errors {
-        field
-        message
-      }
-      user {
-        username
-        email
-      }
+    mutation Register($username: String!, $email: String!, $password: String!) {
+  register(payload: {username: $username, email: $email, password: $password}) {
+    errors {
+      field
+      message
+    }
+    user {
+      username
+      email
     }
   }
-`;
-export type RegisterMutationFn = Apollo.MutationFunction<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+}
+    `;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
  * __useRegisterMutation__
@@ -913,42 +596,58 @@ export type RegisterMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRegisterMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RegisterMutation,
-    RegisterMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
-    RegisterDocument,
-    options
-  );
-}
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const SingleUploadDocument = gql`
+    mutation SingleUpload($file: Upload!) {
+  singleUpload(file: $file)
+}
+    `;
+export type SingleUploadMutationFn = Apollo.MutationFunction<SingleUploadMutation, SingleUploadMutationVariables>;
+
+/**
+ * __useSingleUploadMutation__
+ *
+ * To run a mutation, you first call `useSingleUploadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSingleUploadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [singleUploadMutation, { data, loading, error }] = useSingleUploadMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useSingleUploadMutation(baseOptions?: Apollo.MutationHookOptions<SingleUploadMutation, SingleUploadMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SingleUploadMutation, SingleUploadMutationVariables>(SingleUploadDocument, options);
+      }
+export type SingleUploadMutationHookResult = ReturnType<typeof useSingleUploadMutation>;
+export type SingleUploadMutationResult = Apollo.MutationResult<SingleUploadMutation>;
+export type SingleUploadMutationOptions = Apollo.BaseMutationOptions<SingleUploadMutation, SingleUploadMutationVariables>;
 export const UpdateKendaraanDocument = gql`
-  mutation UpdateKendaraan($id: Int!, $payload: KendaraanInput!) {
-    updateKendaraan(id: $id, payload: $payload) {
-      errors {
-        field
-        message
-      }
-      kendaraan {
-        ...RegularKendaraan
-      }
+    mutation UpdateKendaraan($id: Int!, $payload: KendaraanInput!) {
+  updateKendaraan(id: $id, payload: $payload) {
+    errors {
+      field
+      message
+    }
+    kendaraan {
+      ...RegularKendaraan
     }
   }
-  ${RegularKendaraanFragmentDoc}
-`;
-export type UpdateKendaraanMutationFn = Apollo.MutationFunction<
-  UpdateKendaraanMutation,
-  UpdateKendaraanMutationVariables
->;
+}
+    ${RegularKendaraanFragmentDoc}`;
+export type UpdateKendaraanMutationFn = Apollo.MutationFunction<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>;
 
 /**
  * __useUpdateKendaraanMutation__
@@ -968,45 +667,27 @@ export type UpdateKendaraanMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateKendaraanMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateKendaraanMutation,
-    UpdateKendaraanMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateKendaraanMutation,
-    UpdateKendaraanMutationVariables
-  >(UpdateKendaraanDocument, options);
-}
-export type UpdateKendaraanMutationHookResult = ReturnType<
-  typeof useUpdateKendaraanMutation
->;
-export type UpdateKendaraanMutationResult =
-  Apollo.MutationResult<UpdateKendaraanMutation>;
-export type UpdateKendaraanMutationOptions = Apollo.BaseMutationOptions<
-  UpdateKendaraanMutation,
-  UpdateKendaraanMutationVariables
->;
+export function useUpdateKendaraanMutation(baseOptions?: Apollo.MutationHookOptions<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>(UpdateKendaraanDocument, options);
+      }
+export type UpdateKendaraanMutationHookResult = ReturnType<typeof useUpdateKendaraanMutation>;
+export type UpdateKendaraanMutationResult = Apollo.MutationResult<UpdateKendaraanMutation>;
+export type UpdateKendaraanMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>;
 export const UpdatePenggunaDocument = gql`
-  mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!) {
-    updatePengguna(id: $id, payload: $payload) {
-      errors {
-        field
-        message
-      }
-      pengguna {
-        ...RegularPengguna
-      }
+    mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!) {
+  updatePengguna(id: $id, payload: $payload) {
+    errors {
+      field
+      message
+    }
+    pengguna {
+      ...RegularPengguna
     }
   }
-  ${RegularPenggunaFragmentDoc}
-`;
-export type UpdatePenggunaMutationFn = Apollo.MutationFunction<
-  UpdatePenggunaMutation,
-  UpdatePenggunaMutationVariables
->;
+}
+    ${RegularPenggunaFragmentDoc}`;
+export type UpdatePenggunaMutationFn = Apollo.MutationFunction<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>;
 
 /**
  * __useUpdatePenggunaMutation__
@@ -1026,35 +707,20 @@ export type UpdatePenggunaMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdatePenggunaMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdatePenggunaMutation,
-    UpdatePenggunaMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdatePenggunaMutation,
-    UpdatePenggunaMutationVariables
-  >(UpdatePenggunaDocument, options);
-}
-export type UpdatePenggunaMutationHookResult = ReturnType<
-  typeof useUpdatePenggunaMutation
->;
-export type UpdatePenggunaMutationResult =
-  Apollo.MutationResult<UpdatePenggunaMutation>;
-export type UpdatePenggunaMutationOptions = Apollo.BaseMutationOptions<
-  UpdatePenggunaMutation,
-  UpdatePenggunaMutationVariables
->;
+export function useUpdatePenggunaMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>(UpdatePenggunaDocument, options);
+      }
+export type UpdatePenggunaMutationHookResult = ReturnType<typeof useUpdatePenggunaMutation>;
+export type UpdatePenggunaMutationResult = Apollo.MutationResult<UpdatePenggunaMutation>;
+export type UpdatePenggunaMutationOptions = Apollo.BaseMutationOptions<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>;
 export const KendaraanDocument = gql`
-  query Kendaraan($id: Int!) {
-    kendaraan(id: $id) {
-      ...RegularKendaraan
-    }
+    query Kendaraan($id: Int!) {
+  kendaraan(id: $id) {
+    ...RegularKendaraan
   }
-  ${RegularKendaraanFragmentDoc}
-`;
+}
+    ${RegularKendaraanFragmentDoc}`;
 
 /**
  * __useKendaraanQuery__
@@ -1072,49 +738,30 @@ export const KendaraanDocument = gql`
  *   },
  * });
  */
-export function useKendaraanQuery(
-  baseOptions: Apollo.QueryHookOptions<KendaraanQuery, KendaraanQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<KendaraanQuery, KendaraanQueryVariables>(
-    KendaraanDocument,
-    options
-  );
-}
-export function useKendaraanLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    KendaraanQuery,
-    KendaraanQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<KendaraanQuery, KendaraanQueryVariables>(
-    KendaraanDocument,
-    options
-  );
-}
-export type KendaraanQueryHookResult = ReturnType<typeof useKendaraanQuery>;
-export type KendaraanLazyQueryHookResult = ReturnType<
-  typeof useKendaraanLazyQuery
->;
-export type KendaraanQueryResult = Apollo.QueryResult<
-  KendaraanQuery,
-  KendaraanQueryVariables
->;
-export const KendaraansDocument = gql`
-  query Kendaraans($options: PaginatedInput!) {
-    kendaraans(options: $options) {
-      data {
-        ...RegularKendaraan
+export function useKendaraanQuery(baseOptions: Apollo.QueryHookOptions<KendaraanQuery, KendaraanQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<KendaraanQuery, KendaraanQueryVariables>(KendaraanDocument, options);
       }
-      total
-      limit
-      page
-      filter
+export function useKendaraanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraanQuery, KendaraanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<KendaraanQuery, KendaraanQueryVariables>(KendaraanDocument, options);
+        }
+export type KendaraanQueryHookResult = ReturnType<typeof useKendaraanQuery>;
+export type KendaraanLazyQueryHookResult = ReturnType<typeof useKendaraanLazyQuery>;
+export type KendaraanQueryResult = Apollo.QueryResult<KendaraanQuery, KendaraanQueryVariables>;
+export const KendaraansDocument = gql`
+    query Kendaraans($options: PaginatedInput!) {
+  kendaraans(options: $options) {
+    data {
+      ...RegularKendaraan
     }
+    total
+    limit
+    page
+    filter
   }
-  ${RegularKendaraanFragmentDoc}
-`;
+}
+    ${RegularKendaraanFragmentDoc}`;
 
 /**
  * __useKendaraansQuery__
@@ -1132,48 +779,27 @@ export const KendaraansDocument = gql`
  *   },
  * });
  */
-export function useKendaraansQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    KendaraansQuery,
-    KendaraansQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<KendaraansQuery, KendaraansQueryVariables>(
-    KendaraansDocument,
-    options
-  );
-}
-export function useKendaraansLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    KendaraansQuery,
-    KendaraansQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<KendaraansQuery, KendaraansQueryVariables>(
-    KendaraansDocument,
-    options
-  );
-}
+export function useKendaraansQuery(baseOptions: Apollo.QueryHookOptions<KendaraansQuery, KendaraansQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<KendaraansQuery, KendaraansQueryVariables>(KendaraansDocument, options);
+      }
+export function useKendaraansLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraansQuery, KendaraansQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<KendaraansQuery, KendaraansQueryVariables>(KendaraansDocument, options);
+        }
 export type KendaraansQueryHookResult = ReturnType<typeof useKendaraansQuery>;
-export type KendaraansLazyQueryHookResult = ReturnType<
-  typeof useKendaraansLazyQuery
->;
-export type KendaraansQueryResult = Apollo.QueryResult<
-  KendaraansQuery,
-  KendaraansQueryVariables
->;
+export type KendaraansLazyQueryHookResult = ReturnType<typeof useKendaraansLazyQuery>;
+export type KendaraansQueryResult = Apollo.QueryResult<KendaraansQuery, KendaraansQueryVariables>;
 export const MeDocument = gql`
-  query Me {
-    me {
-      id
-      username
-      email
-      role
-    }
+    query Me {
+  me {
+    id
+    username
+    email
+    role
   }
-`;
+}
+    `;
 
 /**
  * __useMeQuery__
@@ -1190,29 +816,24 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(
-  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
-export function useMeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const PenggunaDocument = gql`
-  query Pengguna($id: Int!) {
-    pengguna(id: $id) {
-      ...RegularPengguna
-    }
+    query Pengguna($id: Int!) {
+  pengguna(id: $id) {
+    ...RegularPengguna
   }
-  ${RegularPenggunaFragmentDoc}
-`;
+}
+    ${RegularPenggunaFragmentDoc}`;
 
 /**
  * __usePenggunaQuery__
@@ -1230,49 +851,30 @@ export const PenggunaDocument = gql`
  *   },
  * });
  */
-export function usePenggunaQuery(
-  baseOptions: Apollo.QueryHookOptions<PenggunaQuery, PenggunaQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PenggunaQuery, PenggunaQueryVariables>(
-    PenggunaDocument,
-    options
-  );
-}
-export function usePenggunaLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PenggunaQuery,
-    PenggunaQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PenggunaQuery, PenggunaQueryVariables>(
-    PenggunaDocument,
-    options
-  );
-}
-export type PenggunaQueryHookResult = ReturnType<typeof usePenggunaQuery>;
-export type PenggunaLazyQueryHookResult = ReturnType<
-  typeof usePenggunaLazyQuery
->;
-export type PenggunaQueryResult = Apollo.QueryResult<
-  PenggunaQuery,
-  PenggunaQueryVariables
->;
-export const PenggunasDocument = gql`
-  query Penggunas($options: PaginatedInput!) {
-    penggunas(options: $options) {
-      data {
-        ...RegularPengguna
+export function usePenggunaQuery(baseOptions: Apollo.QueryHookOptions<PenggunaQuery, PenggunaQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PenggunaQuery, PenggunaQueryVariables>(PenggunaDocument, options);
       }
-      total
-      limit
-      page
-      filter
+export function usePenggunaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PenggunaQuery, PenggunaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PenggunaQuery, PenggunaQueryVariables>(PenggunaDocument, options);
+        }
+export type PenggunaQueryHookResult = ReturnType<typeof usePenggunaQuery>;
+export type PenggunaLazyQueryHookResult = ReturnType<typeof usePenggunaLazyQuery>;
+export type PenggunaQueryResult = Apollo.QueryResult<PenggunaQuery, PenggunaQueryVariables>;
+export const PenggunasDocument = gql`
+    query Penggunas($options: PaginatedInput!) {
+  penggunas(options: $options) {
+    data {
+      ...RegularPengguna
     }
+    total
+    limit
+    page
+    filter
   }
-  ${RegularPenggunaFragmentDoc}
-`;
+}
+    ${RegularPenggunaFragmentDoc}`;
 
 /**
  * __usePenggunasQuery__
@@ -1290,32 +892,14 @@ export const PenggunasDocument = gql`
  *   },
  * });
  */
-export function usePenggunasQuery(
-  baseOptions: Apollo.QueryHookOptions<PenggunasQuery, PenggunasQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PenggunasQuery, PenggunasQueryVariables>(
-    PenggunasDocument,
-    options
-  );
-}
-export function usePenggunasLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PenggunasQuery,
-    PenggunasQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PenggunasQuery, PenggunasQueryVariables>(
-    PenggunasDocument,
-    options
-  );
-}
+export function usePenggunasQuery(baseOptions: Apollo.QueryHookOptions<PenggunasQuery, PenggunasQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PenggunasQuery, PenggunasQueryVariables>(PenggunasDocument, options);
+      }
+export function usePenggunasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PenggunasQuery, PenggunasQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PenggunasQuery, PenggunasQueryVariables>(PenggunasDocument, options);
+        }
 export type PenggunasQueryHookResult = ReturnType<typeof usePenggunasQuery>;
-export type PenggunasLazyQueryHookResult = ReturnType<
-  typeof usePenggunasLazyQuery
->;
-export type PenggunasQueryResult = Apollo.QueryResult<
-  PenggunasQuery,
-  PenggunasQueryVariables
->;
+export type PenggunasLazyQueryHookResult = ReturnType<typeof usePenggunasLazyQuery>;
+export type PenggunasQueryResult = Apollo.QueryResult<PenggunasQuery, PenggunasQueryVariables>;
