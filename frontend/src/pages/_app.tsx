@@ -4,6 +4,7 @@ import { css, Global } from "@emotion/react";
 import { AppProps } from "next/app";
 import theme from "../theme";
 import "focus-visible/dist/focus-visible";
+import createUploadLink from "apollo-upload-client/public/createUploadLink.js";
 
 const GlobalStyles = css`
   /*
@@ -17,7 +18,10 @@ const GlobalStyles = css`
 `;
 
 const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_API_URL as string,
+  link: createUploadLink({
+    uri: process.env.NEXT_PUBLIC_API_URL as string,
+    credentials: "include",
+  }),
   credentials: "include",
   cache: new InMemoryCache(),
 });
