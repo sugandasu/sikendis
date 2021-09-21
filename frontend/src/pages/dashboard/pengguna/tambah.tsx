@@ -1,24 +1,16 @@
-import { useMutation } from "@apollo/client";
 import { Button } from "@chakra-ui/button";
 import { Box } from "@chakra-ui/layout";
 import { Flex, Link, Stack, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import gql from "graphql-tag";
 import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import React, { useState } from "react";
 import { DashboardLayout } from "../../../components/DashboardLayout";
+import { FileField } from "../../../components/FileField";
 import { InputField } from "../../../components/InputField";
 import { useCreatePenggunaMutation } from "../../../generated/graphql";
 import { useIsOperator } from "../../../middlewares/useIsOperator";
 import { toErrorMap } from "../../../utils/toErrorMap";
-
-const uploadFileMutation = gql`
-  mutation UploadImage($file: Upload!) {
-    singleUpload(file: $file)
-  }
-`;
 
 const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
   useIsOperator();
@@ -29,52 +21,7 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
   ];
   const router = useRouter();
   const [createPengguna] = useCreatePenggunaMutation();
-
-  const [upload] = useMutation(uploadFileMutation);
-  const [fileToUpload, setFileToUpload] = useState<File>();
-
-  const readFile = (file: File) => {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => resolve(reader.result), false);
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const onFileChange = async (e: any) => {
-    setShowCrop(true);
-    const file = e;
-    let imageDataUrl: any = await readFile(file);
-
-    setImageSrc(imageDataUrl);
-  };
-
-  const onDrop = useCallback(
-    ([file]) => {
-      console.log([file]);
-      console.log("single file", file);
-      console.log("file 0:", file[0]);
-      setFileToUpload(file);
-      onFileChange(file);
-    },
-    [upload]
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-  const InputDrop = () => {
-    if (fileToUpload) {
-      return <Text>📷 ✅</Text>;
-    } else if (isDragActive) {
-      return <Text>Drop the image here</Text>;
-    } else {
-      return (
-        <Text>
-          Drag 'n' drop your image here, or just click to select an image🍎
-        </Text>
-      );
-    }
-  };
+  const [fotoProfil, setFotoProfil] = useState<File>();
 
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
@@ -104,7 +51,7 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
                   const response = await createPengguna({
                     variables: {
                       payload: values,
-                      fotoProfil: fileToUpload,
+                      fotoProfil,
                     },
                     update: (cache) => {
                       cache.evict({ fieldName: "penggunas" });
@@ -136,19 +83,12 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
                       label="Sub bagian"
                       placeholder="subBagian"
                     />
-                    <Box
-                      mt={2}
-                      mb={4}
-                      borderColor="dark"
-                      borderStyle="dashed"
-                      borderWidth="2px"
-                      borderRadius="lg"
-                      p={5}
-                      {...getRootProps()}
-                    >
-                      <input {...getInputProps()} />
-                      <InputDrop></InputDrop>
-                    </Box>
+                    <FileField
+                      name="fotoProfil"
+                      label="Foto Profil"
+                      placeholder="Foto Profil"
+                      setFile={setFotoProfil}
+                    />
                     <Button
                       mt={4}
                       type="submit"
