@@ -6,7 +6,7 @@ export const useIsOperator = () => {
   const { data, loading } = useMeQuery();
   const router = useRouter();
   useEffect(() => {
-    if (!loading && !data?.me && data?.me.role !== "operator") {
+    if (!loading && !data?.me && data?.me?.role !== "operator") {
       router.back();
     }
   }, [loading, data, router]);
