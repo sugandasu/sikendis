@@ -1,5 +1,5 @@
 import { createWriteStream } from "fs";
-import { FileUpload } from "graphql-upload";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
   Arg,
   Int,
@@ -17,36 +17,15 @@ import { PenggunaInput } from "./inputs/PenggunaInput";
 import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { PenggunaResponse } from "./responses/PenggunaResponse";
 import { penggunaValidation } from "./validations/penggunaValidation";
-// import { GraphQLUpload } from "../types/GraphQLUpload";
-import { GraphQLUpload } from "graphql-upload";
 
 @Resolver(Pengguna)
 export class PenggunaResolver {
-  @Mutation(() => Boolean)
-  async singleUpload(
-    //1
-    @Arg("file", () => GraphQLUpload)
-    { createReadStream, filename }: FileUpload
-  ): Promise<Boolean> {
-    //2
-    return await new Promise(async (resolve, reject) =>
-      createReadStream()
-        .pipe(
-          createWriteStream(`${__dirname}/../../uploads/${filename}`, {
-            autoClose: true,
-          })
-        )
-        .on("finish", () => resolve(true))
-        .on("error", () => reject(false))
-    );
-  }
-
   @Mutation(() => PenggunaResponse)
   @UseMiddleware(isOperator)
   async createPengguna(
     @Arg("payload") payload: PenggunaInput,
     @Arg("fotoProfil", () => GraphQLUpload)
-    { createReadStream, filename }: FileUpload
+    { createReadStream }: FileUpload
   ): Promise<PenggunaResponse> {
     const errors = await penggunaValidation(payload);
     if (errors) {
@@ -56,9 +35,12 @@ export class PenggunaResolver {
     const upload = await new Promise(async (resolve, reject) =>
       createReadStream()
         .pipe(
-          createWriteStream(`${__dirname}/../../uploads/${filename}`, {
-            autoClose: true,
-          })
+          createWriteStream(
+            `${__dirname}/../../uploads/${payload.fotoProfil}`,
+            {
+              autoClose: true,
+            }
+          )
         )
         .on("finish", () => resolve(true))
         .on("error", () => reject(false))

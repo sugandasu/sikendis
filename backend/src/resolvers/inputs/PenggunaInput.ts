@@ -15,4 +15,7 @@ export class PenggunaInput {
 
   @Field()
   subBagian: string;
+
+  @Field()
+  fotoProfil: string;
 }

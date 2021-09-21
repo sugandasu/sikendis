@@ -11,6 +11,7 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { Kendaraan } from "./entities/Kendaraan";
+import { Media } from "./entities/Media";
 import { Peminjaman } from "./entities/Peminjaman";
 import { Pengguna } from "./entities/Pengguna";
 import { User } from "./entities/User";
@@ -28,7 +29,7 @@ const main = async () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Kendaraan, Pengguna, User, Peminjaman],
+    entities: [Kendaraan, Pengguna, User, Peminjaman, Media],
   });
 
   // await conection.runMigrations();

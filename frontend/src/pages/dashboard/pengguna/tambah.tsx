@@ -46,6 +46,7 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
                   jabatan: "",
                   instansi: "",
                   subBagian: "",
+                  fotoProfil: "",
                 }}
                 onSubmit={async (values, { setErrors }) => {
                   const response = await createPengguna({
@@ -64,7 +65,7 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
                   }
                 }}
               >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, setFieldValue }) => (
                   <Form>
                     <InputField name="nip" label="Nip" placeholder="nip" />
                     <InputField name="nama" label="Nama" placeholder="nama" />
@@ -88,6 +89,7 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
                       label="Foto Profil"
                       placeholder="Foto Profil"
                       setFile={setFotoProfil}
+                      setFieldValue={setFieldValue}
                     />
                     <Button
                       mt={4}

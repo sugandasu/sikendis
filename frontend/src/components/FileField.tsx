@@ -6,33 +6,39 @@ import {
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import { InputHTMLAttributes } from "react";
+import getNewFileName from "../utils/getNewFileName";
 
 type FileFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
-  setFile: (file) => void;
+  setFile: (value: any) => void;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 };
 
 export const FileField: React.FC<FileFieldProps> = ({
-  name,
   label,
   size: _,
   setFile,
+  setFieldValue,
   ...props
 }) => {
-  // const [field, { error }] = useField(props);
+  const [field, { error }] = useField(props);
   return (
     <FormControl mb={2}>
-      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <FormLabel htmlFor={field.name}>{label}</FormLabel>
       <Input
         type="file"
         {...props}
-        id={name}
+        id={field.name}
         onChange={(event) => {
           setFile(event.currentTarget.files[0]);
+          setFieldValue(
+            field.name,
+            getNewFileName(event.currentTarget.files[0].name)
+          );
         }}
       />
-      {/* {!!error ? <FormErrorMessage>{error}</FormErrorMessage> : null} */}
+      {!!error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
     </FormControl>
   );
 };
