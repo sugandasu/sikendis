@@ -4,6 +4,7 @@ import cors from "cors";
 import "dotenv-safe/config";
 import express from "express";
 import session from "express-session";
+import { graphqlUploadExpress } from "graphql-upload";
 import Redis from "ioredis";
 import path from "path";
 import "reflect-metadata";
@@ -18,8 +19,6 @@ import { KendaraanResolver } from "./resolvers/KendaraanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
-import { graphqlUploadExpress } from "graphql-upload";
-import { GraphQLUpload } from "graphql-upload";
 
 const main = async () => {
   // const conection = await createConnection({
@@ -35,8 +34,7 @@ const main = async () => {
   // await conection.runMigrations();
 
   const apolloServer = new ApolloServer({
-    // uploads: false, // disable apollo upload property
-    Upload: GraphQLUpload,
+    uploads: false,
     schema: await buildSchema({
       resolvers: [
         HelloResolver,
