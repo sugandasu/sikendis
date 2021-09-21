@@ -30,7 +30,6 @@ export const FileField: React.FC<FileFieldProps> = ({
         id={name}
         onChange={(event) => {
           setFile(event.currentTarget.files[0]);
-          console.log(event.currentTarget.files[0]);
         }}
       />
       {/* {!!error ? <FormErrorMessage>{error}</FormErrorMessage> : null} */}
