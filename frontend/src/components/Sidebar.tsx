@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
-import { FaCarSide, FaUsers } from "react-icons/fa";
+import { FaCarSide, FaUsers, FaRegHourglass } from "react-icons/fa";
 
 interface SidebarProps {
   menuIsOpen: boolean;
@@ -80,6 +80,22 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                       justifyContent="left"
                     >
                       <Text fontSize="l">Pengguna</Text>
+                    </Button>
+                  </Link>
+                </NextLink>
+              </Box>
+              <Box>
+                <NextLink href="/dashboard/peminjaman">
+                  <Link>
+                    <Button
+                      isFullWidth
+                      leftIcon={<Icon as={FaRegHourglass} />}
+                      py={6}
+                      borderRadius={0}
+                      bgColor="transparent"
+                      justifyContent="left"
+                    >
+                      <Text fontSize="l">Peminjaman</Text>
                     </Button>
                   </Link>
                 </NextLink>
