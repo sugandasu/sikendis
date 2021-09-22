@@ -1,8 +1,5 @@
-import { isAuth } from "./../middlewares/isAuth";
-import { isOperator } from "./../middlewares/isOperator";
 import { unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
-import { Peminjaman } from "../entities/Peminjaman";
 import {
   Arg,
   FieldResolver,
@@ -14,13 +11,20 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
+import { Kendaraan } from "../entities/Kendaraan";
+import { Peminjaman } from "../entities/Peminjaman";
+import { Pengguna } from "../entities/Pengguna";
+import { isAuth } from "./../middlewares/isAuth";
+import { isOperator } from "./../middlewares/isOperator";
 import { uploadFile } from "./../utils/UploadFile";
+import { PaginatedInput } from "./inputs/PaginatedInput";
 import { PeminjamanInput } from "./inputs/PeminjamanInput";
+import { KendaraanLoader } from "./loaders/KendaraanLoader";
+import { PenggunaLoader } from "./loaders/PenggunaLoader";
 import { PeminjamanPaginated } from "./responses/PeminjamanPaginated";
 import { PeminjamanResponse } from "./responses/PeminjamanResponse";
-import { peminjamanValidation } from "./validations/peminjamanValidation";
-import { PaginatedInput } from "./inputs/PaginatedInput";
 import { PenggunaPaginated } from "./responses/PenggunaPaginated";
+import { peminjamanValidation } from "./validations/peminjamanValidation";
 
 @Resolver(Peminjaman)
 export class PeminjamanResolver {
@@ -32,6 +36,16 @@ export class PeminjamanResolver {
   @FieldResolver(() => String)
   fileSuratPermohonanUrl(@Root() root: Peminjaman) {
     return process.env.BACKEND_URL + "/static/" + root.fileSuratPermohonan;
+  }
+
+  @FieldResolver(() => Kendaraan)
+  kendaraan(@Root() peminjaman: Peminjaman) {
+    return KendaraanLoader().load(peminjaman.kendaraanId);
+  }
+
+  @FieldResolver(() => Pengguna)
+  pengguna(@Root() peminjaman: Peminjaman) {
+    return PenggunaLoader().load(peminjaman.penggunaId);
   }
 
   @Mutation(() => PeminjamanResponse)
