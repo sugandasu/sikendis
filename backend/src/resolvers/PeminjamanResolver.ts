@@ -1,0 +1,254 @@
+import { isAuth } from "./../middlewares/isAuth";
+import { isOperator } from "./../middlewares/isOperator";
+import { unlinkSync } from "fs";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
+import { Peminjaman } from "../entities/Peminjaman";
+import {
+  Arg,
+  FieldResolver,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+  UseMiddleware,
+} from "type-graphql";
+import { getConnection } from "typeorm";
+import { uploadFile } from "./../utils/UploadFile";
+import { PeminjamanInput } from "./inputs/PeminjamanInput";
+import { PeminjamanPaginated } from "./responses/PeminjamanPaginated";
+import { PeminjamanResponse } from "./responses/PeminjamanResponse";
+import { peminjamanValidation } from "./validations/peminjamanValidation";
+import { PaginatedInput } from "./inputs/PaginatedInput";
+import { PenggunaPaginated } from "./responses/PenggunaPaginated";
+
+@Resolver(Peminjaman)
+export class PeminjamanResolver {
+  @FieldResolver(() => String)
+  fileDisposisiUrl(@Root() root: Peminjaman) {
+    return process.env.BACKEND_URL + "/static/" + root.fileDisposisi;
+  }
+
+  @FieldResolver(() => String)
+  fileSuratPermohonanUrl(@Root() root: Peminjaman) {
+    return process.env.BACKEND_URL + "/static/" + root.fileSuratPermohonan;
+  }
+
+  @Mutation(() => PeminjamanResponse)
+  async createPeminjaman(
+    @Arg("payload") payload: PeminjamanInput,
+    @Arg("fileDisposisi", () => GraphQLUpload)
+    { createReadStream: disposisiStream, filename: fileDisposisi }: FileUpload,
+    @Arg("fileSuratPermohonan", () => GraphQLUpload)
+    {
+      createReadStream: permohonanStream,
+      filename: fileSuratPermohonan,
+    }: FileUpload
+  ): Promise<PeminjamanResponse> {
+    const errors = await peminjamanValidation(payload);
+    if (errors) {
+      return { errors };
+    }
+
+    if (fileDisposisi) {
+      const upload = await uploadFile({
+        createReadStream: disposisiStream,
+        filename: payload.fileDisposisi,
+      });
+
+      if (!upload) {
+        return {
+          errors: [
+            {
+              field: "fileDisposisi",
+              message: "File disposisi gagal disimpan",
+            },
+          ],
+        };
+      }
+    } else {
+      return {
+        errors: [
+          {
+            field: "fileDisposisi",
+            message: "File disposisi tidak boleh kosong",
+          },
+        ],
+      };
+    }
+
+    if (fileSuratPermohonan) {
+      const upload = await uploadFile({
+        createReadStream: permohonanStream,
+        filename: payload.fileSuratPermohonan,
+      });
+
+      if (!upload) {
+        return {
+          errors: [
+            {
+              field: "fileSuratPermohonan",
+              message: "File surat permohonan tidak boleh kosong",
+            },
+          ],
+        };
+      }
+    } else {
+      return {
+        errors: [
+          {
+            field: "fileSuratPermohonan",
+            message: "File surat permohonan tidak boleh kosong",
+          },
+        ],
+      };
+    }
+
+    const peminjaman = await Peminjaman.create({ ...payload }).save();
+
+    return { peminjaman };
+  }
+
+  @Query(() => PeminjamanPaginated)
+  @UseMiddleware(isAuth)
+  async peminjamans(
+    @Arg("options") options: PaginatedInput
+  ): Promise<PenggunaPaginated> {
+    const realLimit = Math.min(10, options.limit);
+    const offset = options.page * options.limit - options.limit;
+    let params = [];
+    params.push(realLimit);
+    params.push(offset);
+    if (options.filter) {
+      params.push(options.filter);
+    }
+
+    const data = await getConnection().query(
+      `
+      SELECT *
+      FROM peminjaman
+      ${options.filter ? `` : ``}
+      LIMIT $1
+      OFFSET $2
+      `,
+      params
+    );
+    const { total } = await getConnection()
+      .getRepository(Peminjaman)
+      .createQueryBuilder()
+      .select("COUNT(id)", "total")
+      .getRawOne();
+
+    return { data, total, ...options };
+  }
+
+  @Query(() => Peminjaman, { nullable: true })
+  @UseMiddleware(isAuth)
+  peminjaman(
+    @Arg("id", () => Int) id: number
+  ): Promise<Peminjaman | undefined> {
+    return Peminjaman.findOne({ id });
+  }
+
+  @Mutation(() => PeminjamanResponse)
+  @UseMiddleware(isOperator)
+  async updatePeminjaman(
+    @Arg("id", () => Int) id: number,
+    @Arg("payload") payload: PeminjamanInput,
+    @Arg("fileDisposisi", () => GraphQLUpload, { nullable: true })
+    { createReadStream: disposisiStream, filename: fileDisposisi }: FileUpload,
+    @Arg("fileSuratPermohonan", () => GraphQLUpload, { nullable: true })
+    {
+      createReadStream: permohonanStream,
+      filename: fileSuratPermohonan,
+    }: FileUpload
+  ): Promise<PeminjamanResponse> {
+    const errors = await peminjamanValidation(payload, id);
+    if (errors) {
+      return { errors };
+    }
+
+    if (fileDisposisi) {
+      const upload = await uploadFile({
+        createReadStream: disposisiStream,
+        filename: payload.fileDisposisi,
+      });
+
+      if (!upload) {
+        return {
+          errors: [
+            {
+              field: "fileDisposisi",
+              message: "File disposisi gagal disimpan",
+            },
+          ],
+        };
+      }
+    } else {
+      return {
+        errors: [
+          {
+            field: "fileDisposisi",
+            message: "File disposisi tidak boleh kosong",
+          },
+        ],
+      };
+    }
+
+    if (fileSuratPermohonan) {
+      const upload = await uploadFile({
+        createReadStream: permohonanStream,
+        filename: payload.fileSuratPermohonan,
+      });
+
+      if (!upload) {
+        return {
+          errors: [
+            {
+              field: "fileSuratPermohonan",
+              message: "File surat permohonan tidak boleh kosong",
+            },
+          ],
+        };
+      }
+    } else {
+      return {
+        errors: [
+          {
+            field: "fileSuratPermohonan",
+            message: "File surat permohonan tidak boleh kosong",
+          },
+        ],
+      };
+    }
+
+    const result = await getConnection()
+      .createQueryBuilder()
+      .update(Peminjaman)
+      .set({ ...payload })
+      .where("id = :id", {
+        id,
+      })
+      .returning("*")
+      .execute();
+
+    return { peminjaman: result.raw[0] };
+  }
+
+  @Mutation(() => Boolean)
+  async deletePeminjaman(@Arg("id", () => Int) id: number): Promise<Boolean> {
+    try {
+      const peminjaman = await Peminjaman.findOne({ id });
+      await Peminjaman.delete({ id });
+      if (peminjaman) {
+        unlinkSync(`${__dirname}/../../uploads/${peminjaman.fileDisposisi}`);
+        unlinkSync(
+          `${__dirname}/../../uploads/${peminjaman.fileSuratPermohonan}`
+        );
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+}
