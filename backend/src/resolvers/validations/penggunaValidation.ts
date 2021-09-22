@@ -1,9 +1,9 @@
 import { getConnection } from "typeorm";
 import { Pengguna } from "../../entities/Pengguna";
 import { PenggunaInput } from "../inputs/PenggunaInput";
+
 export const penggunaValidation = async (
   payload: PenggunaInput,
-  filename: string | null = null,
   skipId: number | null = null
 ) => {
   if (payload.nip.trim().length === 0) {
@@ -45,14 +45,6 @@ export const penggunaValidation = async (
 
   if (payload.subBagian.trim().length === 0) {
     return [{ field: "subBagian", message: "Sub bagian tidak boleh kosong" }];
-  }
-
-  if (filename) {
-    if (payload.fotoProfil.trim().length === 0) {
-      return [
-        { field: "fotoProfil", message: "Foto profil tidak boleh kosong" },
-      ];
-    }
   }
 
   return null;

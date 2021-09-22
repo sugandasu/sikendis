@@ -37,7 +37,7 @@ export class PenggunaResolver {
     @Arg("fotoProfil", () => GraphQLUpload, { nullable: true })
     { createReadStream, filename }: FileUpload
   ): Promise<PenggunaResponse> {
-    const errors = await penggunaValidation(payload, filename, null);
+    const errors = await penggunaValidation(payload);
     if (errors) {
       return { errors };
     }
@@ -121,7 +121,7 @@ export class PenggunaResolver {
     @Arg("fotoProfil", () => GraphQLUpload, { nullable: true })
     { createReadStream, filename }: FileUpload
   ): Promise<PenggunaResponse> {
-    const errors = await penggunaValidation(payload, filename, id);
+    const errors = await penggunaValidation(payload, id);
     if (errors) {
       return { errors };
     }
