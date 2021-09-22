@@ -1,4 +1,4 @@
-import { Field } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -12,15 +12,25 @@ import {
 import { Kendaraan } from "./Kendaraan";
 import { Pengguna } from "./Pengguna";
 
+@ObjectType()
 @Entity()
 export class Peminjaman extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Field()
+  @Column()
+  kendaraanId!: number;
 
   @Field()
   @OneToOne(() => Kendaraan)
   @JoinColumn()
   kendaraan: Kendaraan;
+
+  @Field()
+  @Column()
+  penggunaId!: number;
 
   @Field()
   @OneToOne(() => Pengguna)
