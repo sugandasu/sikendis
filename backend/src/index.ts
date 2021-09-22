@@ -17,6 +17,7 @@ import { Pengguna } from "./entities/Pengguna";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/HelloResolver";
 import { KendaraanResolver } from "./resolvers/KendaraanResolver";
+import { PeminjamanResolver } from "./resolvers/PeminjamanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
@@ -42,6 +43,7 @@ const main = async () => {
         UserResolver,
         PenggunaResolver,
         KendaraanResolver,
+        PeminjamanResolver,
       ],
       validate: false,
     }),
