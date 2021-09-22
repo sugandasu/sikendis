@@ -151,6 +151,7 @@ export type Pengguna = {
   __typename?: 'Pengguna';
   createdAt: Scalars['DateTime'];
   fotoProfil?: Maybe<Scalars['String']>;
+  fotoProfilUrl?: Maybe<Scalars['String']>;
   id: Scalars['Float'];
   instansi: Scalars['String'];
   jabatan: Scalars['String'];
@@ -334,7 +335,7 @@ export type PenggunasQueryVariables = Exact<{
 }>;
 
 
-export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
+export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Pengguna', fotoProfilUrl?: Maybe<string>, id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
 
 export const RegularKendaraanFragmentDoc = gql`
     fragment RegularKendaraan on Kendaraan {
@@ -827,6 +828,7 @@ export const PenggunasDocument = gql`
   penggunas(options: $options) {
     data {
       ...RegularPengguna
+      fotoProfilUrl
     }
     total
     limit

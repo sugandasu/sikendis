@@ -69,14 +69,22 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
       key: "fotoProfil",
       hideSm: true,
       render: (row) => {
-        return <Avatar size="sm"></Avatar>;
+        return row.fotoProfilUrl ? (
+          <Avatar size="sm" src={row.fotoProfilUrl}></Avatar>
+        ) : (
+          <Avatar size="sm"></Avatar>
+        );
       },
     },
     { label: "Nama", key: "nama" },
     { label: "Nip", key: "nip", hideSm: true },
-    { label: "Jabatan", key: "jabatan", hideSm: true, hideMd: true },
+    {
+      label: "Jabatan",
+      key: "jabatan",
+      hide: true,
+    },
     { label: "Instansi", key: "instansi", hideSm: true, hideMd: true },
-    { label: "Sub Bagian", key: "subBagian", hideSm: true, hideMd: true },
+    { label: "Sub Bagian", key: "subBagian", hide: true },
     {
       label: "Aksi",
       key: "id",

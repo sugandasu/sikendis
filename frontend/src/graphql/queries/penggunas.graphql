@@ -2,6 +2,7 @@ query Penggunas($options: PaginatedInput!) {
   penggunas(options: $options) {
     data {
       ...RegularPengguna
+      fotoProfilUrl
     }
     total
     limit

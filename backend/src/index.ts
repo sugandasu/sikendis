@@ -91,7 +91,7 @@ const main = async () => {
   });
 
   const dir = path.join(__dirname, "./../uploads");
-  app.use(express.static(dir));
+  app.use("/static", express.static(dir));
 
   app.listen(parseInt(process.env.PORT), () => {
     console.log(

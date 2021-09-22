@@ -2,10 +2,12 @@ import { createWriteStream, unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
   Arg,
+  FieldResolver,
   Int,
   Mutation,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
@@ -20,6 +22,13 @@ import { penggunaValidation } from "./validations/penggunaValidation";
 
 @Resolver(Pengguna)
 export class PenggunaResolver {
+  @FieldResolver(() => String, { nullable: true })
+  fotoProfilUrl(@Root() root: Pengguna) {
+    return root.fotoProfil
+      ? process.env.BACKEND_URL + "/static/" + root.fotoProfil
+      : null;
+  }
+
   @Mutation(() => PenggunaResponse)
   @UseMiddleware(isOperator)
   async createPengguna(
