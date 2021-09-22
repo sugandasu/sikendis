@@ -6,4 +6,5 @@ fragment RegularPengguna on Pengguna {
   instansi
   subBagian
   fotoProfil
+  fotoProfilUrl
 }
