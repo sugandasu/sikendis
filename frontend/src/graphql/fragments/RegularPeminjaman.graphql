@@ -1,0 +1,13 @@
+fragment RegularPeminjaman on Peminjaman {
+  id
+  nomorDisposisi
+  fileDisposisi
+  fileDisposisiUrl
+  nomorSuratPermohonan
+  fileSuratPermohonan
+  fileSuratPermohonanUrl
+  tanggalMulai
+  tanggalSelesai
+  nomorHpSupir
+  keterangan
+}

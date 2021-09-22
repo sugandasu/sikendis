@@ -1,0 +1,11 @@
+query Peminjamans($options: PaginatedInput!) {
+  peminjamans(options: $options) {
+    data {
+      ...RegularPeminjaman
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

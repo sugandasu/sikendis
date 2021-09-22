@@ -87,19 +87,29 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createKendaraan: KendaraanResponse;
+  createPeminjaman: PeminjamanResponse;
   createPengguna: PenggunaResponse;
   deleteKendaraan: Scalars['Boolean'];
+  deletePeminjaman: Scalars['Boolean'];
   deletePengguna: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
   updateKendaraan: KendaraanResponse;
+  updatePeminjaman: PeminjamanResponse;
   updatePengguna: PenggunaResponse;
 };
 
 
 export type MutationCreateKendaraanArgs = {
   payload: KendaraanInput;
+};
+
+
+export type MutationCreatePeminjamanArgs = {
+  fileDisposisi: Scalars['Upload'];
+  fileSuratPermohonan: Scalars['Upload'];
+  payload: PeminjamanInput;
 };
 
 
@@ -110,6 +120,11 @@ export type MutationCreatePenggunaArgs = {
 
 
 export type MutationDeleteKendaraanArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeletePeminjamanArgs = {
   id: Scalars['Int'];
 };
 
@@ -135,6 +150,14 @@ export type MutationUpdateKendaraanArgs = {
 };
 
 
+export type MutationUpdatePeminjamanArgs = {
+  fileDisposisi?: Maybe<Scalars['Upload']>;
+  fileSuratPermohonan?: Maybe<Scalars['Upload']>;
+  id: Scalars['Int'];
+  payload: PeminjamanInput;
+};
+
+
 export type MutationUpdatePenggunaArgs = {
   fotoProfil?: Maybe<Scalars['Upload']>;
   id: Scalars['Int'];
@@ -145,6 +168,53 @@ export type PaginatedInput = {
   filter?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
   page: Scalars['Int'];
+};
+
+export type Peminjaman = {
+  __typename?: 'Peminjaman';
+  fileDisposisi: Scalars['String'];
+  fileDisposisiUrl: Scalars['String'];
+  fileSuratPermohonan: Scalars['String'];
+  fileSuratPermohonanUrl: Scalars['String'];
+  id: Scalars['Float'];
+  kendaraan: Kendaraan;
+  kendaraanId: Scalars['Float'];
+  keterangan?: Maybe<Scalars['String']>;
+  nomorDisposisi: Scalars['String'];
+  nomorHpSupir: Scalars['String'];
+  nomorSuratPermohonan: Scalars['String'];
+  pengguna: Pengguna;
+  penggunaId: Scalars['Float'];
+  tanggalMulai: Scalars['DateTime'];
+  tanggalSelesai: Scalars['DateTime'];
+};
+
+export type PeminjamanInput = {
+  fileDisposisi: Scalars['String'];
+  fileSuratPermohonan: Scalars['String'];
+  kendaraanId: Scalars['Int'];
+  keterangan?: Maybe<Scalars['String']>;
+  nomorDisposisi: Scalars['String'];
+  nomorHpSupir: Scalars['String'];
+  nomorSuratPermohonan: Scalars['String'];
+  penggunaId: Scalars['Int'];
+  tanggalMulai: Scalars['DateTime'];
+  tanggalSelesai: Scalars['DateTime'];
+};
+
+export type PeminjamanPaginated = {
+  __typename?: 'PeminjamanPaginated';
+  data: Array<Peminjaman>;
+  filter?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type PeminjamanResponse = {
+  __typename?: 'PeminjamanResponse';
+  errors?: Maybe<Array<FieldError>>;
+  peminjaman?: Maybe<Peminjaman>;
 };
 
 export type Pengguna = {
@@ -191,6 +261,8 @@ export type Query = {
   kendaraan?: Maybe<Kendaraan>;
   kendaraans: KendaraanPaginated;
   me?: Maybe<User>;
+  peminjaman?: Maybe<Peminjaman>;
+  peminjamans: PeminjamanPaginated;
   pengguna?: Maybe<Pengguna>;
   penggunas: PenggunaPaginated;
 };
@@ -202,6 +274,16 @@ export type QueryKendaraanArgs = {
 
 
 export type QueryKendaraansArgs = {
+  options: PaginatedInput;
+};
+
+
+export type QueryPeminjamanArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryPeminjamansArgs = {
   options: PaginatedInput;
 };
 
@@ -239,7 +321,9 @@ export type UserResponse = {
 
 export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any };
 
-export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> };
+export type RegularPeminjamanFragment = { __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> };
+
+export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> };
 
 export type CreateKendaraanMutationVariables = Exact<{
   payload: KendaraanInput;
@@ -248,13 +332,22 @@ export type CreateKendaraanMutationVariables = Exact<{
 
 export type CreateKendaraanMutation = { __typename?: 'Mutation', createKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
+export type CreatePeminjamanMutationVariables = Exact<{
+  payload: PeminjamanInput;
+  fileDisposisi: Scalars['Upload'];
+  fileSuratPermohonan: Scalars['Upload'];
+}>;
+
+
+export type CreatePeminjamanMutation = { __typename?: 'Mutation', createPeminjaman: { __typename?: 'PeminjamanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> } };
+
 export type CreatePenggunaMutationVariables = Exact<{
   payload: PenggunaInput;
   fotoProfil: Scalars['Upload'];
 }>;
 
 
-export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
+export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> }> } };
 
 export type DeleteKendaraanMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -262,6 +355,13 @@ export type DeleteKendaraanMutationVariables = Exact<{
 
 
 export type DeleteKendaraanMutation = { __typename?: 'Mutation', deleteKendaraan: boolean };
+
+export type DeletePeminjamanMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeletePeminjamanMutation = { __typename?: 'Mutation', deletePeminjaman: boolean };
 
 export type DeletePenggunaMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -295,6 +395,16 @@ export type UpdateKendaraanMutationVariables = Exact<{
 
 export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
+export type UpdatePeminjamanMutationVariables = Exact<{
+  id: Scalars['Int'];
+  payload: PeminjamanInput;
+  fileDisposisi: Scalars['Upload'];
+  fileSuratPermohonan: Scalars['Upload'];
+}>;
+
+
+export type UpdatePeminjamanMutation = { __typename?: 'Mutation', updatePeminjaman: { __typename?: 'PeminjamanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> } };
+
 export type UpdatePenggunaMutationVariables = Exact<{
   id: Scalars['Int'];
   payload: PenggunaInput;
@@ -302,7 +412,7 @@ export type UpdatePenggunaMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePenggunaMutation = { __typename?: 'Mutation', updatePengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
+export type UpdatePenggunaMutation = { __typename?: 'Mutation', updatePengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> }> } };
 
 export type KendaraanQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -323,12 +433,26 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, role: string }> };
 
+export type PeminjamanQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type PeminjamanQuery = { __typename?: 'Query', peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> };
+
+export type PeminjamansQueryVariables = Exact<{
+  options: PaginatedInput;
+}>;
+
+
+export type PeminjamansQuery = { __typename?: 'Query', peminjamans: { __typename?: 'PeminjamanPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> } };
+
 export type PenggunaQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PenggunaQuery = { __typename?: 'Query', pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> };
+export type PenggunaQuery = { __typename?: 'Query', pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> }> };
 
 export type PenggunasQueryVariables = Exact<{
   options: PaginatedInput;
@@ -359,6 +483,21 @@ export const RegularKendaraanFragmentDoc = gql`
   updatedAt
 }
     `;
+export const RegularPeminjamanFragmentDoc = gql`
+    fragment RegularPeminjaman on Peminjaman {
+  id
+  nomorDisposisi
+  fileDisposisi
+  fileDisposisiUrl
+  nomorSuratPermohonan
+  fileSuratPermohonan
+  fileSuratPermohonanUrl
+  tanggalMulai
+  tanggalSelesai
+  nomorHpSupir
+  keterangan
+}
+    `;
 export const RegularPenggunaFragmentDoc = gql`
     fragment RegularPengguna on Pengguna {
   id
@@ -368,6 +507,7 @@ export const RegularPenggunaFragmentDoc = gql`
   instansi
   subBagian
   fotoProfil
+  fotoProfilUrl
 }
     `;
 export const CreateKendaraanDocument = gql`
@@ -409,6 +549,51 @@ export function useCreateKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateKendaraanMutationHookResult = ReturnType<typeof useCreateKendaraanMutation>;
 export type CreateKendaraanMutationResult = Apollo.MutationResult<CreateKendaraanMutation>;
 export type CreateKendaraanMutationOptions = Apollo.BaseMutationOptions<CreateKendaraanMutation, CreateKendaraanMutationVariables>;
+export const CreatePeminjamanDocument = gql`
+    mutation CreatePeminjaman($payload: PeminjamanInput!, $fileDisposisi: Upload!, $fileSuratPermohonan: Upload!) {
+  createPeminjaman(
+    payload: $payload
+    fileDisposisi: $fileDisposisi
+    fileSuratPermohonan: $fileSuratPermohonan
+  ) {
+    errors {
+      field
+      message
+    }
+    peminjaman {
+      ...RegularPeminjaman
+    }
+  }
+}
+    ${RegularPeminjamanFragmentDoc}`;
+export type CreatePeminjamanMutationFn = Apollo.MutationFunction<CreatePeminjamanMutation, CreatePeminjamanMutationVariables>;
+
+/**
+ * __useCreatePeminjamanMutation__
+ *
+ * To run a mutation, you first call `useCreatePeminjamanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePeminjamanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPeminjamanMutation, { data, loading, error }] = useCreatePeminjamanMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *      fileDisposisi: // value for 'fileDisposisi'
+ *      fileSuratPermohonan: // value for 'fileSuratPermohonan'
+ *   },
+ * });
+ */
+export function useCreatePeminjamanMutation(baseOptions?: Apollo.MutationHookOptions<CreatePeminjamanMutation, CreatePeminjamanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePeminjamanMutation, CreatePeminjamanMutationVariables>(CreatePeminjamanDocument, options);
+      }
+export type CreatePeminjamanMutationHookResult = ReturnType<typeof useCreatePeminjamanMutation>;
+export type CreatePeminjamanMutationResult = Apollo.MutationResult<CreatePeminjamanMutation>;
+export type CreatePeminjamanMutationOptions = Apollo.BaseMutationOptions<CreatePeminjamanMutation, CreatePeminjamanMutationVariables>;
 export const CreatePenggunaDocument = gql`
     mutation CreatePengguna($payload: PenggunaInput!, $fotoProfil: Upload!) {
   createPengguna(payload: $payload, fotoProfil: $fotoProfil) {
@@ -480,6 +665,37 @@ export function useDeleteKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteKendaraanMutationHookResult = ReturnType<typeof useDeleteKendaraanMutation>;
 export type DeleteKendaraanMutationResult = Apollo.MutationResult<DeleteKendaraanMutation>;
 export type DeleteKendaraanMutationOptions = Apollo.BaseMutationOptions<DeleteKendaraanMutation, DeleteKendaraanMutationVariables>;
+export const DeletePeminjamanDocument = gql`
+    mutation DeletePeminjaman($id: Int!) {
+  deletePeminjaman(id: $id)
+}
+    `;
+export type DeletePeminjamanMutationFn = Apollo.MutationFunction<DeletePeminjamanMutation, DeletePeminjamanMutationVariables>;
+
+/**
+ * __useDeletePeminjamanMutation__
+ *
+ * To run a mutation, you first call `useDeletePeminjamanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePeminjamanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePeminjamanMutation, { data, loading, error }] = useDeletePeminjamanMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePeminjamanMutation(baseOptions?: Apollo.MutationHookOptions<DeletePeminjamanMutation, DeletePeminjamanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePeminjamanMutation, DeletePeminjamanMutationVariables>(DeletePeminjamanDocument, options);
+      }
+export type DeletePeminjamanMutationHookResult = ReturnType<typeof useDeletePeminjamanMutation>;
+export type DeletePeminjamanMutationResult = Apollo.MutationResult<DeletePeminjamanMutation>;
+export type DeletePeminjamanMutationOptions = Apollo.BaseMutationOptions<DeletePeminjamanMutation, DeletePeminjamanMutationVariables>;
 export const DeletePenggunaDocument = gql`
     mutation DeletePengguna($id: Int!) {
   deletePengguna(id: $id)
@@ -634,6 +850,53 @@ export function useUpdateKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type UpdateKendaraanMutationHookResult = ReturnType<typeof useUpdateKendaraanMutation>;
 export type UpdateKendaraanMutationResult = Apollo.MutationResult<UpdateKendaraanMutation>;
 export type UpdateKendaraanMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>;
+export const UpdatePeminjamanDocument = gql`
+    mutation UpdatePeminjaman($id: Int!, $payload: PeminjamanInput!, $fileDisposisi: Upload!, $fileSuratPermohonan: Upload!) {
+  updatePeminjaman(
+    id: $id
+    payload: $payload
+    fileDisposisi: $fileDisposisi
+    fileSuratPermohonan: $fileSuratPermohonan
+  ) {
+    errors {
+      field
+      message
+    }
+    peminjaman {
+      ...RegularPeminjaman
+    }
+  }
+}
+    ${RegularPeminjamanFragmentDoc}`;
+export type UpdatePeminjamanMutationFn = Apollo.MutationFunction<UpdatePeminjamanMutation, UpdatePeminjamanMutationVariables>;
+
+/**
+ * __useUpdatePeminjamanMutation__
+ *
+ * To run a mutation, you first call `useUpdatePeminjamanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePeminjamanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePeminjamanMutation, { data, loading, error }] = useUpdatePeminjamanMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      payload: // value for 'payload'
+ *      fileDisposisi: // value for 'fileDisposisi'
+ *      fileSuratPermohonan: // value for 'fileSuratPermohonan'
+ *   },
+ * });
+ */
+export function useUpdatePeminjamanMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePeminjamanMutation, UpdatePeminjamanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePeminjamanMutation, UpdatePeminjamanMutationVariables>(UpdatePeminjamanDocument, options);
+      }
+export type UpdatePeminjamanMutationHookResult = ReturnType<typeof useUpdatePeminjamanMutation>;
+export type UpdatePeminjamanMutationResult = Apollo.MutationResult<UpdatePeminjamanMutation>;
+export type UpdatePeminjamanMutationOptions = Apollo.BaseMutationOptions<UpdatePeminjamanMutation, UpdatePeminjamanMutationVariables>;
 export const UpdatePenggunaDocument = gql`
     mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!, $fotoProfil: Upload!) {
   updatePengguna(id: $id, payload: $payload, fotoProfil: $fotoProfil) {
@@ -788,6 +1051,82 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const PeminjamanDocument = gql`
+    query Peminjaman($id: Int!) {
+  peminjaman(id: $id) {
+    ...RegularPeminjaman
+  }
+}
+    ${RegularPeminjamanFragmentDoc}`;
+
+/**
+ * __usePeminjamanQuery__
+ *
+ * To run a query within a React component, call `usePeminjamanQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePeminjamanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePeminjamanQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePeminjamanQuery(baseOptions: Apollo.QueryHookOptions<PeminjamanQuery, PeminjamanQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PeminjamanQuery, PeminjamanQueryVariables>(PeminjamanDocument, options);
+      }
+export function usePeminjamanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PeminjamanQuery, PeminjamanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PeminjamanQuery, PeminjamanQueryVariables>(PeminjamanDocument, options);
+        }
+export type PeminjamanQueryHookResult = ReturnType<typeof usePeminjamanQuery>;
+export type PeminjamanLazyQueryHookResult = ReturnType<typeof usePeminjamanLazyQuery>;
+export type PeminjamanQueryResult = Apollo.QueryResult<PeminjamanQuery, PeminjamanQueryVariables>;
+export const PeminjamansDocument = gql`
+    query Peminjamans($options: PaginatedInput!) {
+  peminjamans(options: $options) {
+    data {
+      ...RegularPeminjaman
+    }
+    total
+    limit
+    page
+    filter
+  }
+}
+    ${RegularPeminjamanFragmentDoc}`;
+
+/**
+ * __usePeminjamansQuery__
+ *
+ * To run a query within a React component, call `usePeminjamansQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePeminjamansQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePeminjamansQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function usePeminjamansQuery(baseOptions: Apollo.QueryHookOptions<PeminjamansQuery, PeminjamansQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PeminjamansQuery, PeminjamansQueryVariables>(PeminjamansDocument, options);
+      }
+export function usePeminjamansLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PeminjamansQuery, PeminjamansQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PeminjamansQuery, PeminjamansQueryVariables>(PeminjamansDocument, options);
+        }
+export type PeminjamansQueryHookResult = ReturnType<typeof usePeminjamansQuery>;
+export type PeminjamansLazyQueryHookResult = ReturnType<typeof usePeminjamansLazyQuery>;
+export type PeminjamansQueryResult = Apollo.QueryResult<PeminjamansQuery, PeminjamansQueryVariables>;
 export const PenggunaDocument = gql`
     query Pengguna($id: Int!) {
   pengguna(id: $id) {

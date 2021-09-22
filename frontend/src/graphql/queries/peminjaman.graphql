@@ -1,0 +1,5 @@
+query Peminjaman($id: Int!) {
+  peminjaman(id: $id) {
+    ...RegularPeminjaman
+  }
+}
