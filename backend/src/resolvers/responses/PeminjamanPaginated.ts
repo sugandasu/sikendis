@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from "type-graphql";
-import { Peminjaman } from "src/entities/Peminjaman";
+import { Peminjaman } from "../../entities/Peminjaman";
 
 @ObjectType()
 export class PeminjamanPaginated {
