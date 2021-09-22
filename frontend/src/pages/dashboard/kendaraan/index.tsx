@@ -62,7 +62,11 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
   }
 
   const headers = [
-    { label: "Tipe Kendaraan", key: "tipeRoda" },
+    { label: "Tipe Kendaraan", key: "tipeRoda", hide: true },
+    {
+      label: "Nomor Polisi",
+      key: "nomorPolisi",
+    },
     { label: "Kode", key: "kode", hide: true },
     { label: "Nama", key: "nama", hide: true },
     {
@@ -94,10 +98,6 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
       hide: true,
     },
     {
-      label: "Nomor Polisi",
-      key: "nomorPolisi",
-    },
-    {
       label: "Nomor Bpkb",
       key: "nomorBpkb",
       hide: true,
@@ -105,8 +105,7 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
     {
       label: "Asal Usul",
       key: "asalUsul",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
     {
       label: "Harga",
@@ -128,17 +127,14 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
               <FaEllipsisV></FaEllipsisV>
             </MenuButton>
             <MenuList>
-              {showView ? (
-                <MenuItem
-                  onClick={() => {
-                    setViewRow(row);
-                    onOpen();
-                  }}
-                >
-                  <Text>View</Text>
-                </MenuItem>
-              ) : null}
-
+              <MenuItem
+                onClick={() => {
+                  setViewRow(row);
+                  onOpen();
+                }}
+              >
+                <Text>View</Text>
+              </MenuItem>
               <NextLink
                 href="/dashboard/kendaraan/edit/[id]"
                 as={`/dashboard/kendaraan/edit/${row.id}`}
@@ -147,7 +143,6 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
                   <MenuItem>Edit</MenuItem>
                 </Link>
               </NextLink>
-
               <MenuItem
                 onClick={() => {
                   setCurrentRow(row);

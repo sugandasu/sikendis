@@ -84,7 +84,7 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
       hide: true,
     },
     { label: "Instansi", key: "instansi", hideSm: true, hideMd: true },
-    { label: "Sub Bagian", key: "subBagian", hide: true },
+    { label: "Sub Bagian", key: "subBagian", hideSm: true, hideMd: true },
     {
       label: "Aksi",
       key: "id",
@@ -95,17 +95,14 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
               <FaEllipsisV></FaEllipsisV>
             </MenuButton>
             <MenuList>
-              {showView ? (
-                <MenuItem
-                  onClick={() => {
-                    setViewRow(row);
-                    onOpen();
-                  }}
-                >
-                  <Text>View</Text>
-                </MenuItem>
-              ) : null}
-
+              <MenuItem
+                onClick={() => {
+                  setViewRow(row);
+                  onOpen();
+                }}
+              >
+                <Text>View</Text>
+              </MenuItem>
               <NextLink
                 href="/dashboard/pengguna/edit/[id]"
                 as={`/dashboard/pengguna/edit/${row.id}`}
@@ -114,7 +111,6 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
                   <MenuItem>Edit</MenuItem>
                 </Link>
               </NextLink>
-
               <MenuItem
                 onClick={() => {
                   setCurrentRow(row);

@@ -1,14 +1,13 @@
-import { Button } from "@chakra-ui/button";
 import {
+  Box,
   Modal,
-  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  OrderedList,
-  ListItem,
+  ModalOverlay,
+  VStack,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -33,13 +32,15 @@ export const SimpleTableModal: React.FC<SimpleTableModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           {row ? (
-            <OrderedList>
-              {headers.map((header, i) => (
-                <ListItem key={i}>
-                  {header.label + ": " + row[header.key]}
-                </ListItem>
-              ))}
-            </OrderedList>
+            <VStack>
+              {headers.map((header, i) => {
+                return typeof header.render !== "function" ? (
+                  <Box width="100%" key={i}>
+                    <Text>{header.label + ": " + row[header.key]}</Text>
+                  </Box>
+                ) : null;
+              })}
+            </VStack>
           ) : null}
         </ModalBody>
       </ModalContent>
