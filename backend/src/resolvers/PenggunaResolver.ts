@@ -1,4 +1,4 @@
-import { createWriteStream, unlinkSync } from "fs";
+import { unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
   Arg,
@@ -12,6 +12,7 @@ import {
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Pengguna } from "../entities/Pengguna";
+import { uploadFile } from "../utils/UploadFile";
 import { isAuth } from "./../middlewares/isAuth";
 import { isOperator } from "./../middlewares/isOperator";
 import { PaginatedInput } from "./inputs/PaginatedInput";
@@ -42,19 +43,10 @@ export class PenggunaResolver {
     }
 
     if (filename) {
-      const upload = await new Promise(async (resolve, reject) =>
-        createReadStream()
-          .pipe(
-            createWriteStream(
-              `${__dirname}/../../uploads/${payload.fotoProfil}`,
-              {
-                autoClose: true,
-              }
-            )
-          )
-          .on("finish", () => resolve(true))
-          .on("error", () => reject(false))
-      );
+      const upload = await uploadFile({
+        createReadStream,
+        filename: payload.fotoProfil,
+      });
 
       if (!upload) {
         return {
@@ -147,19 +139,10 @@ export class PenggunaResolver {
     }
 
     if (filename) {
-      const upload = await new Promise(async (resolve, reject) =>
-        createReadStream()
-          .pipe(
-            createWriteStream(
-              `${__dirname}/../../uploads/${payload.fotoProfil}`,
-              {
-                autoClose: true,
-              }
-            )
-          )
-          .on("finish", () => resolve(true))
-          .on("error", () => reject(false))
-      );
+      const upload = await uploadFile({
+        createReadStream,
+        filename: payload.fotoProfil,
+      });
 
       if (!upload) {
         return {
