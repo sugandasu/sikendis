@@ -16,6 +16,6 @@ export class PenggunaInput {
   @Field()
   subBagian: string;
 
-  @Field()
-  fotoProfil: string;
+  @Field(() => String, { nullable: true })
+  fotoProfil: string | null;
 }

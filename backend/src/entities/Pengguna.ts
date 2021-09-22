@@ -35,9 +35,9 @@ export class Pengguna extends BaseEntity {
   @Column()
   subBagian!: string;
 
-  @Field()
-  @Column()
-  fotoProfil!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  fotoProfil: string | null;
 
   @Field()
   @CreateDateColumn()

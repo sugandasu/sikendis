@@ -93,7 +93,6 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
-  singleUpload: Scalars['Boolean'];
   updateKendaraan: KendaraanResponse;
   updatePengguna: PenggunaResponse;
 };
@@ -105,7 +104,7 @@ export type MutationCreateKendaraanArgs = {
 
 
 export type MutationCreatePenggunaArgs = {
-  fotoProfil: Scalars['Upload'];
+  fotoProfil?: Maybe<Scalars['Upload']>;
   payload: PenggunaInput;
 };
 
@@ -130,11 +129,6 @@ export type MutationRegisterArgs = {
 };
 
 
-export type MutationSingleUploadArgs = {
-  file: Scalars['Upload'];
-};
-
-
 export type MutationUpdateKendaraanArgs = {
   id: Scalars['Int'];
   payload: KendaraanInput;
@@ -142,6 +136,7 @@ export type MutationUpdateKendaraanArgs = {
 
 
 export type MutationUpdatePenggunaArgs = {
+  fotoProfil?: Maybe<Scalars['Upload']>;
   id: Scalars['Int'];
   payload: PenggunaInput;
 };
@@ -155,7 +150,7 @@ export type PaginatedInput = {
 export type Pengguna = {
   __typename?: 'Pengguna';
   createdAt: Scalars['DateTime'];
-  fotoProfil: Scalars['String'];
+  fotoProfil?: Maybe<Scalars['String']>;
   id: Scalars['Float'];
   instansi: Scalars['String'];
   jabatan: Scalars['String'];
@@ -166,6 +161,7 @@ export type Pengguna = {
 };
 
 export type PenggunaInput = {
+  fotoProfil?: Maybe<Scalars['String']>;
   instansi: Scalars['String'];
   jabatan: Scalars['String'];
   nama: Scalars['String'];
@@ -242,7 +238,7 @@ export type UserResponse = {
 
 export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any };
 
-export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string };
+export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> };
 
 export type CreateKendaraanMutationVariables = Exact<{
   payload: KendaraanInput;
@@ -257,7 +253,7 @@ export type CreatePenggunaMutationVariables = Exact<{
 }>;
 
 
-export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+export type CreatePenggunaMutation = { __typename?: 'Mutation', createPengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
 
 export type DeleteKendaraanMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -290,13 +286,6 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
 
-export type SingleUploadMutationVariables = Exact<{
-  file: Scalars['Upload'];
-}>;
-
-
-export type SingleUploadMutation = { __typename?: 'Mutation', singleUpload: boolean };
-
 export type UpdateKendaraanMutationVariables = Exact<{
   id: Scalars['Int'];
   payload: KendaraanInput;
@@ -308,10 +297,11 @@ export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan
 export type UpdatePenggunaMutationVariables = Exact<{
   id: Scalars['Int'];
   payload: PenggunaInput;
+  fotoProfil: Scalars['Upload'];
 }>;
 
 
-export type UpdatePenggunaMutation = { __typename?: 'Mutation', updatePengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+export type UpdatePenggunaMutation = { __typename?: 'Mutation', updatePengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
 
 export type KendaraanQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -337,14 +327,14 @@ export type PenggunaQueryVariables = Exact<{
 }>;
 
 
-export type PenggunaQuery = { __typename?: 'Query', pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> };
+export type PenggunaQuery = { __typename?: 'Query', pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> };
 
 export type PenggunasQueryVariables = Exact<{
   options: PaginatedInput;
 }>;
 
 
-export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil: string }> } };
+export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
 
 export const RegularKendaraanFragmentDoc = gql`
     fragment RegularKendaraan on Kendaraan {
@@ -603,37 +593,6 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const SingleUploadDocument = gql`
-    mutation SingleUpload($file: Upload!) {
-  singleUpload(file: $file)
-}
-    `;
-export type SingleUploadMutationFn = Apollo.MutationFunction<SingleUploadMutation, SingleUploadMutationVariables>;
-
-/**
- * __useSingleUploadMutation__
- *
- * To run a mutation, you first call `useSingleUploadMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSingleUploadMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [singleUploadMutation, { data, loading, error }] = useSingleUploadMutation({
- *   variables: {
- *      file: // value for 'file'
- *   },
- * });
- */
-export function useSingleUploadMutation(baseOptions?: Apollo.MutationHookOptions<SingleUploadMutation, SingleUploadMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SingleUploadMutation, SingleUploadMutationVariables>(SingleUploadDocument, options);
-      }
-export type SingleUploadMutationHookResult = ReturnType<typeof useSingleUploadMutation>;
-export type SingleUploadMutationResult = Apollo.MutationResult<SingleUploadMutation>;
-export type SingleUploadMutationOptions = Apollo.BaseMutationOptions<SingleUploadMutation, SingleUploadMutationVariables>;
 export const UpdateKendaraanDocument = gql`
     mutation UpdateKendaraan($id: Int!, $payload: KendaraanInput!) {
   updateKendaraan(id: $id, payload: $payload) {
@@ -675,8 +634,8 @@ export type UpdateKendaraanMutationHookResult = ReturnType<typeof useUpdateKenda
 export type UpdateKendaraanMutationResult = Apollo.MutationResult<UpdateKendaraanMutation>;
 export type UpdateKendaraanMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>;
 export const UpdatePenggunaDocument = gql`
-    mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!) {
-  updatePengguna(id: $id, payload: $payload) {
+    mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!, $fotoProfil: Upload!) {
+  updatePengguna(id: $id, payload: $payload, fotoProfil: $fotoProfil) {
     errors {
       field
       message
@@ -704,6 +663,7 @@ export type UpdatePenggunaMutationFn = Apollo.MutationFunction<UpdatePenggunaMut
  *   variables: {
  *      id: // value for 'id'
  *      payload: // value for 'payload'
+ *      fotoProfil: // value for 'fotoProfil'
  *   },
  * });
  */

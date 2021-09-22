@@ -4,8 +4,9 @@ import { Flex, Link, Stack, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { DashboardLayout } from "../../../../components/DashboardLayout";
+import { FileField } from "../../../../components/FileField";
 import { InputField } from "../../../../components/InputField";
 import {
   usePenggunaQuery,
@@ -30,6 +31,7 @@ const DashboardPenggunaEdit: React.FC<{}> = ({}) => {
     variables: { id: intId },
   });
   const [updatePengguna] = useUpdatePenggunaMutation();
+  const [fotoProfil, setFotoProfil] = useState<File>();
 
   if (loading) {
     return <Box>Loading...</Box>;
@@ -64,7 +66,7 @@ const DashboardPenggunaEdit: React.FC<{}> = ({}) => {
                 }}
                 onSubmit={async (values, { setErrors }) => {
                   const response = await updatePengguna({
-                    variables: { id: intId, payload: values },
+                    variables: { id: intId, payload: values, fotoProfil },
                     update: (cache) => {
                       cache.evict({ fieldName: "penggunas" });
                     },
@@ -76,7 +78,7 @@ const DashboardPenggunaEdit: React.FC<{}> = ({}) => {
                   }
                 }}
               >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, setFieldValue }) => (
                   <Form>
                     <InputField name="nip" label="Nip" placeholder="nip" />
                     <InputField name="nama" label="Nama" placeholder="nama" />
@@ -95,10 +97,12 @@ const DashboardPenggunaEdit: React.FC<{}> = ({}) => {
                       label="Sub bagian"
                       placeholder="subBagian"
                     />
-                    <InputField
+                    <FileField
                       name="fotoProfil"
-                      label="Foto profil"
-                      placeholder="fotoProfil"
+                      label="Foto Profil"
+                      placeholder="Foto Profil"
+                      setFile={setFotoProfil}
+                      setFieldValue={setFieldValue}
                     />
                     <Button
                       mt={4}

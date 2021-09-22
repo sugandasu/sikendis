@@ -1,4 +1,4 @@
-import { createWriteStream } from "fs";
+import { createWriteStream, unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
   Arg,
@@ -24,34 +24,38 @@ export class PenggunaResolver {
   @UseMiddleware(isOperator)
   async createPengguna(
     @Arg("payload") payload: PenggunaInput,
-    @Arg("fotoProfil", () => GraphQLUpload)
-    { createReadStream }: FileUpload
+    @Arg("fotoProfil", () => GraphQLUpload, { nullable: true })
+    { createReadStream, filename }: FileUpload
   ): Promise<PenggunaResponse> {
-    const errors = await penggunaValidation(payload);
+    const errors = await penggunaValidation(payload, filename, null);
     if (errors) {
       return { errors };
     }
 
-    const upload = await new Promise(async (resolve, reject) =>
-      createReadStream()
-        .pipe(
-          createWriteStream(
-            `${__dirname}/../../uploads/${payload.fotoProfil}`,
-            {
-              autoClose: true,
-            }
+    if (filename) {
+      const upload = await new Promise(async (resolve, reject) =>
+        createReadStream()
+          .pipe(
+            createWriteStream(
+              `${__dirname}/../../uploads/${payload.fotoProfil}`,
+              {
+                autoClose: true,
+              }
+            )
           )
-        )
-        .on("finish", () => resolve(true))
-        .on("error", () => reject(false))
-    );
+          .on("finish", () => resolve(true))
+          .on("error", () => reject(false))
+      );
 
-    if (!upload) {
-      return {
-        errors: [
-          { field: "fotoProfil", message: "Foto profil tidak boleh kosong" },
-        ],
-      };
+      if (!upload) {
+        return {
+          errors: [
+            { field: "fotoProfil", message: "Foto profil tidak boleh kosong" },
+          ],
+        };
+      }
+    } else {
+      payload.fotoProfil = null;
     }
 
     const pengguna = await Pengguna.create({ ...payload }).save();
@@ -112,14 +116,16 @@ export class PenggunaResolver {
   @UseMiddleware(isOperator)
   async updatePengguna(
     @Arg("id", () => Int) id: number,
-    @Arg("payload") payload: PenggunaInput
+    @Arg("payload") payload: PenggunaInput,
+    @Arg("fotoProfil", () => GraphQLUpload, { nullable: true })
+    { createReadStream, filename }: FileUpload
   ): Promise<PenggunaResponse> {
-    const errors = await penggunaValidation(payload, id);
+    const errors = await penggunaValidation(payload, filename, id);
     if (errors) {
       return { errors };
     }
 
-    const pengguna = Pengguna.findOne({ id });
+    const pengguna = await Pengguna.findOne({ id });
     if (!pengguna) {
       return {
         errors: [
@@ -129,6 +135,34 @@ export class PenggunaResolver {
           },
         ],
       };
+    }
+
+    if (filename) {
+      const upload = await new Promise(async (resolve, reject) =>
+        createReadStream()
+          .pipe(
+            createWriteStream(
+              `${__dirname}/../../uploads/${payload.fotoProfil}`,
+              {
+                autoClose: true,
+              }
+            )
+          )
+          .on("finish", () => resolve(true))
+          .on("error", () => reject(false))
+      );
+
+      if (!upload) {
+        return {
+          errors: [
+            { field: "fotoProfil", message: "Foto profil tidak boleh kosong" },
+          ],
+        };
+      }
+
+      if (pengguna.fotoProfil) {
+        unlinkSync(`${__dirname}/../../uploads/${pengguna.fotoProfil}`);
+      }
     }
 
     const result = await getConnection()
@@ -148,7 +182,11 @@ export class PenggunaResolver {
   @UseMiddleware(isOperator)
   async deletePengguna(@Arg("id", () => Int) id: number): Promise<Boolean> {
     try {
+      const pengguna = await Pengguna.findOne({ id });
       await Pengguna.delete({ id });
+      if (pengguna?.fotoProfil) {
+        unlinkSync(`${__dirname}/../../uploads/${pengguna.fotoProfil}`);
+      }
       return true;
     } catch (error) {
       return false;

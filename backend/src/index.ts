@@ -90,6 +90,9 @@ const main = async () => {
     cors: false,
   });
 
+  const dir = path.join(__dirname, "./../uploads");
+  app.use(express.static(dir));
+
   app.listen(parseInt(process.env.PORT), () => {
     console.log(
       `backend is listening on port ${process.env.DOMAIN_NAME}:${process.env.PORT}`

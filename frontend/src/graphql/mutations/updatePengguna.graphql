@@ -1,5 +1,9 @@
-mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!) {
-  updatePengguna(id: $id, payload: $payload) {
+mutation UpdatePengguna(
+  $id: Int!
+  $payload: PenggunaInput!
+  $fotoProfil: Upload!
+) {
+  updatePengguna(id: $id, payload: $payload, fotoProfil: $fotoProfil) {
     errors {
       field
       message
