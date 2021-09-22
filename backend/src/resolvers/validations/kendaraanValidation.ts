@@ -8,8 +8,8 @@ export const kendaraanValidation = async (
 ) => {
   if (
     !(
-      payload.tipeRoda.toLowerCase() === "roda 2" ||
-      payload.tipeRoda.toLowerCase() === "roda 4"
+      payload.tipeRoda.toLowerCase() === "Roda 2" ||
+      payload.tipeRoda.toLowerCase() === "Roda 4"
     )
   ) {
     return [{ field: "tipeRoda", message: "Tipe roda tidak valid" }];

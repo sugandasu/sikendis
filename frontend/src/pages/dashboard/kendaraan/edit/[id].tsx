@@ -38,8 +38,8 @@ const DashboardKendaraanEdit: React.FC<{}> = ({}) => {
     return <Box>Data tidak ditemukan</Box>;
   }
   const tipeRodas = [
-    { text: "Kendaraan Roda 2", value: "roda 2" },
-    { text: "Kendaraan Roda 4", value: "roda 4" },
+    { text: "Kendaraan Roda 2", value: "Roda 2" },
+    { text: "Kendaraan Roda 4", value: "Roda 4" },
   ];
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
