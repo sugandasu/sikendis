@@ -176,6 +176,7 @@ const DashboardKendaraanIndex: React.FC<{}> = ({}) => {
               <SimpleTable
                 headers={headers}
                 data={data.kendaraans}
+                tableCaption="Kendaraan"
               ></SimpleTable>
             </Box>
           </Box>

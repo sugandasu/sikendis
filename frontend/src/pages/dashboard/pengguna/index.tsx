@@ -145,6 +145,7 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
               <SimpleTable
                 headers={headers}
                 data={data.penggunas}
+                tableCaption="Pengguna Kendaraan"
               ></SimpleTable>
             </Box>
           </Box>

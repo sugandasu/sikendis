@@ -50,9 +50,14 @@ interface Data {
 interface SimpleTableProps {
   headers: Header[];
   data: Data;
+  tableCaption: string;
 }
 
-export const SimpleTable: React.FC<SimpleTableProps> = ({ headers, data }) => {
+export const SimpleTable: React.FC<SimpleTableProps> = ({
+  headers,
+  data,
+  tableCaption,
+}) => {
   const [isSm] = useMediaQuery("(max-width: 500px)");
   const [isMd] = useMediaQuery("(max-width: 780px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -101,7 +106,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({ headers, data }) => {
         </Flex>
       </Flex>
       <Table>
-        <TableCaption>Pengguna kendaraan</TableCaption>
+        <TableCaption>{tableCaption}</TableCaption>
         <Thead>
           <Tr>
             {headers.map((header) => (
