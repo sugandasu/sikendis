@@ -1,0 +1,6 @@
+query PenggunaSearchBy($options: SearchByInput!) {
+  penggunaSearchBy(options: $options) {
+    id
+    nama
+  }
+}

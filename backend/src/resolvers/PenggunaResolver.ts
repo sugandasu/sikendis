@@ -17,6 +17,7 @@ import { isAuth } from "./../middlewares/isAuth";
 import { isOperator } from "./../middlewares/isOperator";
 import { PaginatedInput } from "./inputs/PaginatedInput";
 import { PenggunaInput } from "./inputs/PenggunaInput";
+import { SearchByInput } from "./inputs/SearchByInput";
 import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { PenggunaResponse } from "./responses/PenggunaResponse";
 import { penggunaValidation } from "./validations/penggunaValidation";
@@ -183,5 +184,23 @@ export class PenggunaResolver {
     } catch (error) {
       return false;
     }
+  }
+
+  @Query(() => [Pengguna], { nullable: true })
+  @UseMiddleware(isAuth)
+  async penggunaSearchBy(
+    @Arg("options") options: SearchByInput
+  ): Promise<Pengguna | undefined> {
+    const params = ["%" + options.value + "%", options.limit];
+    const data = await getConnection().query(
+      `
+      SELECT *
+      FROM pengguna
+      WHERE "${options.column}" LIKE $1
+      LIMIT $2
+      `,
+      params
+    );
+    return data;
   }
 }
