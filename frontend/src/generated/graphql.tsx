@@ -265,6 +265,7 @@ export type Query = {
   peminjaman?: Maybe<Peminjaman>;
   peminjamans: PeminjamanPaginated;
   pengguna?: Maybe<Pengguna>;
+  penggunaSearchBy?: Maybe<Array<Pengguna>>;
   penggunas: PenggunaPaginated;
 };
 
@@ -296,6 +297,11 @@ export type QueryPeminjamansArgs = {
 
 export type QueryPenggunaArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryPenggunaSearchByArgs = {
+  options: SearchByInput;
 };
 
 
@@ -333,7 +339,7 @@ export type UserResponse = {
 
 export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any };
 
-export type RegularPeminjamanFragment = { __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> };
+export type RegularPeminjamanFragment = { __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string>, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } };
 
 export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> };
 
@@ -351,7 +357,7 @@ export type CreatePeminjamanMutationVariables = Exact<{
 }>;
 
 
-export type CreatePeminjamanMutation = { __typename?: 'Mutation', createPeminjaman: { __typename?: 'PeminjamanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> } };
+export type CreatePeminjamanMutation = { __typename?: 'Mutation', createPeminjaman: { __typename?: 'PeminjamanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string>, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type CreatePenggunaMutationVariables = Exact<{
   payload: PenggunaInput;
@@ -415,7 +421,7 @@ export type UpdatePeminjamanMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePeminjamanMutation = { __typename?: 'Mutation', updatePeminjaman: { __typename?: 'PeminjamanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> } };
+export type UpdatePeminjamanMutation = { __typename?: 'Mutation', updatePeminjaman: { __typename?: 'PeminjamanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string>, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type UpdatePenggunaMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -457,14 +463,14 @@ export type PeminjamanQueryVariables = Exact<{
 }>;
 
 
-export type PeminjamanQuery = { __typename?: 'Query', peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> };
+export type PeminjamanQuery = { __typename?: 'Query', peminjaman?: Maybe<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string>, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> };
 
 export type PeminjamansQueryVariables = Exact<{
   options: PaginatedInput;
 }>;
 
 
-export type PeminjamansQuery = { __typename?: 'Query', peminjamans: { __typename?: 'PeminjamanPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string> }> } };
+export type PeminjamansQuery = { __typename?: 'Query', peminjamans: { __typename?: 'PeminjamanPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string>, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type PenggunaQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -472,6 +478,13 @@ export type PenggunaQueryVariables = Exact<{
 
 
 export type PenggunaQuery = { __typename?: 'Query', pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> }> };
+
+export type PenggunaSearchByQueryVariables = Exact<{
+  options: SearchByInput;
+}>;
+
+
+export type PenggunaSearchByQuery = { __typename?: 'Query', penggunaSearchBy?: Maybe<Array<{ __typename?: 'Pengguna', id: number, nama: string }>> };
 
 export type PenggunasQueryVariables = Exact<{
   options: PaginatedInput;
@@ -502,21 +515,6 @@ export const RegularKendaraanFragmentDoc = gql`
   updatedAt
 }
     `;
-export const RegularPeminjamanFragmentDoc = gql`
-    fragment RegularPeminjaman on Peminjaman {
-  id
-  nomorDisposisi
-  fileDisposisi
-  fileDisposisiUrl
-  nomorSuratPermohonan
-  fileSuratPermohonan
-  fileSuratPermohonanUrl
-  tanggalMulai
-  tanggalSelesai
-  nomorHpSupir
-  keterangan
-}
-    `;
 export const RegularPenggunaFragmentDoc = gql`
     fragment RegularPengguna on Pengguna {
   id
@@ -529,6 +527,28 @@ export const RegularPenggunaFragmentDoc = gql`
   fotoProfilUrl
 }
     `;
+export const RegularPeminjamanFragmentDoc = gql`
+    fragment RegularPeminjaman on Peminjaman {
+  id
+  kendaraan {
+    ...RegularKendaraan
+  }
+  pengguna {
+    ...RegularPengguna
+  }
+  nomorDisposisi
+  fileDisposisi
+  fileDisposisiUrl
+  nomorSuratPermohonan
+  fileSuratPermohonan
+  fileSuratPermohonanUrl
+  tanggalMulai
+  tanggalSelesai
+  nomorHpSupir
+  keterangan
+}
+    ${RegularKendaraanFragmentDoc}
+${RegularPenggunaFragmentDoc}`;
 export const CreateKendaraanDocument = gql`
     mutation CreateKendaraan($payload: KendaraanInput!) {
   createKendaraan(payload: $payload) {
@@ -1216,6 +1236,42 @@ export function usePenggunaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<P
 export type PenggunaQueryHookResult = ReturnType<typeof usePenggunaQuery>;
 export type PenggunaLazyQueryHookResult = ReturnType<typeof usePenggunaLazyQuery>;
 export type PenggunaQueryResult = Apollo.QueryResult<PenggunaQuery, PenggunaQueryVariables>;
+export const PenggunaSearchByDocument = gql`
+    query PenggunaSearchBy($options: SearchByInput!) {
+  penggunaSearchBy(options: $options) {
+    id
+    nama
+  }
+}
+    `;
+
+/**
+ * __usePenggunaSearchByQuery__
+ *
+ * To run a query within a React component, call `usePenggunaSearchByQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePenggunaSearchByQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePenggunaSearchByQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function usePenggunaSearchByQuery(baseOptions: Apollo.QueryHookOptions<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>(PenggunaSearchByDocument, options);
+      }
+export function usePenggunaSearchByLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>(PenggunaSearchByDocument, options);
+        }
+export type PenggunaSearchByQueryHookResult = ReturnType<typeof usePenggunaSearchByQuery>;
+export type PenggunaSearchByLazyQueryHookResult = ReturnType<typeof usePenggunaSearchByLazyQuery>;
+export type PenggunaSearchByQueryResult = Apollo.QueryResult<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>;
 export const PenggunasDocument = gql`
     query Penggunas($options: PaginatedInput!) {
   penggunas(options: $options) {

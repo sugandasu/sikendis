@@ -1,5 +1,11 @@
 fragment RegularPeminjaman on Peminjaman {
   id
+  kendaraan {
+    ...RegularKendaraan
+  }
+  pengguna {
+    ...RegularPengguna
+  }
   nomorDisposisi
   fileDisposisi
   fileDisposisiUrl
