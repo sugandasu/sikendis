@@ -68,7 +68,7 @@ const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
       key: "kendaraan",
       hideSm: true,
       render: (row) => {
-        return row.kendaraan.nomorPolisi;
+        return row?.kendaraan?.nomorPolisi;
       },
     },
     {
@@ -76,7 +76,7 @@ const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
       key: "pengguna",
       hideSm: true,
       render: (row) => {
-        return row.pengguna.nama;
+        return row?.pengguna?.nama;
       },
     },
     { label: "Nomor Disposisi", key: "nomorDisposisi", hide: true },
