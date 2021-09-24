@@ -5,31 +5,34 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { useField } from "formik";
-import React, { InputHTMLAttributes } from "react";
+import React, { SelectHTMLAttributes } from "react";
 
-type SelectionFieldProps = InputHTMLAttributes<HTMLSelectElement> & {
+type SelectionFieldProps = SelectHTMLAttributes<HTMLSelectElement> & {
   name: string;
   label: string;
   placeholder: string;
-  options?: {
-    text: string;
-    value: string;
-  }[];
+  options: any[];
+  textField: string;
+  valueField: string;
 };
 
 export const SelectionField: React.FC<SelectionFieldProps> = ({
   label,
+  placeholder,
   options,
+  textField,
+  valueField,
   ...props
 }) => {
   const [field, { error }] = useField(props);
+  // console.log(props);
   return (
     <FormControl isInvalid={!!error} mb={2}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
-      <Select {...field} {...props} id={field.name}>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.text}
+      <Select id={field.name} placeholder={placeholder} {...field}>
+        {options.map((option, i) => (
+          <option key={i} value={option[valueField]}>
+            {option[textField]}
           </option>
         ))}
       </Select>

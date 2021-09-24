@@ -80,6 +80,8 @@ const DashboardKendaraanTambah: React.FC<{}> = ({}) => {
                       label="Tipe Kendaraan"
                       placeholder="Tipe Kendaraan"
                       options={tipeRodas}
+                      textField="text"
+                      valueField="id"
                     />
                     <InputField
                       name="kode"
