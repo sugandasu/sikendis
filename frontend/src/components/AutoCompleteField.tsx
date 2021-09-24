@@ -15,11 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import React, { InputHTMLAttributes, useState } from "react";
-import { FaCarSide } from "react-icons/fa";
+import { IconType } from "react-icons";
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
+  placeholder: string;
+  ChildrenIcon: IconType;
   options: any[];
   fieldName: string;
   setSearch: (value: any) => void;
@@ -28,6 +30,8 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 
 export const AutoCompleteField: React.FC<InputFieldProps> = ({
   label,
+  placeholder,
+  ChildrenIcon,
   size: _,
   options,
   fieldName,
@@ -44,6 +48,7 @@ export const AutoCompleteField: React.FC<InputFieldProps> = ({
       <Input
         value={value}
         id={field.name}
+        placeholder={placeholder}
         onChange={onOpen}
         onClick={() => {
           onOpen();
@@ -59,10 +64,10 @@ export const AutoCompleteField: React.FC<InputFieldProps> = ({
             <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
-                children={<FaCarSide color="gray.300" />}
+                children={<ChildrenIcon color="gray.300" />}
               />
               <Input
-                placeholder="Kendaraan"
+                placeholder={placeholder}
                 value={value}
                 autoComplete="off"
                 onChange={(event) => {
