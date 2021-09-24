@@ -259,6 +259,7 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   kendaraan?: Maybe<Kendaraan>;
+  kendaraanSearchBy?: Maybe<Array<Kendaraan>>;
   kendaraans: KendaraanPaginated;
   me?: Maybe<User>;
   peminjaman?: Maybe<Peminjaman>;
@@ -270,6 +271,11 @@ export type Query = {
 
 export type QueryKendaraanArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryKendaraanSearchByArgs = {
+  options: SearchByInput;
 };
 
 
@@ -295,6 +301,12 @@ export type QueryPenggunaArgs = {
 
 export type QueryPenggunasArgs = {
   options: PaginatedInput;
+};
+
+export type SearchByInput = {
+  column: Scalars['String'];
+  limit: Scalars['Int'];
+  value?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -420,6 +432,13 @@ export type KendaraanQueryVariables = Exact<{
 
 
 export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> };
+
+export type KendaraanSearchByQueryVariables = Exact<{
+  options: SearchByInput;
+}>;
+
+
+export type KendaraanSearchByQuery = { __typename?: 'Query', kendaraanSearchBy?: Maybe<Array<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }>> };
 
 export type KendaraansQueryVariables = Exact<{
   options: PaginatedInput;
@@ -973,6 +992,41 @@ export function useKendaraanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type KendaraanQueryHookResult = ReturnType<typeof useKendaraanQuery>;
 export type KendaraanLazyQueryHookResult = ReturnType<typeof useKendaraanLazyQuery>;
 export type KendaraanQueryResult = Apollo.QueryResult<KendaraanQuery, KendaraanQueryVariables>;
+export const KendaraanSearchByDocument = gql`
+    query KendaraanSearchBy($options: SearchByInput!) {
+  kendaraanSearchBy(options: $options) {
+    ...RegularKendaraan
+  }
+}
+    ${RegularKendaraanFragmentDoc}`;
+
+/**
+ * __useKendaraanSearchByQuery__
+ *
+ * To run a query within a React component, call `useKendaraanSearchByQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKendaraanSearchByQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKendaraanSearchByQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useKendaraanSearchByQuery(baseOptions: Apollo.QueryHookOptions<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>(KendaraanSearchByDocument, options);
+      }
+export function useKendaraanSearchByLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>(KendaraanSearchByDocument, options);
+        }
+export type KendaraanSearchByQueryHookResult = ReturnType<typeof useKendaraanSearchByQuery>;
+export type KendaraanSearchByLazyQueryHookResult = ReturnType<typeof useKendaraanSearchByLazyQuery>;
+export type KendaraanSearchByQueryResult = Apollo.QueryResult<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>;
 export const KendaraansDocument = gql`
     query Kendaraans($options: PaginatedInput!) {
   kendaraans(options: $options) {
