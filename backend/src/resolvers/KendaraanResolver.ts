@@ -1,3 +1,4 @@
+import { SearchByInput } from "./inputs/SearchByInput";
 import { isAuth } from "./../middlewares/isAuth";
 import { getConnection } from "typeorm";
 import {
@@ -137,5 +138,23 @@ export class KendaraanResolver {
     } catch (error) {
       return false;
     }
+  }
+
+  @Query(() => [Kendaraan], { nullable: true })
+  @UseMiddleware(isAuth)
+  async kendaraanSearchBy(
+    @Arg("options") options: SearchByInput
+  ): Promise<Kendaraan | undefined> {
+    const params = ["%" + options.value + "%", options.limit];
+    const data = await getConnection().query(
+      `
+      SELECT *
+      FROM kendaraan
+      WHERE "${options.column}" LIKE $1
+      LIMIT $2
+      `,
+      params
+    );
+    return data;
   }
 }
