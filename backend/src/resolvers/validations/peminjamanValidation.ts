@@ -71,7 +71,7 @@ export const peminjamanValidation = async (
     }
   }
 
-  if (payload.tanggalMulai) {
+  if (!payload.tanggalMulai) {
     return [
       {
         field: "tanggalMulai",
