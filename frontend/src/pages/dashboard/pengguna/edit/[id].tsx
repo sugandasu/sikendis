@@ -62,7 +62,7 @@ const DashboardPenggunaEdit: React.FC<{}> = ({}) => {
                   jabatan: data.pengguna.jabatan,
                   instansi: data.pengguna.instansi,
                   subBagian: data.pengguna.subBagian,
-                  fotoProfil: null,
+                  fotoProfil: data.pengguna.fotoProfil,
                 }}
                 onSubmit={async (values, { setErrors }) => {
                   const response = await updatePengguna({

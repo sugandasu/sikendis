@@ -1,7 +1,7 @@
 mutation UpdatePengguna(
   $id: Int!
   $payload: PenggunaInput!
-  $fotoProfil: Upload!
+  $fotoProfil: Upload
 ) {
   updatePengguna(id: $id, payload: $payload, fotoProfil: $fotoProfil) {
     errors {
