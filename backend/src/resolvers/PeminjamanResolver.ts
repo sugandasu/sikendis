@@ -48,6 +48,16 @@ export class PeminjamanResolver {
     return PenggunaLoader().load(peminjaman.penggunaId);
   }
 
+  @FieldResolver(() => Peminjaman)
+  tanggalMulai(@Root() peminjaman: Peminjaman) {
+    return new Date(peminjaman.tanggalMulai);
+  }
+
+  @FieldResolver(() => Peminjaman)
+  tanggalSelesai(@Root() peminjaman: Peminjaman) {
+    return new Date(peminjaman.tanggalSelesai);
+  }
+
   @Mutation(() => PeminjamanResponse)
   async createPeminjaman(
     @Arg("payload") payload: PeminjamanInput,
@@ -170,12 +180,9 @@ export class PeminjamanResolver {
     @Arg("id", () => Int) id: number,
     @Arg("payload") payload: PeminjamanInput,
     @Arg("fileDisposisi", () => GraphQLUpload, { nullable: true })
-    { createReadStream: disposisiStream, filename: fileDisposisi }: FileUpload,
+    fileDisposisi: FileUpload,
     @Arg("fileSuratPermohonan", () => GraphQLUpload, { nullable: true })
-    {
-      createReadStream: permohonanStream,
-      filename: fileSuratPermohonan,
-    }: FileUpload
+    fileSuratPermohonan: FileUpload
   ): Promise<PeminjamanResponse> {
     const errors = await peminjamanValidation(payload, id);
     if (errors) {
@@ -183,39 +190,47 @@ export class PeminjamanResolver {
     }
 
     if (fileDisposisi) {
-      const upload = await uploadFile({
-        createReadStream: disposisiStream,
-        filename: payload.fileDisposisi,
-      });
+      const { createReadStream, filename } = fileDisposisi;
 
-      if (!upload) {
-        return {
-          errors: [
-            {
-              field: "fileDisposisi",
-              message: "File disposisi gagal disimpan",
-            },
-          ],
-        };
+      if (filename) {
+        const upload = await uploadFile({
+          createReadStream: createReadStream,
+          filename: payload.fileDisposisi,
+        });
+
+        if (!upload) {
+          return {
+            errors: [
+              {
+                field: "fileDisposisi",
+                message: "File disposisi gagal disimpan",
+              },
+            ],
+          };
+        }
       }
-    } else {
-      return {
-        errors: [
-          {
-            field: "fileDisposisi",
-            message: "File disposisi tidak boleh kosong",
-          },
-        ],
-      };
     }
 
     if (fileSuratPermohonan) {
-      const upload = await uploadFile({
-        createReadStream: permohonanStream,
-        filename: payload.fileSuratPermohonan,
-      });
+      const { createReadStream, filename } = fileSuratPermohonan;
 
-      if (!upload) {
+      if (filename) {
+        const upload = await uploadFile({
+          createReadStream: createReadStream,
+          filename: payload.fileSuratPermohonan,
+        });
+
+        if (!upload) {
+          return {
+            errors: [
+              {
+                field: "fileSuratPermohonan",
+                message: "File surat permohonan gagal disimpan",
+              },
+            ],
+          };
+        }
+      } else {
         return {
           errors: [
             {
@@ -225,15 +240,6 @@ export class PeminjamanResolver {
           ],
         };
       }
-    } else {
-      return {
-        errors: [
-          {
-            field: "fileSuratPermohonan",
-            message: "File surat permohonan tidak boleh kosong",
-          },
-        ],
-      };
     }
 
     const result = await getConnection()

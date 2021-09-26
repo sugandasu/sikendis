@@ -24,6 +24,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   ChildrenIcon: IconType;
   options: any[];
   fieldName: string;
+  initialValue?: string;
   setSearch: (value: any) => void;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 };
@@ -35,13 +36,14 @@ export const AutoCompleteField: React.FC<InputFieldProps> = ({
   size: _,
   options,
   fieldName,
+  initialValue,
   setSearch,
   setFieldValue,
   ...props
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [field, { error }] = useField(props);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initialValue);
   return (
     <FormControl isInvalid={!!error} mb={2}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
@@ -52,7 +54,6 @@ export const AutoCompleteField: React.FC<InputFieldProps> = ({
         onChange={onOpen}
         onClick={() => {
           onOpen();
-          setValue(field.value);
         }}
       />
       <Input type="hidden" {...field} {...props} />

@@ -1,8 +1,8 @@
 mutation UpdatePeminjaman(
   $id: Int!
   $payload: PeminjamanInput!
-  $fileDisposisi: Upload!
-  $fileSuratPermohonan: Upload!
+  $fileDisposisi: Upload
+  $fileSuratPermohonan: Upload
 ) {
   updatePeminjaman(
     id: $id

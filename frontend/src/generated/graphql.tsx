@@ -416,8 +416,8 @@ export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan
 export type UpdatePeminjamanMutationVariables = Exact<{
   id: Scalars['Int'];
   payload: PeminjamanInput;
-  fileDisposisi: Scalars['Upload'];
-  fileSuratPermohonan: Scalars['Upload'];
+  fileDisposisi?: Maybe<Scalars['Upload']>;
+  fileSuratPermohonan?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -426,7 +426,7 @@ export type UpdatePeminjamanMutation = { __typename?: 'Mutation', updatePeminjam
 export type UpdatePenggunaMutationVariables = Exact<{
   id: Scalars['Int'];
   payload: PenggunaInput;
-  fotoProfil: Scalars['Upload'];
+  fotoProfil?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -890,7 +890,7 @@ export type UpdateKendaraanMutationHookResult = ReturnType<typeof useUpdateKenda
 export type UpdateKendaraanMutationResult = Apollo.MutationResult<UpdateKendaraanMutation>;
 export type UpdateKendaraanMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>;
 export const UpdatePeminjamanDocument = gql`
-    mutation UpdatePeminjaman($id: Int!, $payload: PeminjamanInput!, $fileDisposisi: Upload!, $fileSuratPermohonan: Upload!) {
+    mutation UpdatePeminjaman($id: Int!, $payload: PeminjamanInput!, $fileDisposisi: Upload, $fileSuratPermohonan: Upload) {
   updatePeminjaman(
     id: $id
     payload: $payload
@@ -937,7 +937,7 @@ export type UpdatePeminjamanMutationHookResult = ReturnType<typeof useUpdatePemi
 export type UpdatePeminjamanMutationResult = Apollo.MutationResult<UpdatePeminjamanMutation>;
 export type UpdatePeminjamanMutationOptions = Apollo.BaseMutationOptions<UpdatePeminjamanMutation, UpdatePeminjamanMutationVariables>;
 export const UpdatePenggunaDocument = gql`
-    mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!, $fotoProfil: Upload!) {
+    mutation UpdatePengguna($id: Int!, $payload: PenggunaInput!, $fotoProfil: Upload) {
   updatePengguna(id: $id, payload: $payload, fotoProfil: $fotoProfil) {
     errors {
       field

@@ -22,6 +22,7 @@ import {
   usePeminjamansQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
+import { getFormattedDate } from "../../../utils/getFormattedDate";
 
 const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
   useIsAuth();
@@ -66,7 +67,6 @@ const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
     {
       label: "Kendaraan",
       key: "kendaraan",
-      hideSm: true,
       render: (row) => {
         return row?.kendaraan?.nomorPolisi;
       },
@@ -74,7 +74,6 @@ const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
     {
       label: "Pengguna",
       key: "pengguna",
-      hideSm: true,
       render: (row) => {
         return row?.pengguna?.nama;
       },
@@ -85,6 +84,25 @@ const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
       key: "nomorSuratPermohonan",
       hide: true,
     },
+    {
+      label: "Tanggal Mulai",
+      key: "tanggalMulai",
+      hideSm: true,
+      hideMd: true,
+      render: (row: any) => {
+        return getFormattedDate(row.tanggalMulai);
+      },
+    },
+    {
+      label: "Tanggal Selesai",
+      key: "tanggalSelesai",
+      hideSm: true,
+      render: (row: any) => {
+        return getFormattedDate(row.tanggalSelesai);
+      },
+    },
+    { label: "Nomor HP Supir", key: "nomorHpSupir", hide: true },
+    { label: "Keterangan", key: "keterangan", hide: true },
     {
       label: "Aksi",
       key: "id",
