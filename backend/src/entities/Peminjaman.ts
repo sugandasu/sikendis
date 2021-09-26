@@ -4,8 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -20,21 +19,19 @@ export class Peminjaman extends BaseEntity {
   id!: number;
 
   @Field()
-  @Column()
+  @Column({ unique: false })
   kendaraanId!: number;
 
   @Field()
-  @OneToOne(() => Kendaraan)
-  @JoinColumn()
+  @ManyToOne(() => Kendaraan)
   kendaraan: Kendaraan;
 
   @Field()
-  @Column()
+  @Column({ unique: false })
   penggunaId!: number;
 
   @Field()
-  @OneToOne(() => Pengguna)
-  @JoinColumn()
+  @ManyToOne(() => Pengguna)
   pengguna: Pengguna;
 
   @Field()
