@@ -74,8 +74,8 @@ const DashboardPeminjamanTambah: React.FC<{}> = ({}) => {
             <Box>
               <Formik
                 initialValues={{
-                  kendaraanId: null,
-                  penggunaId: null,
+                  kendaraanId: -1,
+                  penggunaId: -1,
                   nomorDisposisi: "",
                   fileDisposisi: "",
                   nomorSuratPermohonan: "",
@@ -117,6 +117,7 @@ const DashboardPeminjamanTambah: React.FC<{}> = ({}) => {
                           ? kendaraans.kendaraanSearchBy
                           : []
                       }
+                      initialValue=""
                       setSearch={setSearchKendaraan}
                       fieldName="nomorPolisi"
                       setFieldValue={setFieldValue}
@@ -131,6 +132,7 @@ const DashboardPeminjamanTambah: React.FC<{}> = ({}) => {
                           ? penggunas.penggunaSearchBy
                           : []
                       }
+                      initialValue=""
                       setSearch={setSearchPengguna}
                       fieldName="nama"
                       setFieldValue={setFieldValue}
