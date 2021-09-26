@@ -52,8 +52,9 @@ export const AutoCompleteField: React.FC<InputFieldProps> = ({
         id={field.name}
         placeholder={placeholder}
         onChange={onOpen}
-        onClick={() => {
+        onClick={(event) => {
           onOpen();
+          setSearch(event.currentTarget.value);
         }}
       />
       <Input type="hidden" {...field} {...props} />
