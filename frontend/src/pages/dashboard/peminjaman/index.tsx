@@ -46,7 +46,7 @@ const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
     deletePeminjaman({
       variables: { id: currentRow.id },
       update: (cache) => {
-        cache.evict({ id: `peminjaman:${currentRow.id}` });
+        cache.evict({ id: `Peminjaman:${currentRow.id}` });
       },
     });
   };
