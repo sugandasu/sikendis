@@ -5,6 +5,7 @@ import {
   Link,
   StackDivider,
   Text,
+  useColorMode,
   useMediaQuery,
   VStack,
 } from "@chakra-ui/react";
@@ -19,14 +20,15 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
   const [lessThan640] = useMediaQuery("(max-width: 640px)");
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <>
       {menuIsOpen ? (
         <Box>
           <Box
-            height="100vh"
+            height="100%"
             width="320px"
-            bgColor="white"
+            bgColor={colorMode === "light" ? "white" : "gray.800"}
             position={lessThan640 ? "absolute" : null}
             zIndex={2}
           >
