@@ -1,5 +1,12 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Icon,
+} from "@chakra-ui/react";
 import React from "react";
+import { FaHome } from "react-icons";
 
 export interface BreadCrumbItem {
   text: string;
@@ -16,13 +23,17 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ breadCrumbs }) => {
     return null;
   }
   return (
-    <Breadcrumb fontSize="sm">
+    <Breadcrumb
+      fontSize="sm"
+      spacing="8px"
+      separator={<ChevronRightIcon color="white" />}
+    >
       {breadCrumbs.map((breadCrumb) => (
         <BreadcrumbItem
           key={breadCrumb.link}
           isCurrentPage={breadCrumb.isCurrentPage}
         >
-          <BreadcrumbLink href={breadCrumb.link} color="gray.500">
+          <BreadcrumbLink href={breadCrumb.link} color="gray.50">
             {breadCrumb.text}
           </BreadcrumbLink>
         </BreadcrumbItem>

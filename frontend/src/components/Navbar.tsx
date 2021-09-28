@@ -16,7 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setMenuIsClose,
 }) => {
   return (
-    <Flex width="100%" py={2} px={2} bg="red.500" align="center">
+    <Flex width="100%" py={3} px={5} bg="gray.600" align="center">
       <IconButton
         focusable="false"
         onClick={() => {
