@@ -29,8 +29,9 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
             boxShadow="md"
             height="100vh"
             width="300px"
+            top="0"
             bgColor={colorMode === "light" ? "white" : "gray.800"}
-            position={lessThan640 ? "fixed" : null}
+            position={lessThan640 ? "fixed" : "sticky"}
             zIndex={2}
           >
             <Box>
