@@ -1,17 +1,17 @@
 import {
   Box,
   Button,
+  Heading,
   Icon,
   Link,
-  StackDivider,
   Text,
   useColorMode,
   useMediaQuery,
-  VStack,
 } from "@chakra-ui/react";
-import React from "react";
 import NextLink from "next/link";
-import { FaCarSide, FaUsers, FaRegHourglass } from "react-icons/fa";
+import React from "react";
+import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
+import { SidebarMenu } from "./SidebarMenu";
 
 interface SidebarProps {
   menuIsOpen: boolean;
@@ -26,83 +26,49 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
       {menuIsOpen ? (
         <Box>
           <Box
-            height="100%"
-            width="320px"
+            boxShadow="md"
+            height="100vh"
+            width="300px"
             bgColor={colorMode === "light" ? "white" : "gray.800"}
-            position={lessThan640 ? "absolute" : null}
+            position={lessThan640 ? "fixed" : null}
             zIndex={2}
           >
             <Box>
               <NextLink href="/dashboard">
-                <Link>
+                <Link _hover={{ textDecoration: "none" }}>
                   <Button
+                    fontWeight="regular"
                     width="100%"
                     variant="link"
-                    py="14px"
-                    bgColor="red.500"
-                    color="white"
+                    py="18px"
+                    bgColor="white"
+                    color="black"
                     borderRadius={0}
                     fontSize="2xl"
                   >
-                    SIKENDIS
+                    <Heading fontSize="l">SIKENDIS</Heading>
                   </Button>
                 </Link>
               </NextLink>
             </Box>
-            <VStack
-              mt={2}
-              align="stretch"
-              divider={<StackDivider borderColor="gray.200" />}
-            >
-              <Box>
-                <NextLink href="/dashboard/kendaraan">
-                  <Link>
-                    <Button
-                      isFullWidth
-                      leftIcon={<Icon as={FaCarSide} />}
-                      py={6}
-                      borderRadius={0}
-                      bgColor="transparent"
-                      justifyContent="left"
-                    >
-                      <Text fontSize="l">Kendaraan</Text>
-                    </Button>
-                  </Link>
-                </NextLink>
-              </Box>
-              <Box>
-                <NextLink href="/dashboard/pengguna">
-                  <Link>
-                    <Button
-                      isFullWidth
-                      leftIcon={<Icon as={FaUsers} />}
-                      py={6}
-                      borderRadius={0}
-                      bgColor="transparent"
-                      justifyContent="left"
-                    >
-                      <Text fontSize="l">Pengguna</Text>
-                    </Button>
-                  </Link>
-                </NextLink>
-              </Box>
-              <Box>
-                <NextLink href="/dashboard/peminjaman">
-                  <Link>
-                    <Button
-                      isFullWidth
-                      leftIcon={<Icon as={FaRegHourglass} />}
-                      py={6}
-                      borderRadius={0}
-                      bgColor="transparent"
-                      justifyContent="left"
-                    >
-                      <Text fontSize="l">Peminjaman</Text>
-                    </Button>
-                  </Link>
-                </NextLink>
-              </Box>
-            </VStack>
+            <SidebarMenu
+              link="/dashboard/"
+              text="Dashboard"
+              color="blue.500"
+              icon={FaHome}
+            />
+            <SidebarMenu
+              link="/dashboard/kendaraan"
+              text="Kendaraan"
+              color="red.500"
+              icon={FaCarSide}
+            />
+            <SidebarMenu
+              link="/dashboard/pengguna"
+              text="Pengguna"
+              color="gray.700"
+              icon={FaUsers}
+            />
           </Box>
           {lessThan640 ? (
             <Box
