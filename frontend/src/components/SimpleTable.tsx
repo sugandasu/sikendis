@@ -184,7 +184,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
           />
         </Flex>
       </Flex>
-      <Box p={4}>
+      <Box>
         <SimpleTableModal
           headers={headers}
           row={viewRow}
