@@ -10,6 +10,7 @@ import path from "path";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
+import { __prod__ } from "./constants";
 import { Kendaraan } from "./entities/Kendaraan";
 import { Peminjaman } from "./entities/Peminjaman";
 import { Pengguna } from "./entities/Pengguna";
@@ -27,7 +28,7 @@ const main = async () => {
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
-    synchronize: true,
+    synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Kendaraan, Pengguna, User, Peminjaman],
   });
@@ -79,6 +80,8 @@ const main = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365,
         httpOnly: true,
         sameSite: "lax",
+        secure: __prod__,
+        domain: __prod__ ? process.env.DOMAIN_NAME : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
@@ -93,6 +96,10 @@ const main = async () => {
 
   const dir = path.join(__dirname, "./../uploads");
   app.use("/static", express.static(dir));
+
+  if (__prod__) {
+    app.set("proxy", 1);
+  }
 
   app.listen(parseInt(process.env.PORT), () => {
     console.log(
