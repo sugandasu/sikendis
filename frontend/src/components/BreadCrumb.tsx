@@ -6,7 +6,6 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import React from "react";
-import { FaHome } from "react-icons";
 
 export interface BreadCrumbItem {
   text: string;
