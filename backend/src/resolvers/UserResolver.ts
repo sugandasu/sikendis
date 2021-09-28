@@ -63,7 +63,6 @@ export class UserResolver {
       const validPassword = await argon2.verify(user.password, password);
       if (validPassword) {
         req.session.userId = user.id;
-        console.log("session.userId: ", req.session.userId);
 
         return { user };
       }
