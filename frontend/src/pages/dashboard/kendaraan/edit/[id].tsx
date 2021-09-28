@@ -44,8 +44,8 @@ const DashboardKendaraanEdit: React.FC<{}> = ({}) => {
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
-        <Box borderWidth="1px" borderRadius="md">
-          <Box p={5}>
+        <Box rounded="md" boxShadow="md" bg="white" mb={5}>
+          <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
               <Text fontSize="l">Edit Kendaraan</Text>
               <NextLink href="/dashboard/kendaraan">

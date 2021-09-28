@@ -163,8 +163,8 @@ const DashboardPeminjamanIndex: React.FC<{}> = ({}) => {
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
-        <Box borderWidth="1px" borderRadius="md">
-          <Box p={5}>
+        <Box rounded="md" boxShadow="md" bg="white">
+          <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
               <Text fontSize="l">Peminjaman</Text>
               <NextLink href="/dashboard/peminjaman/tambah">
