@@ -1,0 +1,11 @@
+query KendaraansRutins($options: KendaraanRutinPaginateInput!) {
+  kendaraanRutins(options: $options) {
+    data {
+      ...RegularKendaraanRutin
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

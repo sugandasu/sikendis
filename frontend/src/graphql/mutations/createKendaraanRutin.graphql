@@ -1,0 +1,14 @@
+mutation CreateKendaraanRutin(
+  $payload: KendaraanRutinInput!
+  $fileBap: Upload!
+) {
+  createKendaraanRutin(payload: $payload, fileBap: $fileBap) {
+    errors {
+      field
+      message
+    }
+    kendaraanRutin {
+      ...RegularKendaraanRutin
+    }
+  }
+}

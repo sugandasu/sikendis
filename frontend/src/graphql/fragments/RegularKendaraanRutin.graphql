@@ -1,0 +1,15 @@
+fragment RegularKendaraanRutin on KendaraanRutin {
+  id
+  kendaraan {
+    ...RegularKendaraan
+  }
+  pengguna {
+    ...RegularPengguna
+  }
+  nomorBap
+  fileBap
+  fileBapUrl
+  tanggalBap
+  createdAt
+  updatedAt
+}

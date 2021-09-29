@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from "type-graphql";
 import { GraphQLJSONObject } from "graphql-type-json";
 
-export interface KendaraanPaginateInputFilter {
+export interface PenggunaPaginateInputFilter {
   all?: string;
   columns?: [
     {
@@ -13,7 +13,7 @@ export interface KendaraanPaginateInputFilter {
 }
 
 @InputType()
-export class KendaraanPaginateInput {
+export class PenggunaPaginateInput {
   @Field(() => Int)
   limit: number;
 
@@ -21,5 +21,5 @@ export class KendaraanPaginateInput {
   page: number;
 
   @Field(() => GraphQLJSONObject, { nullable: true })
-  filter?: KendaraanPaginateInputFilter | null;
+  filter?: PenggunaPaginateInputFilter | null;
 }

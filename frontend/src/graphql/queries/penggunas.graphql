@@ -1,4 +1,4 @@
-query Penggunas($options: PaginatedInput!) {
+query Penggunas($options: PenggunaPaginateInput!) {
   penggunas(options: $options) {
     data {
       ...RegularPengguna

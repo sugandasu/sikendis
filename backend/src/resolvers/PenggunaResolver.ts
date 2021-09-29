@@ -15,8 +15,8 @@ import { Pengguna } from "../entities/Pengguna";
 import { uploadFile } from "../utils/UploadFile";
 import { isAuth } from "./../middlewares/isAuth";
 import { isOperator } from "./../middlewares/isOperator";
-import { PaginatedInput } from "./inputs/PaginatedInput";
 import { PenggunaInput } from "./inputs/PenggunaInput";
+import { PenggunaPaginateInput } from "./inputs/PenggunaPaginateInput";
 import { SearchByInput } from "./inputs/SearchByInput";
 import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { PenggunaResponse } from "./responses/PenggunaResponse";
@@ -67,33 +67,35 @@ export class PenggunaResolver {
   @Query(() => PenggunaPaginated)
   @UseMiddleware(isAuth)
   async penggunas(
-    @Arg("options") options: PaginatedInput
+    @Arg("options") options: PenggunaPaginateInput
   ): Promise<PenggunaPaginated> {
     const realLimit = Math.min(10, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
     params.push(realLimit);
     params.push(offset);
+
+    let whereColumns = [];
+    let whereColumnQuery = "";
     if (options.filter) {
-      params.push(options.filter);
+      if (options.filter.columns) {
+        whereColumns = options.filter.columns.map((column) => {
+          if (column.operation === "LIKE") {
+            params.push(`%${column.value}%`);
+          } else if (column.operation === "=") {
+            params.push(column.value);
+          }
+          return `"${column.name}" ${column.operation} $${params.length}`;
+        });
+        whereColumnQuery = whereColumns.join(" AND ");
+      }
     }
 
     const data = await getConnection().query(
       `
       SELECT *
       FROM pengguna
-      ${
-        options.filter
-          ? `
-      WHERE
-      nama = $3 OR 
-      nip = $3 OR 
-      jabatan = $3 OR 
-      instansi = $3 OR
-      "subBagian" = $3
-      `
-          : ``
-      }
+      ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
       LIMIT $1
       OFFSET $2
       `,

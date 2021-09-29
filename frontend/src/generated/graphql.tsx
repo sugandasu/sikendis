@@ -87,6 +87,51 @@ export type KendaraanResponse = {
   kendaraan?: Maybe<Kendaraan>;
 };
 
+export type KendaraanRutin = {
+  __typename?: 'KendaraanRutin';
+  createdAt: Scalars['DateTime'];
+  fileBap: Scalars['String'];
+  fileBapUrl: Scalars['String'];
+  id: Scalars['Float'];
+  kendaraan: Kendaraan;
+  kendaraanId: Scalars['Float'];
+  nomorBap: Scalars['String'];
+  pengguna: Pengguna;
+  penggunaId: Scalars['Float'];
+  tanggalBap: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type KendaraanRutinInput = {
+  fileBap: Scalars['String'];
+  kendaraanId: Scalars['Int'];
+  keterangan?: Maybe<Scalars['String']>;
+  nomorBap: Scalars['String'];
+  penggunaId: Scalars['Int'];
+  tanggalBap: Scalars['DateTime'];
+};
+
+export type KendaraanRutinPaginateInput = {
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+};
+
+export type KendaraanRutinPaginated = {
+  __typename?: 'KendaraanRutinPaginated';
+  data: Array<KendaraanRutin>;
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type KendaraanRutinResponse = {
+  __typename?: 'KendaraanRutinResponse';
+  errors?: Maybe<Array<FieldError>>;
+  kendaraanRutin?: Maybe<KendaraanRutin>;
+};
+
 export type LoginInput = {
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
@@ -95,15 +140,18 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createKendaraan: KendaraanResponse;
+  createKendaraanRutin: KendaraanRutinResponse;
   createPeminjaman: PeminjamanResponse;
   createPengguna: PenggunaResponse;
   deleteKendaraan: Scalars['Boolean'];
+  deleteKendaraanRutin: Scalars['Boolean'];
   deletePeminjaman: Scalars['Boolean'];
   deletePengguna: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
   updateKendaraan: KendaraanResponse;
+  updateKendaraanRutin: KendaraanRutinResponse;
   updatePeminjaman: PeminjamanResponse;
   updatePengguna: PenggunaResponse;
 };
@@ -111,6 +159,12 @@ export type Mutation = {
 
 export type MutationCreateKendaraanArgs = {
   payload: KendaraanInput;
+};
+
+
+export type MutationCreateKendaraanRutinArgs = {
+  fileBap: Scalars['Upload'];
+  payload: KendaraanRutinInput;
 };
 
 
@@ -128,6 +182,11 @@ export type MutationCreatePenggunaArgs = {
 
 
 export type MutationDeleteKendaraanArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteKendaraanRutinArgs = {
   id: Scalars['Int'];
 };
 
@@ -155,6 +214,13 @@ export type MutationRegisterArgs = {
 export type MutationUpdateKendaraanArgs = {
   id: Scalars['Int'];
   payload: KendaraanInput;
+};
+
+
+export type MutationUpdateKendaraanRutinArgs = {
+  fileBap?: Maybe<Scalars['Upload']>;
+  id: Scalars['Int'];
+  payload: KendaraanRutinInput;
 };
 
 
@@ -248,10 +314,16 @@ export type PenggunaInput = {
   subBagian: Scalars['String'];
 };
 
+export type PenggunaPaginateInput = {
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+};
+
 export type PenggunaPaginated = {
   __typename?: 'PenggunaPaginated';
   data: Array<Pengguna>;
-  filter?: Maybe<Scalars['String']>;
+  filter?: Maybe<Scalars['JSONObject']>;
   limit: Scalars['Int'];
   page: Scalars['Int'];
   total: Scalars['Int'];
@@ -267,6 +339,8 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   kendaraan?: Maybe<Kendaraan>;
+  kendaraanRutin?: Maybe<KendaraanRutin>;
+  kendaraanRutins: KendaraanRutinPaginated;
   kendaraans: KendaraanPaginated;
   kendaraansSearchBy?: Maybe<Array<Kendaraan>>;
   me?: Maybe<User>;
@@ -280,6 +354,16 @@ export type Query = {
 
 export type QueryKendaraanArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryKendaraanRutinArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryKendaraanRutinsArgs = {
+  options: KendaraanRutinPaginateInput;
 };
 
 
@@ -314,7 +398,7 @@ export type QueryPenggunaSearchByArgs = {
 
 
 export type QueryPenggunasArgs = {
-  options: PaginatedInput;
+  options: PenggunaPaginateInput;
 };
 
 export type SearchByInput = {
@@ -347,6 +431,8 @@ export type UserResponse = {
 
 export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any };
 
+export type RegularKendaraanRutinFragment = { __typename?: 'KendaraanRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, createdAt: any, updatedAt: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } };
+
 export type RegularPeminjamanFragment = { __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string>, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } };
 
 export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> };
@@ -357,6 +443,14 @@ export type CreateKendaraanMutationVariables = Exact<{
 
 
 export type CreateKendaraanMutation = { __typename?: 'Mutation', createKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
+
+export type CreateKendaraanRutinMutationVariables = Exact<{
+  payload: KendaraanRutinInput;
+  fileBap: Scalars['Upload'];
+}>;
+
+
+export type CreateKendaraanRutinMutation = { __typename?: 'Mutation', createKendaraanRutin: { __typename?: 'KendaraanRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraanRutin?: Maybe<{ __typename?: 'KendaraanRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, createdAt: any, updatedAt: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type CreatePeminjamanMutationVariables = Exact<{
   payload: PeminjamanInput;
@@ -381,6 +475,13 @@ export type DeleteKendaraanMutationVariables = Exact<{
 
 
 export type DeleteKendaraanMutation = { __typename?: 'Mutation', deleteKendaraan: boolean };
+
+export type DeleteKendaraanRutinMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteKendaraanRutinMutation = { __typename?: 'Mutation', deleteKendaraanRutin: boolean };
 
 export type DeletePeminjamanMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -421,6 +522,15 @@ export type UpdateKendaraanMutationVariables = Exact<{
 
 export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
+export type UpdateKendaraanRutinMutationVariables = Exact<{
+  id: Scalars['Int'];
+  payload: KendaraanRutinInput;
+  fileBap?: Maybe<Scalars['Upload']>;
+}>;
+
+
+export type UpdateKendaraanRutinMutation = { __typename?: 'Mutation', updateKendaraanRutin: { __typename?: 'KendaraanRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraanRutin?: Maybe<{ __typename?: 'KendaraanRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, createdAt: any, updatedAt: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
+
 export type UpdatePeminjamanMutationVariables = Exact<{
   id: Scalars['Int'];
   payload: PeminjamanInput;
@@ -446,6 +556,20 @@ export type KendaraanQueryVariables = Exact<{
 
 
 export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> };
+
+export type KendaraanRutinQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type KendaraanRutinQuery = { __typename?: 'Query', kendaraanRutin?: Maybe<{ __typename?: 'KendaraanRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, createdAt: any, updatedAt: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> };
+
+export type KendaraansRutinsQueryVariables = Exact<{
+  options: KendaraanRutinPaginateInput;
+}>;
+
+
+export type KendaraansRutinsQuery = { __typename?: 'Query', kendaraanRutins: { __typename?: 'KendaraanRutinPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'KendaraanRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, createdAt: any, updatedAt: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type KendaraansSearchByQueryVariables = Exact<{
   options: SearchByInput;
@@ -495,11 +619,11 @@ export type PenggunaSearchByQueryVariables = Exact<{
 export type PenggunaSearchByQuery = { __typename?: 'Query', penggunaSearchBy?: Maybe<Array<{ __typename?: 'Pengguna', id: number, nama: string }>> };
 
 export type PenggunasQueryVariables = Exact<{
-  options: PaginatedInput;
+  options: PenggunaPaginateInput;
 }>;
 
 
-export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Pengguna', fotoProfilUrl?: Maybe<string>, id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
+export type PenggunasQuery = { __typename?: 'Query', penggunas: { __typename?: 'PenggunaPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Pengguna', fotoProfilUrl?: Maybe<string>, id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string> }> } };
 
 export const RegularKendaraanFragmentDoc = gql`
     fragment RegularKendaraan on Kendaraan {
@@ -535,6 +659,24 @@ export const RegularPenggunaFragmentDoc = gql`
   fotoProfilUrl
 }
     `;
+export const RegularKendaraanRutinFragmentDoc = gql`
+    fragment RegularKendaraanRutin on KendaraanRutin {
+  id
+  kendaraan {
+    ...RegularKendaraan
+  }
+  pengguna {
+    ...RegularPengguna
+  }
+  nomorBap
+  fileBap
+  fileBapUrl
+  tanggalBap
+  createdAt
+  updatedAt
+}
+    ${RegularKendaraanFragmentDoc}
+${RegularPenggunaFragmentDoc}`;
 export const RegularPeminjamanFragmentDoc = gql`
     fragment RegularPeminjaman on Peminjaman {
   id
@@ -596,6 +738,46 @@ export function useCreateKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateKendaraanMutationHookResult = ReturnType<typeof useCreateKendaraanMutation>;
 export type CreateKendaraanMutationResult = Apollo.MutationResult<CreateKendaraanMutation>;
 export type CreateKendaraanMutationOptions = Apollo.BaseMutationOptions<CreateKendaraanMutation, CreateKendaraanMutationVariables>;
+export const CreateKendaraanRutinDocument = gql`
+    mutation CreateKendaraanRutin($payload: KendaraanRutinInput!, $fileBap: Upload!) {
+  createKendaraanRutin(payload: $payload, fileBap: $fileBap) {
+    errors {
+      field
+      message
+    }
+    kendaraanRutin {
+      ...RegularKendaraanRutin
+    }
+  }
+}
+    ${RegularKendaraanRutinFragmentDoc}`;
+export type CreateKendaraanRutinMutationFn = Apollo.MutationFunction<CreateKendaraanRutinMutation, CreateKendaraanRutinMutationVariables>;
+
+/**
+ * __useCreateKendaraanRutinMutation__
+ *
+ * To run a mutation, you first call `useCreateKendaraanRutinMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateKendaraanRutinMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createKendaraanRutinMutation, { data, loading, error }] = useCreateKendaraanRutinMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *      fileBap: // value for 'fileBap'
+ *   },
+ * });
+ */
+export function useCreateKendaraanRutinMutation(baseOptions?: Apollo.MutationHookOptions<CreateKendaraanRutinMutation, CreateKendaraanRutinMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateKendaraanRutinMutation, CreateKendaraanRutinMutationVariables>(CreateKendaraanRutinDocument, options);
+      }
+export type CreateKendaraanRutinMutationHookResult = ReturnType<typeof useCreateKendaraanRutinMutation>;
+export type CreateKendaraanRutinMutationResult = Apollo.MutationResult<CreateKendaraanRutinMutation>;
+export type CreateKendaraanRutinMutationOptions = Apollo.BaseMutationOptions<CreateKendaraanRutinMutation, CreateKendaraanRutinMutationVariables>;
 export const CreatePeminjamanDocument = gql`
     mutation CreatePeminjaman($payload: PeminjamanInput!, $fileDisposisi: Upload!, $fileSuratPermohonan: Upload!) {
   createPeminjaman(
@@ -712,6 +894,37 @@ export function useDeleteKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteKendaraanMutationHookResult = ReturnType<typeof useDeleteKendaraanMutation>;
 export type DeleteKendaraanMutationResult = Apollo.MutationResult<DeleteKendaraanMutation>;
 export type DeleteKendaraanMutationOptions = Apollo.BaseMutationOptions<DeleteKendaraanMutation, DeleteKendaraanMutationVariables>;
+export const DeleteKendaraanRutinDocument = gql`
+    mutation DeleteKendaraanRutin($id: Int!) {
+  deleteKendaraanRutin(id: $id)
+}
+    `;
+export type DeleteKendaraanRutinMutationFn = Apollo.MutationFunction<DeleteKendaraanRutinMutation, DeleteKendaraanRutinMutationVariables>;
+
+/**
+ * __useDeleteKendaraanRutinMutation__
+ *
+ * To run a mutation, you first call `useDeleteKendaraanRutinMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteKendaraanRutinMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteKendaraanRutinMutation, { data, loading, error }] = useDeleteKendaraanRutinMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteKendaraanRutinMutation(baseOptions?: Apollo.MutationHookOptions<DeleteKendaraanRutinMutation, DeleteKendaraanRutinMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteKendaraanRutinMutation, DeleteKendaraanRutinMutationVariables>(DeleteKendaraanRutinDocument, options);
+      }
+export type DeleteKendaraanRutinMutationHookResult = ReturnType<typeof useDeleteKendaraanRutinMutation>;
+export type DeleteKendaraanRutinMutationResult = Apollo.MutationResult<DeleteKendaraanRutinMutation>;
+export type DeleteKendaraanRutinMutationOptions = Apollo.BaseMutationOptions<DeleteKendaraanRutinMutation, DeleteKendaraanRutinMutationVariables>;
 export const DeletePeminjamanDocument = gql`
     mutation DeletePeminjaman($id: Int!) {
   deletePeminjaman(id: $id)
@@ -897,6 +1110,47 @@ export function useUpdateKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type UpdateKendaraanMutationHookResult = ReturnType<typeof useUpdateKendaraanMutation>;
 export type UpdateKendaraanMutationResult = Apollo.MutationResult<UpdateKendaraanMutation>;
 export type UpdateKendaraanMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>;
+export const UpdateKendaraanRutinDocument = gql`
+    mutation UpdateKendaraanRutin($id: Int!, $payload: KendaraanRutinInput!, $fileBap: Upload) {
+  updateKendaraanRutin(id: $id, payload: $payload, fileBap: $fileBap) {
+    errors {
+      field
+      message
+    }
+    kendaraanRutin {
+      ...RegularKendaraanRutin
+    }
+  }
+}
+    ${RegularKendaraanRutinFragmentDoc}`;
+export type UpdateKendaraanRutinMutationFn = Apollo.MutationFunction<UpdateKendaraanRutinMutation, UpdateKendaraanRutinMutationVariables>;
+
+/**
+ * __useUpdateKendaraanRutinMutation__
+ *
+ * To run a mutation, you first call `useUpdateKendaraanRutinMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateKendaraanRutinMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateKendaraanRutinMutation, { data, loading, error }] = useUpdateKendaraanRutinMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      payload: // value for 'payload'
+ *      fileBap: // value for 'fileBap'
+ *   },
+ * });
+ */
+export function useUpdateKendaraanRutinMutation(baseOptions?: Apollo.MutationHookOptions<UpdateKendaraanRutinMutation, UpdateKendaraanRutinMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateKendaraanRutinMutation, UpdateKendaraanRutinMutationVariables>(UpdateKendaraanRutinDocument, options);
+      }
+export type UpdateKendaraanRutinMutationHookResult = ReturnType<typeof useUpdateKendaraanRutinMutation>;
+export type UpdateKendaraanRutinMutationResult = Apollo.MutationResult<UpdateKendaraanRutinMutation>;
+export type UpdateKendaraanRutinMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanRutinMutation, UpdateKendaraanRutinMutationVariables>;
 export const UpdatePeminjamanDocument = gql`
     mutation UpdatePeminjaman($id: Int!, $payload: PeminjamanInput!, $fileDisposisi: Upload, $fileSuratPermohonan: Upload) {
   updatePeminjaman(
@@ -1020,6 +1274,82 @@ export function useKendaraanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type KendaraanQueryHookResult = ReturnType<typeof useKendaraanQuery>;
 export type KendaraanLazyQueryHookResult = ReturnType<typeof useKendaraanLazyQuery>;
 export type KendaraanQueryResult = Apollo.QueryResult<KendaraanQuery, KendaraanQueryVariables>;
+export const KendaraanRutinDocument = gql`
+    query KendaraanRutin($id: Int!) {
+  kendaraanRutin(id: $id) {
+    ...RegularKendaraanRutin
+  }
+}
+    ${RegularKendaraanRutinFragmentDoc}`;
+
+/**
+ * __useKendaraanRutinQuery__
+ *
+ * To run a query within a React component, call `useKendaraanRutinQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKendaraanRutinQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKendaraanRutinQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useKendaraanRutinQuery(baseOptions: Apollo.QueryHookOptions<KendaraanRutinQuery, KendaraanRutinQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<KendaraanRutinQuery, KendaraanRutinQueryVariables>(KendaraanRutinDocument, options);
+      }
+export function useKendaraanRutinLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraanRutinQuery, KendaraanRutinQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<KendaraanRutinQuery, KendaraanRutinQueryVariables>(KendaraanRutinDocument, options);
+        }
+export type KendaraanRutinQueryHookResult = ReturnType<typeof useKendaraanRutinQuery>;
+export type KendaraanRutinLazyQueryHookResult = ReturnType<typeof useKendaraanRutinLazyQuery>;
+export type KendaraanRutinQueryResult = Apollo.QueryResult<KendaraanRutinQuery, KendaraanRutinQueryVariables>;
+export const KendaraansRutinsDocument = gql`
+    query KendaraansRutins($options: KendaraanRutinPaginateInput!) {
+  kendaraanRutins(options: $options) {
+    data {
+      ...RegularKendaraanRutin
+    }
+    total
+    limit
+    page
+    filter
+  }
+}
+    ${RegularKendaraanRutinFragmentDoc}`;
+
+/**
+ * __useKendaraansRutinsQuery__
+ *
+ * To run a query within a React component, call `useKendaraansRutinsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKendaraansRutinsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKendaraansRutinsQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useKendaraansRutinsQuery(baseOptions: Apollo.QueryHookOptions<KendaraansRutinsQuery, KendaraansRutinsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<KendaraansRutinsQuery, KendaraansRutinsQueryVariables>(KendaraansRutinsDocument, options);
+      }
+export function useKendaraansRutinsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraansRutinsQuery, KendaraansRutinsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<KendaraansRutinsQuery, KendaraansRutinsQueryVariables>(KendaraansRutinsDocument, options);
+        }
+export type KendaraansRutinsQueryHookResult = ReturnType<typeof useKendaraansRutinsQuery>;
+export type KendaraansRutinsLazyQueryHookResult = ReturnType<typeof useKendaraansRutinsLazyQuery>;
+export type KendaraansRutinsQueryResult = Apollo.QueryResult<KendaraansRutinsQuery, KendaraansRutinsQueryVariables>;
 export const KendaraansSearchByDocument = gql`
     query KendaraansSearchBy($options: SearchByInput!) {
   kendaraansSearchBy(options: $options) {
@@ -1281,7 +1611,7 @@ export type PenggunaSearchByQueryHookResult = ReturnType<typeof usePenggunaSearc
 export type PenggunaSearchByLazyQueryHookResult = ReturnType<typeof usePenggunaSearchByLazyQuery>;
 export type PenggunaSearchByQueryResult = Apollo.QueryResult<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>;
 export const PenggunasDocument = gql`
-    query Penggunas($options: PaginatedInput!) {
+    query Penggunas($options: PenggunaPaginateInput!) {
   penggunas(options: $options) {
     data {
       ...RegularPengguna

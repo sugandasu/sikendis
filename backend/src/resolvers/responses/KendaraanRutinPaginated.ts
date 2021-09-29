@@ -1,11 +1,11 @@
 import { GraphQLJSONObject } from "graphql-type-json";
 import { Field, Int, ObjectType } from "type-graphql";
-import { Pengguna } from "../../entities/Pengguna";
+import { KendaraanRutin } from "./../../entities/KendaraanRutin";
 
 @ObjectType()
-export class PenggunaPaginated {
-  @Field(() => [Pengguna])
-  data: Pengguna[];
+export class KendaraanRutinPaginated {
+  @Field(() => [KendaraanRutin])
+  data: KendaraanRutin[];
 
   @Field(() => Int)
   total: number;

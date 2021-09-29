@@ -48,8 +48,12 @@ export class KendaraanResolver {
     if (options.filter) {
       if (options.filter.columns) {
         whereColumns = options.filter.columns.map((column) => {
-          params.push(column.value);
-          return `"${column.name}" = $${params.length}`;
+          if (column.operation === "LIKE") {
+            params.push(`%${column.value}%`);
+          } else if (column.operation === "=") {
+            params.push(column.value);
+          }
+          return `"${column.name}" ${column.operation} $${params.length}`;
         });
         whereColumnQuery = whereColumns.join(" AND ");
       }

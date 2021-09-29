@@ -1,3 +1,5 @@
+import { KendaraanRutin } from "./entities/KendaraanRutin";
+import { KendaraanRutinResolver } from "./resolvers/KendaraanRutinResolver";
 import { ApolloServer, Config, ExpressContext } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
@@ -30,7 +32,7 @@ const main = async () => {
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Kendaraan, Pengguna, User, Peminjaman],
+    entities: [Kendaraan, Pengguna, User, Peminjaman, KendaraanRutin],
   });
 
   // await conection.runMigrations();
@@ -43,6 +45,7 @@ const main = async () => {
         UserResolver,
         PenggunaResolver,
         KendaraanResolver,
+        KendaraanRutinResolver,
         PeminjamanResolver,
       ],
       validate: false,
