@@ -87,7 +87,7 @@ export class KendaraanOperational extends BaseEntity {
   nomorHpSupir!: string;
 
   @CreateDateColumn()
-  createAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
