@@ -1,12 +1,12 @@
 mutation CreateKendaraanOperational(
   $payload: KendaraanOperationalInput!
-  $fileFotoProfilPegawai: Upload
-  $fileDisposisi: Upload!
-  $fileSuratPermohonan: Upload!
+  $fotoProfilPegawai: Upload
+  $fileDisposisi: Upload
+  $fileSuratPermohonan: Upload
 ) {
   createKendaraanOperational(
     payload: $payload
-    fileFotoProfilPegawai: $fileFotoProfilPegawai
+    fotoProfilPegawai: $fotoProfilPegawai
     fileDisposisi: $fileDisposisi
     fileSuratPermohonan: $fileSuratPermohonan
   ) {

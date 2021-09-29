@@ -26,6 +26,15 @@ import { kendaraanOperationalValidation } from "./validations/kendaraanOperatina
 @Resolver(KendaraanOperational)
 export class KendaraanOperationalResolver {
   @FieldResolver(() => String)
+  fotoProfilPegawaiUrl(@Root() root: KendaraanOperational) {
+    if (root.fotoProfilPegawai) {
+      return process.env.BACKEND_URL + "/static/" + root.fotoProfilPegawai;
+    }
+
+    return "";
+  }
+
+  @FieldResolver(() => String)
   fileDisposisiUrl(@Root() root: KendaraanOperational) {
     return process.env.BACKEND_URL + "/static/" + root.fileDisposisi;
   }
@@ -53,10 +62,11 @@ export class KendaraanOperationalResolver {
   @Mutation(() => KendaraanOperationalResponse)
   async createKendaraanOperational(
     @Arg("payload") payload: KendaraanOperationalInput,
-    @Arg("fileFotoProfilPegawai", () => GraphQLUpload, { nullable: true })
-    fileFotoProfilPegawai: FileUpload,
-    @Arg("fileDisposisi", () => GraphQLUpload) fileDisposisi: FileUpload,
-    @Arg("fileSuratPermohonan", () => GraphQLUpload)
+    @Arg("fotoProfilPegawai", () => GraphQLUpload, { nullable: true })
+    fotoProfilPegawai: FileUpload,
+    @Arg("fileDisposisi", () => GraphQLUpload, { nullable: true })
+    fileDisposisi: FileUpload,
+    @Arg("fileSuratPermohonan", () => GraphQLUpload, { nullable: true })
     fileSuratPermohonan: FileUpload
   ): Promise<KendaraanOperationalResponse> {
     const errors = await kendaraanOperationalValidation(payload);
@@ -125,8 +135,8 @@ export class KendaraanOperationalResolver {
     }
 
     if (payload.jenisPeminjam === "Pegawai") {
-      if (fileFotoProfilPegawai) {
-        const { createReadStream, filename } = fileFotoProfilPegawai;
+      if (fotoProfilPegawai) {
+        const { createReadStream, filename } = fotoProfilPegawai;
         if (filename) {
           const upload = await uploadFile({
             createReadStream,
@@ -137,7 +147,7 @@ export class KendaraanOperationalResolver {
             return {
               errors: [
                 {
-                  field: "fileFotoProfilPegawai",
+                  field: "fotoProfilPegawai",
                   message: "Foto profil pegawai gagal disimpan",
                 },
               ],
@@ -213,8 +223,8 @@ export class KendaraanOperationalResolver {
   async updateKendaraanOperational(
     @Arg("id", () => Int) id: number,
     @Arg("payload") payload: KendaraanOperationalInput,
-    @Arg("fileFotoProfilPegawai", () => GraphQLUpload, { nullable: true })
-    fileFotoProfilPegawai: FileUpload,
+    @Arg("fotoProfilPegawai", () => GraphQLUpload, { nullable: true })
+    fotoProfilPegawai: FileUpload,
     @Arg("fileDisposisi", () => GraphQLUpload, { nullable: true })
     fileDisposisi: FileUpload,
     @Arg("fileSuratPermohonan", () => GraphQLUpload, { nullable: true })
@@ -270,8 +280,8 @@ export class KendaraanOperationalResolver {
     }
 
     if (payload.jenisPeminjam === "Pegawai") {
-      if (fileFotoProfilPegawai) {
-        const { createReadStream, filename } = fileFotoProfilPegawai;
+      if (fotoProfilPegawai) {
+        const { createReadStream, filename } = fotoProfilPegawai;
         if (filename) {
           const upload = await uploadFile({
             createReadStream,
@@ -282,7 +292,7 @@ export class KendaraanOperationalResolver {
             return {
               errors: [
                 {
-                  field: "fileFotoProfilPegawai",
+                  field: "fotoProfilPegawai",
                   message: "Foto profil pegawai gagal disimpan",
                 },
               ],

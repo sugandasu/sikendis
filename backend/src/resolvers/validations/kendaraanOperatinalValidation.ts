@@ -28,11 +28,19 @@ export const kendaraanOperationalValidation = async (
     ];
   }
 
+  if (payload.jenisPeminjam === "Dinas") {
+    if (!payload.namaDinas) {
+      return [
+        {
+          field: "namaDinas",
+          message: "Nama Dinas tidak boleh kosong",
+        },
+      ];
+    }
+  }
+
   if (payload.jenisPeminjam === "Pegawai") {
-    if (
-      payload.namaPegawai === null ||
-      (payload.namaPegawai && payload.namaPegawai.trim().length === 0)
-    ) {
+    if (!payload.namaPegawai) {
       return [
         {
           field: "namaPegawai",
@@ -41,10 +49,7 @@ export const kendaraanOperationalValidation = async (
       ];
     }
 
-    if (
-      payload.nipPegawai === null ||
-      (payload.nipPegawai && payload.nipPegawai.trim().length === 0)
-    ) {
+    if (!payload.nipPegawai) {
       return [
         {
           field: "nipPegawai",
@@ -94,7 +99,7 @@ export const kendaraanOperationalValidation = async (
     }
   }
 
-  if (!payload.tanggalMulai) {
+  if (isNaN(payload.tanggalMulai.getTime())) {
     return [
       {
         field: "tanggalMulai",
@@ -103,7 +108,7 @@ export const kendaraanOperationalValidation = async (
     ];
   }
 
-  if (!payload.tanggalSelesai) {
+  if (isNaN(payload.tanggalSelesai.getTime())) {
     return [
       {
         field: "tanggalSelesai",

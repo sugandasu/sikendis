@@ -11,6 +11,7 @@ fragment RegularKendaraanOperational on KendaraanOperational {
   instansiPegawai
   subBagianPegawai
   fotoProfilPegawai
+  fotoProfilPegawaiUrl
   nomorDisposisi
   fileDisposisi
   fileDisposisiUrl
