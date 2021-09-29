@@ -25,7 +25,9 @@ const showHeaderRender = (header, row, i) => {
 
   return (
     <Box width="100%" key={i}>
-      <Text>{header.label + ": " + header.render(row)}</Text>
+      <Text>
+        {header.label + ": "} {header.render(row)}
+      </Text>
     </Box>
   );
 };
