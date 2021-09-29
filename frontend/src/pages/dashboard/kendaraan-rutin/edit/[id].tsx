@@ -88,7 +88,7 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Tambah Kendaraan Rutin</Text>
+              <Text fontSize="l">Edit Kendaraan Rutin</Text>
               <NextLink href="/dashboard/kendaraan-rutin">
                 <Link>
                   <Button bg="red.500" color="white">
@@ -184,7 +184,7 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
                       isLoading={isSubmitting}
                       colorScheme="teal"
                     >
-                      Tambah Kendaraan Rutin
+                      Edit Kendaraan Rutin
                     </Button>
                   </Form>
                 )}
