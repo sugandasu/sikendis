@@ -151,6 +151,18 @@ export class KendaraanRutinResolver {
       return { errors };
     }
 
+    const kendaraanRutin = await KendaraanRutin.findOne({ id });
+    if (!kendaraanRutin) {
+      return {
+        errors: [
+          {
+            field: "id",
+            message: "Kendaraan Rutin tidak ditemukan",
+          },
+        ],
+      };
+    }
+
     if (fileBap) {
       const { createReadStream, filename } = fileBap;
       if (filename) {
@@ -159,7 +171,9 @@ export class KendaraanRutinResolver {
           filename: payload.fileBap,
         });
 
-        if (!upload) {
+        if (upload) {
+          unlinkSync(`${__dirname}/../../uploads/${kendaraanRutin.fileBap}`);
+        } else {
           return {
             errors: [{ field: "fileBap", message: "File BAP gagal disimpan" }],
           };
