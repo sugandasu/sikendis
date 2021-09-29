@@ -33,7 +33,7 @@ const DashboardKendaraanRoda4Index: React.FC<{}> = ({}) => {
         limit: 10,
         page: 1,
         filter: {
-          columns: [{ name: "tipeRoda", value: "Roda 4" }],
+          columns: [{ name: "tipeRoda", value: "Roda 4", operation: "=" }],
         },
       },
     },
