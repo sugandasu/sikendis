@@ -6,8 +6,8 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  useBoolean,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import React from "react";
 import { IconType } from "react-icons";
 
@@ -23,10 +23,22 @@ export const SidebarMenuLevel: React.FC<SidebarMenuLevelProps> = ({
   icon,
   color,
 }) => {
-  const [menuOpen, setMenuOpen] = useBoolean();
+  const router = useRouter();
+  let routeIsHere = [];
+  if (Array.isArray(children)) {
+    routeIsHere = children.filter((child) => {
+      if (typeof child === "object") {
+        if ("props" in child) {
+          if ("link" in child.props) {
+            return child.props.link === router.route;
+          }
+        }
+      }
+    });
+  }
   return (
     <Box>
-      <Accordion allowToggle>
+      <Accordion defaultIndex={routeIsHere.length > 0 ? [0] : null} allowToggle>
         <AccordionItem p={0} m={0} border={0}>
           <AccordionButton
             _hover={{ bgColor: "gray.200" }}
@@ -41,7 +53,7 @@ export const SidebarMenuLevel: React.FC<SidebarMenuLevelProps> = ({
             <AccordionIcon mr={10} />
           </AccordionButton>
           <AccordionPanel p={0}>
-            <Box bgColor="gray.50">{children}</Box>
+            <Box bgColor="gray.100">{children}</Box>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

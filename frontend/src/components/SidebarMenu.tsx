@@ -3,6 +3,7 @@ import Icon from "@chakra-ui/icon";
 import { Box, Link } from "@chakra-ui/layout";
 import { Text } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { IconType } from "react-icons";
 
@@ -19,6 +20,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
   icon,
   color,
 }) => {
+  const router = useRouter();
   return (
     <NextLink href={link}>
       <Link _hover={{ textDecoration: "none" }}>
@@ -29,7 +31,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
             leftIcon={<Icon ml={3} color={color} as={icon} />}
             py={7}
             borderRadius={0}
-            bgColor="transparent"
+            bgColor={router.route === link ? "gray.200" : "transparent"}
             justifyContent="left"
           >
             <Text fontSize="l" color="gray.700">
