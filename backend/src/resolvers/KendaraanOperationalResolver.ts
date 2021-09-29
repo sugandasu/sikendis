@@ -21,7 +21,6 @@ import { KendaraanOperationalPaginateInput } from "./inputs/KendaraanOperational
 import { KendaraanLoader } from "./loaders/KendaraanLoader";
 import { KendaraanOperationalPaginated } from "./responses/KendaraanOperationalPaginated";
 import { KendaraanOperationalResponse } from "./responses/KendaraanOperationalResponse";
-import { PeminjamanPaginated } from "./responses/PeminjamanPaginated";
 import { kendaraanOperationalValidation } from "./validations/kendaraanOperatinalValidation";
 
 @Resolver(KendaraanOperational)
@@ -154,7 +153,7 @@ export class KendaraanOperationalResolver {
     return { kendaraanOperational };
   }
 
-  @Query(() => PeminjamanPaginated)
+  @Query(() => KendaraanOperationalPaginated)
   @UseMiddleware(isAuth)
   async kendaraanOperationals(
     @Arg("options") options: KendaraanOperationalPaginateInput
@@ -203,7 +202,7 @@ export class KendaraanOperationalResolver {
 
   @Query(() => KendaraanOperational, { nullable: true })
   @UseMiddleware(isAuth)
-  peminjaman(
+  kendaraanOperational(
     @Arg("id", () => Int) id: number
   ): Promise<KendaraanOperational | undefined> {
     return KendaraanOperational.findOne({ id });
@@ -211,7 +210,7 @@ export class KendaraanOperationalResolver {
 
   @Mutation(() => KendaraanOperationalResponse)
   @UseMiddleware(isOperator)
-  async updatePeminjaman(
+  async updateKendaraanOperational(
     @Arg("id", () => Int) id: number,
     @Arg("payload") payload: KendaraanOperationalInput,
     @Arg("fileFotoProfilPegawai", () => GraphQLUpload, { nullable: true })
