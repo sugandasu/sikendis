@@ -11,6 +11,9 @@ import {
 import NextLink from "next/link";
 import React from "react";
 import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
+import { RiEBikeFill } from "react-icons/ri";
+import { AiFillCar } from "react-icons/ai";
+import { GiCarKey, GiCarWheel } from "react-icons/gi";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarMenuLevel } from "./SidebarMenuLevel";
 
@@ -54,17 +57,35 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
               </NextLink>
             </Box>
             <SidebarMenu
-              link="/dashboard/"
+              link="/dashboard"
               text="Dashboard"
               color="blue.500"
               icon={FaHome}
             />
             <SidebarMenuLevel text="Kendaraan" color="red.500" icon={FaCarSide}>
               <SidebarMenu
-                link="/dashboard/kendaraan"
-                text="Kendaraan"
-                color="red.500"
-                icon={FaCarSide}
+                link="/dashboard/kendaraan-roda-2"
+                text="Kendaraan Roda 2"
+                color="green.500"
+                icon={RiEBikeFill}
+              />
+              <SidebarMenu
+                link="/dashboard/kendaraan-roda-4"
+                text="Kendaraan Roda 4"
+                color="gray.500"
+                icon={AiFillCar}
+              />
+              <SidebarMenu
+                link="/dashboard/kendaraan-rutin"
+                text="Kendaraan Rutin"
+                color="yellow.500"
+                icon={GiCarWheel}
+              />
+              <SidebarMenu
+                link="/dashboard/kendaraan-operational"
+                text="Kendaraan Operational"
+                color="pink.500"
+                icon={GiCarKey}
               />
             </SidebarMenuLevel>
             <SidebarMenu
