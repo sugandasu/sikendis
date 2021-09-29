@@ -18,6 +18,18 @@ interface SimpleTableModalProps {
   row: any;
 }
 
+const showHeaderRender = (header, row, i) => {
+  if (header.key === "id") {
+    return null;
+  }
+
+  return (
+    <Box width="100%" key={i}>
+      <Text>{header.label + ": " + header.render(row)}</Text>
+    </Box>
+  );
+};
+
 export const SimpleTableModal: React.FC<SimpleTableModalProps> = ({
   onClose,
   isOpen,
@@ -27,7 +39,7 @@ export const SimpleTableModal: React.FC<SimpleTableModalProps> = ({
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent mx={5} pb={5}>
         <ModalHeader>Modal Title</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -38,7 +50,9 @@ export const SimpleTableModal: React.FC<SimpleTableModalProps> = ({
                   <Box width="100%" key={i}>
                     <Text>{header.label + ": " + row[header.key]}</Text>
                   </Box>
-                ) : null;
+                ) : (
+                  showHeaderRender(header, row, i)
+                );
               })}
             </VStack>
           ) : null}
