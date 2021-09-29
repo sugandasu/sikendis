@@ -1,0 +1,11 @@
+query KendaraanOperationals($options: KendaraanOperationalPaginateInput!) {
+  kendaraanOperationals(options: $options) {
+    data {
+      ...RegularKendaraanOperational
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

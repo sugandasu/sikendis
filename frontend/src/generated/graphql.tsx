@@ -66,6 +66,70 @@ export type KendaraanInput = {
   ukuranCc: Scalars['String'];
 };
 
+export type KendaraanOperational = {
+  __typename?: 'KendaraanOperational';
+  fileDisposisi: Scalars['String'];
+  fileDisposisiUrl: Scalars['String'];
+  fileSuratPermohonan: Scalars['String'];
+  fileSuratPermohonanUrl: Scalars['String'];
+  fotoProfilPegawai?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
+  instansiPegawai?: Maybe<Scalars['String']>;
+  jabatanPegawai?: Maybe<Scalars['String']>;
+  jenisPeminjam: Scalars['String'];
+  kendaraan: Kendaraan;
+  kendaraanId: Scalars['Float'];
+  namaDinas?: Maybe<Scalars['String']>;
+  namaPegawai?: Maybe<Scalars['String']>;
+  nipPegawai?: Maybe<Scalars['String']>;
+  nomorDisposisi: Scalars['String'];
+  nomorHpSupir: Scalars['String'];
+  nomorSuratPermohonan: Scalars['String'];
+  subBagianPegawai?: Maybe<Scalars['String']>;
+  tanggalMulai: Scalars['DateTime'];
+  tanggalSelesai: Scalars['DateTime'];
+};
+
+export type KendaraanOperationalInput = {
+  fileDisposisi: Scalars['String'];
+  fileSuratPermohonan: Scalars['String'];
+  fotoProfilPegawai?: Maybe<Scalars['String']>;
+  instansiPegawai?: Maybe<Scalars['String']>;
+  jabatanPegawai?: Maybe<Scalars['String']>;
+  jenisPeminjam: Scalars['String'];
+  kendaraanId: Scalars['Int'];
+  namaDinas?: Maybe<Scalars['String']>;
+  namaPegawai?: Maybe<Scalars['String']>;
+  nipPegawai?: Maybe<Scalars['String']>;
+  nomorDisposisi: Scalars['String'];
+  nomorHpSupir: Scalars['String'];
+  nomorSuratPermohonan: Scalars['String'];
+  subBagianPegawai?: Maybe<Scalars['String']>;
+  tanggalMulai: Scalars['DateTime'];
+  tanggalSelesai: Scalars['DateTime'];
+};
+
+export type KendaraanOperationalPaginateInput = {
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+};
+
+export type KendaraanOperationalPaginated = {
+  __typename?: 'KendaraanOperationalPaginated';
+  data: Array<KendaraanOperational>;
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+  total: Scalars['Int'];
+};
+
+export type KendaraanOperationalResponse = {
+  __typename?: 'KendaraanOperationalResponse';
+  errors?: Maybe<Array<FieldError>>;
+  kendaraanOperational?: Maybe<KendaraanOperational>;
+};
+
 export type KendaraanPaginateInput = {
   filter?: Maybe<Scalars['JSONObject']>;
   limit: Scalars['Int'];
@@ -140,10 +204,12 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createKendaraan: KendaraanResponse;
+  createKendaraanOperational: KendaraanOperationalResponse;
   createKendaraanRutin: KendaraanRutinResponse;
   createPeminjaman: PeminjamanResponse;
   createPengguna: PenggunaResponse;
   deleteKendaraan: Scalars['Boolean'];
+  deleteKendaraanOperational: Scalars['Boolean'];
   deleteKendaraanRutin: Scalars['Boolean'];
   deletePeminjaman: Scalars['Boolean'];
   deletePengguna: Scalars['Boolean'];
@@ -151,6 +217,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register: UserResponse;
   updateKendaraan: KendaraanResponse;
+  updateKendaraanOperational: KendaraanOperationalResponse;
   updateKendaraanRutin: KendaraanRutinResponse;
   updatePeminjaman: PeminjamanResponse;
   updatePengguna: PenggunaResponse;
@@ -159,6 +226,14 @@ export type Mutation = {
 
 export type MutationCreateKendaraanArgs = {
   payload: KendaraanInput;
+};
+
+
+export type MutationCreateKendaraanOperationalArgs = {
+  fileDisposisi: Scalars['Upload'];
+  fileFotoProfilPegawai?: Maybe<Scalars['Upload']>;
+  fileSuratPermohonan: Scalars['Upload'];
+  payload: KendaraanOperationalInput;
 };
 
 
@@ -182,6 +257,11 @@ export type MutationCreatePenggunaArgs = {
 
 
 export type MutationDeleteKendaraanArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteKendaraanOperationalArgs = {
   id: Scalars['Int'];
 };
 
@@ -214,6 +294,15 @@ export type MutationRegisterArgs = {
 export type MutationUpdateKendaraanArgs = {
   id: Scalars['Int'];
   payload: KendaraanInput;
+};
+
+
+export type MutationUpdateKendaraanOperationalArgs = {
+  fileDisposisi?: Maybe<Scalars['Upload']>;
+  fileFotoProfilPegawai?: Maybe<Scalars['Upload']>;
+  fileSuratPermohonan?: Maybe<Scalars['Upload']>;
+  id: Scalars['Int'];
+  payload: KendaraanOperationalInput;
 };
 
 
@@ -339,6 +428,8 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   kendaraan?: Maybe<Kendaraan>;
+  kendaraanOperational?: Maybe<KendaraanOperational>;
+  kendaraanOperationals: KendaraanOperationalPaginated;
   kendaraanRutin?: Maybe<KendaraanRutin>;
   kendaraanRutins: KendaraanRutinPaginated;
   kendaraans: KendaraanPaginated;
@@ -354,6 +445,16 @@ export type Query = {
 
 export type QueryKendaraanArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryKendaraanOperationalArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryKendaraanOperationalsArgs = {
+  options: KendaraanOperationalPaginateInput;
 };
 
 
@@ -431,6 +532,8 @@ export type UserResponse = {
 
 export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any };
 
+export type RegularKendaraanOperationalFragment = { __typename?: 'KendaraanOperational', id: number, jenisPeminjam: string, namaDinas?: Maybe<string>, nipPegawai?: Maybe<string>, namaPegawai?: Maybe<string>, jabatanPegawai?: Maybe<string>, instansiPegawai?: Maybe<string>, subBagianPegawai?: Maybe<string>, fotoProfilPegawai?: Maybe<string>, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any } };
+
 export type RegularKendaraanRutinFragment = { __typename?: 'KendaraanRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, createdAt: any, updatedAt: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } };
 
 export type RegularPeminjamanFragment = { __typename?: 'Peminjaman', id: number, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, keterangan?: Maybe<string>, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } };
@@ -443,6 +546,16 @@ export type CreateKendaraanMutationVariables = Exact<{
 
 
 export type CreateKendaraanMutation = { __typename?: 'Mutation', createKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
+
+export type CreateKendaraanOperationalMutationVariables = Exact<{
+  payload: KendaraanOperationalInput;
+  fileFotoProfilPegawai?: Maybe<Scalars['Upload']>;
+  fileDisposisi: Scalars['Upload'];
+  fileSuratPermohonan: Scalars['Upload'];
+}>;
+
+
+export type CreateKendaraanOperationalMutation = { __typename?: 'Mutation', createKendaraanOperational: { __typename?: 'KendaraanOperationalResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraanOperational?: Maybe<{ __typename?: 'KendaraanOperational', id: number, jenisPeminjam: string, namaDinas?: Maybe<string>, nipPegawai?: Maybe<string>, namaPegawai?: Maybe<string>, jabatanPegawai?: Maybe<string>, instansiPegawai?: Maybe<string>, subBagianPegawai?: Maybe<string>, fotoProfilPegawai?: Maybe<string>, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any } }> } };
 
 export type CreateKendaraanRutinMutationVariables = Exact<{
   payload: KendaraanRutinInput;
@@ -475,6 +588,13 @@ export type DeleteKendaraanMutationVariables = Exact<{
 
 
 export type DeleteKendaraanMutation = { __typename?: 'Mutation', deleteKendaraan: boolean };
+
+export type DeleteKendaraanOperationalMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteKendaraanOperationalMutation = { __typename?: 'Mutation', deleteKendaraanOperational: boolean };
 
 export type DeleteKendaraanRutinMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -522,6 +642,17 @@ export type UpdateKendaraanMutationVariables = Exact<{
 
 export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
+export type UpdateKendaraanOperationalMutationVariables = Exact<{
+  id: Scalars['Int'];
+  payload: KendaraanOperationalInput;
+  fileFotoProfilPegawai?: Maybe<Scalars['Upload']>;
+  fileDisposisi?: Maybe<Scalars['Upload']>;
+  fileSuratPermohonan?: Maybe<Scalars['Upload']>;
+}>;
+
+
+export type UpdateKendaraanOperationalMutation = { __typename?: 'Mutation', updateKendaraanOperational: { __typename?: 'KendaraanOperationalResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraanOperational?: Maybe<{ __typename?: 'KendaraanOperational', id: number, jenisPeminjam: string, namaDinas?: Maybe<string>, nipPegawai?: Maybe<string>, namaPegawai?: Maybe<string>, jabatanPegawai?: Maybe<string>, instansiPegawai?: Maybe<string>, subBagianPegawai?: Maybe<string>, fotoProfilPegawai?: Maybe<string>, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any } }> } };
+
 export type UpdateKendaraanRutinMutationVariables = Exact<{
   id: Scalars['Int'];
   payload: KendaraanRutinInput;
@@ -550,12 +681,26 @@ export type UpdatePenggunaMutationVariables = Exact<{
 
 export type UpdatePenggunaMutation = { __typename?: 'Mutation', updatePengguna: { __typename?: 'PenggunaResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, pengguna?: Maybe<{ __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> }> } };
 
+export type KendaraanOperationalQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type KendaraanOperationalQuery = { __typename?: 'Query', kendaraanOperational?: Maybe<{ __typename?: 'KendaraanOperational', id: number, jenisPeminjam: string, namaDinas?: Maybe<string>, nipPegawai?: Maybe<string>, namaPegawai?: Maybe<string>, jabatanPegawai?: Maybe<string>, instansiPegawai?: Maybe<string>, subBagianPegawai?: Maybe<string>, fotoProfilPegawai?: Maybe<string>, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any } }> };
+
 export type KendaraanQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
 export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> };
+
+export type KendaraanOperationalsQueryVariables = Exact<{
+  options: KendaraanOperationalPaginateInput;
+}>;
+
+
+export type KendaraanOperationalsQuery = { __typename?: 'Query', kendaraanOperationals: { __typename?: 'KendaraanOperationalPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'KendaraanOperational', id: number, jenisPeminjam: string, namaDinas?: Maybe<string>, nipPegawai?: Maybe<string>, namaPegawai?: Maybe<string>, jabatanPegawai?: Maybe<string>, instansiPegawai?: Maybe<string>, subBagianPegawai?: Maybe<string>, fotoProfilPegawai?: Maybe<string>, nomorDisposisi: string, fileDisposisi: string, fileDisposisiUrl: string, nomorSuratPermohonan: string, fileSuratPermohonan: string, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorHpSupir: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any } }> } };
 
 export type KendaraanRutinQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -647,6 +792,31 @@ export const RegularKendaraanFragmentDoc = gql`
   updatedAt
 }
     `;
+export const RegularKendaraanOperationalFragmentDoc = gql`
+    fragment RegularKendaraanOperational on KendaraanOperational {
+  id
+  kendaraan {
+    ...RegularKendaraan
+  }
+  jenisPeminjam
+  namaDinas
+  nipPegawai
+  namaPegawai
+  jabatanPegawai
+  instansiPegawai
+  subBagianPegawai
+  fotoProfilPegawai
+  nomorDisposisi
+  fileDisposisi
+  fileDisposisiUrl
+  nomorSuratPermohonan
+  fileSuratPermohonan
+  fileSuratPermohonanUrl
+  tanggalMulai
+  tanggalSelesai
+  nomorHpSupir
+}
+    ${RegularKendaraanFragmentDoc}`;
 export const RegularPenggunaFragmentDoc = gql`
     fragment RegularPengguna on Pengguna {
   id
@@ -738,6 +908,53 @@ export function useCreateKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateKendaraanMutationHookResult = ReturnType<typeof useCreateKendaraanMutation>;
 export type CreateKendaraanMutationResult = Apollo.MutationResult<CreateKendaraanMutation>;
 export type CreateKendaraanMutationOptions = Apollo.BaseMutationOptions<CreateKendaraanMutation, CreateKendaraanMutationVariables>;
+export const CreateKendaraanOperationalDocument = gql`
+    mutation CreateKendaraanOperational($payload: KendaraanOperationalInput!, $fileFotoProfilPegawai: Upload, $fileDisposisi: Upload!, $fileSuratPermohonan: Upload!) {
+  createKendaraanOperational(
+    payload: $payload
+    fileFotoProfilPegawai: $fileFotoProfilPegawai
+    fileDisposisi: $fileDisposisi
+    fileSuratPermohonan: $fileSuratPermohonan
+  ) {
+    errors {
+      field
+      message
+    }
+    kendaraanOperational {
+      ...RegularKendaraanOperational
+    }
+  }
+}
+    ${RegularKendaraanOperationalFragmentDoc}`;
+export type CreateKendaraanOperationalMutationFn = Apollo.MutationFunction<CreateKendaraanOperationalMutation, CreateKendaraanOperationalMutationVariables>;
+
+/**
+ * __useCreateKendaraanOperationalMutation__
+ *
+ * To run a mutation, you first call `useCreateKendaraanOperationalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateKendaraanOperationalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createKendaraanOperationalMutation, { data, loading, error }] = useCreateKendaraanOperationalMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *      fileFotoProfilPegawai: // value for 'fileFotoProfilPegawai'
+ *      fileDisposisi: // value for 'fileDisposisi'
+ *      fileSuratPermohonan: // value for 'fileSuratPermohonan'
+ *   },
+ * });
+ */
+export function useCreateKendaraanOperationalMutation(baseOptions?: Apollo.MutationHookOptions<CreateKendaraanOperationalMutation, CreateKendaraanOperationalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateKendaraanOperationalMutation, CreateKendaraanOperationalMutationVariables>(CreateKendaraanOperationalDocument, options);
+      }
+export type CreateKendaraanOperationalMutationHookResult = ReturnType<typeof useCreateKendaraanOperationalMutation>;
+export type CreateKendaraanOperationalMutationResult = Apollo.MutationResult<CreateKendaraanOperationalMutation>;
+export type CreateKendaraanOperationalMutationOptions = Apollo.BaseMutationOptions<CreateKendaraanOperationalMutation, CreateKendaraanOperationalMutationVariables>;
 export const CreateKendaraanRutinDocument = gql`
     mutation CreateKendaraanRutin($payload: KendaraanRutinInput!, $fileBap: Upload!) {
   createKendaraanRutin(payload: $payload, fileBap: $fileBap) {
@@ -894,6 +1111,37 @@ export function useDeleteKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteKendaraanMutationHookResult = ReturnType<typeof useDeleteKendaraanMutation>;
 export type DeleteKendaraanMutationResult = Apollo.MutationResult<DeleteKendaraanMutation>;
 export type DeleteKendaraanMutationOptions = Apollo.BaseMutationOptions<DeleteKendaraanMutation, DeleteKendaraanMutationVariables>;
+export const DeleteKendaraanOperationalDocument = gql`
+    mutation DeleteKendaraanOperational($id: Int!) {
+  deleteKendaraanOperational(id: $id)
+}
+    `;
+export type DeleteKendaraanOperationalMutationFn = Apollo.MutationFunction<DeleteKendaraanOperationalMutation, DeleteKendaraanOperationalMutationVariables>;
+
+/**
+ * __useDeleteKendaraanOperationalMutation__
+ *
+ * To run a mutation, you first call `useDeleteKendaraanOperationalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteKendaraanOperationalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteKendaraanOperationalMutation, { data, loading, error }] = useDeleteKendaraanOperationalMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteKendaraanOperationalMutation(baseOptions?: Apollo.MutationHookOptions<DeleteKendaraanOperationalMutation, DeleteKendaraanOperationalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteKendaraanOperationalMutation, DeleteKendaraanOperationalMutationVariables>(DeleteKendaraanOperationalDocument, options);
+      }
+export type DeleteKendaraanOperationalMutationHookResult = ReturnType<typeof useDeleteKendaraanOperationalMutation>;
+export type DeleteKendaraanOperationalMutationResult = Apollo.MutationResult<DeleteKendaraanOperationalMutation>;
+export type DeleteKendaraanOperationalMutationOptions = Apollo.BaseMutationOptions<DeleteKendaraanOperationalMutation, DeleteKendaraanOperationalMutationVariables>;
 export const DeleteKendaraanRutinDocument = gql`
     mutation DeleteKendaraanRutin($id: Int!) {
   deleteKendaraanRutin(id: $id)
@@ -1110,6 +1358,55 @@ export function useUpdateKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type UpdateKendaraanMutationHookResult = ReturnType<typeof useUpdateKendaraanMutation>;
 export type UpdateKendaraanMutationResult = Apollo.MutationResult<UpdateKendaraanMutation>;
 export type UpdateKendaraanMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanMutation, UpdateKendaraanMutationVariables>;
+export const UpdateKendaraanOperationalDocument = gql`
+    mutation UpdateKendaraanOperational($id: Int!, $payload: KendaraanOperationalInput!, $fileFotoProfilPegawai: Upload, $fileDisposisi: Upload, $fileSuratPermohonan: Upload) {
+  updateKendaraanOperational(
+    id: $id
+    payload: $payload
+    fileFotoProfilPegawai: $fileFotoProfilPegawai
+    fileDisposisi: $fileDisposisi
+    fileSuratPermohonan: $fileSuratPermohonan
+  ) {
+    errors {
+      field
+      message
+    }
+    kendaraanOperational {
+      ...RegularKendaraanOperational
+    }
+  }
+}
+    ${RegularKendaraanOperationalFragmentDoc}`;
+export type UpdateKendaraanOperationalMutationFn = Apollo.MutationFunction<UpdateKendaraanOperationalMutation, UpdateKendaraanOperationalMutationVariables>;
+
+/**
+ * __useUpdateKendaraanOperationalMutation__
+ *
+ * To run a mutation, you first call `useUpdateKendaraanOperationalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateKendaraanOperationalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateKendaraanOperationalMutation, { data, loading, error }] = useUpdateKendaraanOperationalMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      payload: // value for 'payload'
+ *      fileFotoProfilPegawai: // value for 'fileFotoProfilPegawai'
+ *      fileDisposisi: // value for 'fileDisposisi'
+ *      fileSuratPermohonan: // value for 'fileSuratPermohonan'
+ *   },
+ * });
+ */
+export function useUpdateKendaraanOperationalMutation(baseOptions?: Apollo.MutationHookOptions<UpdateKendaraanOperationalMutation, UpdateKendaraanOperationalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateKendaraanOperationalMutation, UpdateKendaraanOperationalMutationVariables>(UpdateKendaraanOperationalDocument, options);
+      }
+export type UpdateKendaraanOperationalMutationHookResult = ReturnType<typeof useUpdateKendaraanOperationalMutation>;
+export type UpdateKendaraanOperationalMutationResult = Apollo.MutationResult<UpdateKendaraanOperationalMutation>;
+export type UpdateKendaraanOperationalMutationOptions = Apollo.BaseMutationOptions<UpdateKendaraanOperationalMutation, UpdateKendaraanOperationalMutationVariables>;
 export const UpdateKendaraanRutinDocument = gql`
     mutation UpdateKendaraanRutin($id: Int!, $payload: KendaraanRutinInput!, $fileBap: Upload) {
   updateKendaraanRutin(id: $id, payload: $payload, fileBap: $fileBap) {
@@ -1239,6 +1536,41 @@ export function useUpdatePenggunaMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdatePenggunaMutationHookResult = ReturnType<typeof useUpdatePenggunaMutation>;
 export type UpdatePenggunaMutationResult = Apollo.MutationResult<UpdatePenggunaMutation>;
 export type UpdatePenggunaMutationOptions = Apollo.BaseMutationOptions<UpdatePenggunaMutation, UpdatePenggunaMutationVariables>;
+export const KendaraanOperationalDocument = gql`
+    query KendaraanOperational($id: Int!) {
+  kendaraanOperational(id: $id) {
+    ...RegularKendaraanOperational
+  }
+}
+    ${RegularKendaraanOperationalFragmentDoc}`;
+
+/**
+ * __useKendaraanOperationalQuery__
+ *
+ * To run a query within a React component, call `useKendaraanOperationalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKendaraanOperationalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKendaraanOperationalQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useKendaraanOperationalQuery(baseOptions: Apollo.QueryHookOptions<KendaraanOperationalQuery, KendaraanOperationalQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<KendaraanOperationalQuery, KendaraanOperationalQueryVariables>(KendaraanOperationalDocument, options);
+      }
+export function useKendaraanOperationalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraanOperationalQuery, KendaraanOperationalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<KendaraanOperationalQuery, KendaraanOperationalQueryVariables>(KendaraanOperationalDocument, options);
+        }
+export type KendaraanOperationalQueryHookResult = ReturnType<typeof useKendaraanOperationalQuery>;
+export type KendaraanOperationalLazyQueryHookResult = ReturnType<typeof useKendaraanOperationalLazyQuery>;
+export type KendaraanOperationalQueryResult = Apollo.QueryResult<KendaraanOperationalQuery, KendaraanOperationalQueryVariables>;
 export const KendaraanDocument = gql`
     query Kendaraan($id: Int!) {
   kendaraan(id: $id) {
@@ -1274,6 +1606,47 @@ export function useKendaraanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type KendaraanQueryHookResult = ReturnType<typeof useKendaraanQuery>;
 export type KendaraanLazyQueryHookResult = ReturnType<typeof useKendaraanLazyQuery>;
 export type KendaraanQueryResult = Apollo.QueryResult<KendaraanQuery, KendaraanQueryVariables>;
+export const KendaraanOperationalsDocument = gql`
+    query KendaraanOperationals($options: KendaraanOperationalPaginateInput!) {
+  kendaraanOperationals(options: $options) {
+    data {
+      ...RegularKendaraanOperational
+    }
+    total
+    limit
+    page
+    filter
+  }
+}
+    ${RegularKendaraanOperationalFragmentDoc}`;
+
+/**
+ * __useKendaraanOperationalsQuery__
+ *
+ * To run a query within a React component, call `useKendaraanOperationalsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKendaraanOperationalsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKendaraanOperationalsQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useKendaraanOperationalsQuery(baseOptions: Apollo.QueryHookOptions<KendaraanOperationalsQuery, KendaraanOperationalsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<KendaraanOperationalsQuery, KendaraanOperationalsQueryVariables>(KendaraanOperationalsDocument, options);
+      }
+export function useKendaraanOperationalsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraanOperationalsQuery, KendaraanOperationalsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<KendaraanOperationalsQuery, KendaraanOperationalsQueryVariables>(KendaraanOperationalsDocument, options);
+        }
+export type KendaraanOperationalsQueryHookResult = ReturnType<typeof useKendaraanOperationalsQuery>;
+export type KendaraanOperationalsLazyQueryHookResult = ReturnType<typeof useKendaraanOperationalsLazyQuery>;
+export type KendaraanOperationalsQueryResult = Apollo.QueryResult<KendaraanOperationalsQuery, KendaraanOperationalsQueryVariables>;
 export const KendaraanRutinDocument = gql`
     query KendaraanRutin($id: Int!) {
   kendaraanRutin(id: $id) {

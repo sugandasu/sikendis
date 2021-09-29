@@ -1,0 +1,23 @@
+fragment RegularKendaraanOperational on KendaraanOperational {
+  id
+  kendaraan {
+    ...RegularKendaraan
+  }
+  jenisPeminjam
+  namaDinas
+  nipPegawai
+  namaPegawai
+  jabatanPegawai
+  instansiPegawai
+  subBagianPegawai
+  fotoProfilPegawai
+  nomorDisposisi
+  fileDisposisi
+  fileDisposisiUrl
+  nomorSuratPermohonan
+  fileSuratPermohonan
+  fileSuratPermohonanUrl
+  tanggalMulai
+  tanggalSelesai
+  nomorHpSupir
+}

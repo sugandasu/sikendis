@@ -1,0 +1,21 @@
+mutation CreateKendaraanOperational(
+  $payload: KendaraanOperationalInput!
+  $fileFotoProfilPegawai: Upload
+  $fileDisposisi: Upload!
+  $fileSuratPermohonan: Upload!
+) {
+  createKendaraanOperational(
+    payload: $payload
+    fileFotoProfilPegawai: $fileFotoProfilPegawai
+    fileDisposisi: $fileDisposisi
+    fileSuratPermohonan: $fileSuratPermohonan
+  ) {
+    errors {
+      field
+      message
+    }
+    kendaraanOperational {
+      ...RegularKendaraanOperational
+    }
+  }
+}
