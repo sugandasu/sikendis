@@ -73,11 +73,12 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
     {
       label: "Pengguna",
       key: "pengguna",
+      hideSm: true,
       render: (row) => {
         return row?.pengguna?.nama;
       },
     },
-    { label: "Nomor BAP", key: "nomorBap" },
+    { label: "Nomor BAP", key: "nomorBap", hideSm: true },
     {
       label: "Tanggal BAP",
       key: "tanggalBap",
