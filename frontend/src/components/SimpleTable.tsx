@@ -84,9 +84,9 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
 
   return (
     <Box my={4}>
-      <Flex align="center" mb={4}>
+      {/* <Flex align="center" mb={4}>
         <Input placeholder="Filter" />
-      </Flex>
+      </Flex> */}
       <Flex align="center" mb={4}>
         <Text fontSize="xs">
           Page {data.page} dari {totalPage}
