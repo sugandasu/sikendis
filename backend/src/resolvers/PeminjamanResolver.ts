@@ -23,7 +23,6 @@ import { KendaraanLoader } from "./loaders/KendaraanLoader";
 import { PenggunaLoader } from "./loaders/PenggunaLoader";
 import { PeminjamanPaginated } from "./responses/PeminjamanPaginated";
 import { PeminjamanResponse } from "./responses/PeminjamanResponse";
-import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { peminjamanValidation } from "./validations/peminjamanValidation";
 
 @Resolver(Peminjaman)
@@ -137,7 +136,7 @@ export class PeminjamanResolver {
   @UseMiddleware(isAuth)
   async peminjamans(
     @Arg("options") options: PaginatedInput
-  ): Promise<PenggunaPaginated> {
+  ): Promise<PeminjamanPaginated> {
     const realLimit = Math.min(10, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
