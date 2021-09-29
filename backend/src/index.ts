@@ -24,6 +24,7 @@ import { PeminjamanResolver } from "./resolvers/PeminjamanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
+import { KendaraanOperationalResolver } from "./resolvers/KendaraanOperationalResolver";
 
 const main = async () => {
   // const conection = await createConnection({
@@ -54,6 +55,7 @@ const main = async () => {
         PenggunaResolver,
         KendaraanResolver,
         KendaraanRutinResolver,
+        KendaraanOperationalResolver,
         PeminjamanResolver,
       ],
       validate: false,
