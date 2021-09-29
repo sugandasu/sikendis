@@ -24,13 +24,14 @@ export const SidebarMenuLevel: React.FC<SidebarMenuLevelProps> = ({
   color,
 }) => {
   const router = useRouter();
+
   let routeIsHere = [];
   if (Array.isArray(children)) {
     routeIsHere = children.filter((child) => {
       if (typeof child === "object") {
         if ("props" in child) {
           if ("link" in child.props) {
-            return child.props.link === router.route;
+            return router.route.includes(child.props.link);
           }
         }
       }

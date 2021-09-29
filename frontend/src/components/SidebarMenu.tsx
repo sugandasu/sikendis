@@ -21,6 +21,12 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
   color,
 }) => {
   const router = useRouter();
+  let routerIsHere = false;
+  if (link.split("/").length > 2) {
+    routerIsHere = router.route.includes(link);
+  } else {
+    routerIsHere = router.route === link;
+  }
   return (
     <NextLink href={link}>
       <Link _hover={{ textDecoration: "none" }}>
@@ -31,7 +37,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
             leftIcon={<Icon ml={3} color={color} as={icon} />}
             py={7}
             borderRadius={0}
-            bgColor={router.route === link ? "gray.200" : "transparent"}
+            bgColor={routerIsHere ? "gray.200" : "transparent"}
             justifyContent="left"
           >
             <Text fontSize="l" color="gray.700">
