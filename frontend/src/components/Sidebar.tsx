@@ -12,6 +12,7 @@ import NextLink from "next/link";
 import React from "react";
 import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
 import { SidebarMenu } from "./SidebarMenu";
+import { SidebarMenuLevel } from "./SidebarMenuLevel";
 
 interface SidebarProps {
   menuIsOpen: boolean;
@@ -58,12 +59,14 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
               color="blue.500"
               icon={FaHome}
             />
-            <SidebarMenu
-              link="/dashboard/kendaraan"
-              text="Kendaraan"
-              color="red.500"
-              icon={FaCarSide}
-            />
+            <SidebarMenuLevel text="Kendaraan" color="red.500" icon={FaCarSide}>
+              <SidebarMenu
+                link="/dashboard/kendaraan"
+                text="Kendaraan"
+                color="red.500"
+                icon={FaCarSide}
+              />
+            </SidebarMenuLevel>
             <SidebarMenu
               link="/dashboard/pengguna"
               text="Pengguna"
