@@ -67,7 +67,7 @@ export class Peminjaman extends BaseEntity {
   keterangan!: string | null;
 
   @CreateDateColumn()
-  createAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
