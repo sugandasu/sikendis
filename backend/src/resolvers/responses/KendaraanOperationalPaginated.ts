@@ -1,5 +1,5 @@
 import { GraphQLJSONObject } from "graphql-type-json";
-import { KendaraanOperational } from "src/entities/KendaraanOperational";
+import { KendaraanOperational } from "../../entities/KendaraanOperational";
 import { Field, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
