@@ -1,8 +1,5 @@
-import { KendaraanOperationalPaginated } from "./responses/KendaraanOperationalPaginated";
-import { KendaraanOperationalPaginateInput } from "./inputs/KendaraanOperationalPaginateInput";
 import { unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
-import { KendaraanOperational } from "src/entities/KendaraanOperational";
 import {
   Arg,
   FieldResolver,
@@ -15,20 +12,17 @@ import {
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Kendaraan } from "../entities/Kendaraan";
-import { Peminjaman } from "../entities/Peminjaman";
+import { KendaraanOperational } from "../entities/KendaraanOperational";
 import { isAuth } from "./../middlewares/isAuth";
 import { isOperator } from "./../middlewares/isOperator";
 import { uploadFile } from "./../utils/UploadFile";
 import { KendaraanOperationalInput } from "./inputs/KendaraanOperationalInput";
-import { PaginatedInput } from "./inputs/PaginatedInput";
-import { PeminjamanInput } from "./inputs/PeminjamanInput";
+import { KendaraanOperationalPaginateInput } from "./inputs/KendaraanOperationalPaginateInput";
 import { KendaraanLoader } from "./loaders/KendaraanLoader";
+import { KendaraanOperationalPaginated } from "./responses/KendaraanOperationalPaginated";
 import { KendaraanOperationalResponse } from "./responses/KendaraanOperationalResponse";
 import { PeminjamanPaginated } from "./responses/PeminjamanPaginated";
-import { PeminjamanResponse } from "./responses/PeminjamanResponse";
-import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { kendaraanOperationalValidation } from "./validations/kendaraanOperatinalValidation";
-import { peminjamanValidation } from "./validations/peminjamanValidation";
 
 @Resolver(KendaraanOperational)
 export class KendaraanOperationalResolver {

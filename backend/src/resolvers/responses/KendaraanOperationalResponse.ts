@@ -1,4 +1,4 @@
-import { KendaraanOperational } from "src/entities/KendaraanOperational";
+import { KendaraanOperational } from "../../entities/KendaraanOperational";
 import { Field, ObjectType } from "type-graphql";
 import { FieldError } from "../../utils/FieldError";
 
