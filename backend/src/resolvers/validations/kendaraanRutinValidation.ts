@@ -40,13 +40,15 @@ export const kendaraanRutinValidation = async (
     ];
   }
 
-  if (payload.fileBap.trim().length === 0) {
-    return [
-      {
-        field: "fileBap",
-        message: "File BAP tidak boleh kosong",
-      },
-    ];
+  if (!skipId) {
+    if (payload.fileBap.trim().length === 0) {
+      return [
+        {
+          field: "fileBap",
+          message: "File BAP tidak boleh kosong",
+        },
+      ];
+    }
   }
 
   if (!payload.tanggalBap) {
