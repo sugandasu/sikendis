@@ -14,8 +14,8 @@ import { Kendaraan } from "./../entities/Kendaraan";
 import { KendaraanInput } from "./inputs/KendaraanInput";
 import { KendaraanResponse } from "./responses/KendaraanResponse";
 import { kendaraanValidation } from "./validations/kendaraanValidation";
-import { KendaraanPaginated } from "./responses/KendaraanPaginates";
-import { PaginatedInput } from "./inputs/PaginatedInput";
+import { KendaraanPaginated } from "./responses/KendaraanPaginated";
+import { KendaraanPaginateInput } from "./inputs/KendaraanPaginateInput";
 
 @Resolver(Kendaraan)
 export class KendaraanResolver {
@@ -35,43 +35,31 @@ export class KendaraanResolver {
   @Query(() => KendaraanPaginated)
   @UseMiddleware(isAuth)
   async kendaraans(
-    @Arg("options") options: PaginatedInput
+    @Arg("options") options: KendaraanPaginateInput
   ): Promise<KendaraanPaginated> {
     const realLimit = Math.min(10, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
     params.push(realLimit);
     params.push(offset);
+
+    let whereColumns = [];
+    let whereColumnQuery = "";
     if (options.filter) {
-      params.push(options.filter);
+      if (options.filter.columns) {
+        whereColumns = options.filter.columns.map((column) => {
+          params.push(column.value);
+          return `"${column.name}" = $${params.length}`;
+        });
+        whereColumnQuery = whereColumns.join(" AND ");
+      }
     }
 
     const data = await getConnection().query(
       `
       SELECT *
       FROM kendaraan
-      ${
-        options.filter
-          ? `
-      WHERE
-      "tipeRoda" = $3 OR 
-      kode = $3 OR 
-      nama = $3 OR 
-      "nomorRegister" = $3 OR
-      merek = $3 OR 
-      "ukuranCc" = $3 OR 
-      bahan = $3 OR
-      "tahunPembelian" = $3 OR
-      "nomorRangka" = $3 OR
-      "nomorMesin" = $3 OR
-      "nomorPolisi" = $3 OR
-      "nomorBpkb" = $3 OR
-      "asalUsul" = $3 OR
-      harga = $3 OR
-      keterangan = $3
-      `
-          : ``
-      }
+      ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
       LIMIT $1
       OFFSET $2
       `,
@@ -142,7 +130,7 @@ export class KendaraanResolver {
 
   @Query(() => [Kendaraan], { nullable: true })
   @UseMiddleware(isAuth)
-  async kendaraanSearchBy(
+  async kendaraansSearchBy(
     @Arg("options") options: SearchByInput
   ): Promise<Kendaraan | undefined> {
     const params = ["%" + options.value + "%", options.limit];

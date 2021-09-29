@@ -1,4 +1,5 @@
-import { Kendaraan } from "./../../entities/Kendaraan";
+import { GraphQLJSONObject } from "graphql-type-json";
+import { Kendaraan } from "../../entities/Kendaraan";
 import { ObjectType, Field, Int } from "type-graphql";
 
 @ObjectType()
@@ -15,6 +16,6 @@ export class KendaraanPaginated {
   @Field(() => Int)
   page: number;
 
-  @Field(() => String, { nullable: true })
-  filter?: string | null;
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  filter?: object | null;
 }

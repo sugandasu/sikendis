@@ -6,12 +6,7 @@ export const kendaraanValidation = async (
   payload: KendaraanInput,
   skipId: number | null = null
 ) => {
-  if (
-    !(
-      payload.tipeRoda.toLowerCase() === "roda 2" ||
-      payload.tipeRoda.toLowerCase() === "roda 4"
-    )
-  ) {
+  if (!(payload.tipeRoda === "Roda 2" || payload.tipeRoda === "Roda 4")) {
     return [{ field: "tipeRoda", message: "Tipe roda tidak valid" }];
   }
 

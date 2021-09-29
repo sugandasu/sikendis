@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSONObject: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
@@ -64,10 +66,16 @@ export type KendaraanInput = {
   ukuranCc: Scalars['String'];
 };
 
+export type KendaraanPaginateInput = {
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+};
+
 export type KendaraanPaginated = {
   __typename?: 'KendaraanPaginated';
   data: Array<Kendaraan>;
-  filter?: Maybe<Scalars['String']>;
+  filter?: Maybe<Scalars['JSONObject']>;
   limit: Scalars['Int'];
   page: Scalars['Int'];
   total: Scalars['Int'];
@@ -259,8 +267,8 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   kendaraan?: Maybe<Kendaraan>;
-  kendaraanSearchBy?: Maybe<Array<Kendaraan>>;
   kendaraans: KendaraanPaginated;
+  kendaraansSearchBy?: Maybe<Array<Kendaraan>>;
   me?: Maybe<User>;
   peminjaman?: Maybe<Peminjaman>;
   peminjamans: PeminjamanPaginated;
@@ -275,13 +283,13 @@ export type QueryKendaraanArgs = {
 };
 
 
-export type QueryKendaraanSearchByArgs = {
-  options: SearchByInput;
+export type QueryKendaraansArgs = {
+  options: KendaraanPaginateInput;
 };
 
 
-export type QueryKendaraansArgs = {
-  options: PaginatedInput;
+export type QueryKendaraansSearchByArgs = {
+  options: SearchByInput;
 };
 
 
@@ -439,19 +447,19 @@ export type KendaraanQueryVariables = Exact<{
 
 export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> };
 
-export type KendaraanSearchByQueryVariables = Exact<{
+export type KendaraansSearchByQueryVariables = Exact<{
   options: SearchByInput;
 }>;
 
 
-export type KendaraanSearchByQuery = { __typename?: 'Query', kendaraanSearchBy?: Maybe<Array<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }>> };
+export type KendaraansSearchByQuery = { __typename?: 'Query', kendaraansSearchBy?: Maybe<Array<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }>> };
 
 export type KendaraansQueryVariables = Exact<{
-  options: PaginatedInput;
+  options: KendaraanPaginateInput;
 }>;
 
 
-export type KendaraansQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<string>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
+export type KendaraansQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb: string, asalUsul: string, harga: string, keterangan?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1012,43 +1020,43 @@ export function useKendaraanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type KendaraanQueryHookResult = ReturnType<typeof useKendaraanQuery>;
 export type KendaraanLazyQueryHookResult = ReturnType<typeof useKendaraanLazyQuery>;
 export type KendaraanQueryResult = Apollo.QueryResult<KendaraanQuery, KendaraanQueryVariables>;
-export const KendaraanSearchByDocument = gql`
-    query KendaraanSearchBy($options: SearchByInput!) {
-  kendaraanSearchBy(options: $options) {
+export const KendaraansSearchByDocument = gql`
+    query KendaraansSearchBy($options: SearchByInput!) {
+  kendaraansSearchBy(options: $options) {
     ...RegularKendaraan
   }
 }
     ${RegularKendaraanFragmentDoc}`;
 
 /**
- * __useKendaraanSearchByQuery__
+ * __useKendaraansSearchByQuery__
  *
- * To run a query within a React component, call `useKendaraanSearchByQuery` and pass it any options that fit your needs.
- * When your component renders, `useKendaraanSearchByQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useKendaraansSearchByQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKendaraansSearchByQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useKendaraanSearchByQuery({
+ * const { data, loading, error } = useKendaraansSearchByQuery({
  *   variables: {
  *      options: // value for 'options'
  *   },
  * });
  */
-export function useKendaraanSearchByQuery(baseOptions: Apollo.QueryHookOptions<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>) {
+export function useKendaraansSearchByQuery(baseOptions: Apollo.QueryHookOptions<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>(KendaraanSearchByDocument, options);
+        return Apollo.useQuery<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>(KendaraansSearchByDocument, options);
       }
-export function useKendaraanSearchByLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>) {
+export function useKendaraansSearchByLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>(KendaraanSearchByDocument, options);
+          return Apollo.useLazyQuery<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>(KendaraansSearchByDocument, options);
         }
-export type KendaraanSearchByQueryHookResult = ReturnType<typeof useKendaraanSearchByQuery>;
-export type KendaraanSearchByLazyQueryHookResult = ReturnType<typeof useKendaraanSearchByLazyQuery>;
-export type KendaraanSearchByQueryResult = Apollo.QueryResult<KendaraanSearchByQuery, KendaraanSearchByQueryVariables>;
+export type KendaraansSearchByQueryHookResult = ReturnType<typeof useKendaraansSearchByQuery>;
+export type KendaraansSearchByLazyQueryHookResult = ReturnType<typeof useKendaraansSearchByLazyQuery>;
+export type KendaraansSearchByQueryResult = Apollo.QueryResult<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>;
 export const KendaraansDocument = gql`
-    query Kendaraans($options: PaginatedInput!) {
+    query Kendaraans($options: KendaraanPaginateInput!) {
   kendaraans(options: $options) {
     data {
       ...RegularKendaraan

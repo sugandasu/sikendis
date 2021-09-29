@@ -1,4 +1,4 @@
-query Kendaraans($options: PaginatedInput!) {
+query Kendaraans($options: KendaraanPaginateInput!) {
   kendaraans(options: $options) {
     data {
       ...RegularKendaraan
