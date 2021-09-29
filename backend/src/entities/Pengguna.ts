@@ -8,6 +8,19 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
+export enum Instansi {
+  UMUM = "Biro Umum pada Sekretariat Daerah Provinsi Sulawesi Tengah",
+  PEMERINTAHAN = "Biro Pemerintahan dan Otonomi Daerah Pada Sekretariat Daerah Provinsi Sulawei Tengah",
+  ADMINISTRASI_PEMBANGUNAN = "Biro Administrasi Pembangunan Sekretariat Daerah Provinsi Sulawesi Tengah",
+  HUKUM = "Biro Hukum Pada Sekretariat Daerah Provinsi Sulawesi Tengah",
+  PEREKONOMIAN = "Biro Perekonomian Sekretariat Daerah Sulawesi Tengah",
+  KESEJAHTERAAN = "Biro Kesejahteraan Rakyat Pada Sekretariat Daerah Provinsi Sulawesi ",
+  ADMINISTRASI_SDA = "Biro Administrasi Pembangunan & Sumber Daya Alam",
+  ORGANISASI = "Biro Organisasi Pada Sekretariat Daerah Provinsi Sulawesi Tengah",
+  PENGADAAN_BARANG = "Biro Pengadaan Barang/ Jasa Pada Sekretariat Daerah Provinsi Sulawesi Tengah",
+  ADMINISTRASI_PIMPINAN = "Biro Administrasi Pimpinan Pada Sekretariat Daerah Provinsi Sulawesi Tengah",
+}
+
 @ObjectType()
 @Entity()
 export class Pengguna extends BaseEntity {
