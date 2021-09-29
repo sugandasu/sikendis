@@ -150,7 +150,11 @@ export class PenggunaResolver {
           filename: payload.fotoProfil,
         });
 
-        if (!upload) {
+        if (upload) {
+          if (pengguna.fotoProfil) {
+            unlinkSync(`${__dirname}/../../uploads/${pengguna.fotoProfil}`);
+          }
+        } else {
           return {
             errors: [
               {
@@ -160,10 +164,6 @@ export class PenggunaResolver {
             ],
           };
         }
-
-        if (pengguna.fotoProfil) {
-          unlinkSync(`${__dirname}/../../uploads/${pengguna.fotoProfil}`);
-        }
       }
     }
 
@@ -171,9 +171,7 @@ export class PenggunaResolver {
       .createQueryBuilder()
       .update(Pengguna)
       .set({ ...payload })
-      .where("id = :id", {
-        id,
-      })
+      .where("id = :id", { id })
       .returning("*")
       .execute();
 
