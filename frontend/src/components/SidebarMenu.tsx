@@ -37,7 +37,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
             leftIcon={<Icon ml={3} color={color} as={icon} />}
             py={7}
             borderRadius={0}
-            bgColor={routerIsHere ? "gray.200" : "transparent"}
+            bgColor={routerIsHere ? "gray.300" : "transparent"}
             justifyContent="left"
           >
             <Text fontSize="l" color="gray.700">
