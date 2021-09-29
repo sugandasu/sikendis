@@ -24,7 +24,7 @@ export const FileField: React.FC<FileFieldProps> = ({
 }) => {
   const [field, { error }] = useField(props);
   return (
-    <FormControl mb={2}>
+    <FormControl my={2}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
       <Input
         type="file"

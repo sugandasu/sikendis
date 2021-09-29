@@ -27,7 +27,7 @@ export const SelectionField: React.FC<SelectionFieldProps> = ({
   const [field, { error }] = useField(props);
   // console.log(props);
   return (
-    <FormControl isInvalid={!!error} mb={2}>
+    <FormControl isInvalid={!!error} my={5}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
       <Select id={field.name} placeholder={placeholder} {...field}>
         {options.map((option, i) => (

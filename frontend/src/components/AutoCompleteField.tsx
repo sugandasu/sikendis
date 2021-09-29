@@ -45,7 +45,7 @@ export const AutoCompleteField: React.FC<InputFieldProps> = ({
   const [field, { error }] = useField(props);
   const [value, setValue] = useState(initialValue);
   return (
-    <FormControl isInvalid={!!error} mb={2}>
+    <FormControl isInvalid={!!error} my={5}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
       <Input
         value={value}
