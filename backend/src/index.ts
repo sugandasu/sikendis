@@ -1,3 +1,4 @@
+import { KendaraanOperational } from "./entities/KendaraanOperational";
 import { KendaraanRutin } from "./entities/KendaraanRutin";
 import { KendaraanRutinResolver } from "./resolvers/KendaraanRutinResolver";
 import { ApolloServer, Config, ExpressContext } from "apollo-server-express";
@@ -32,7 +33,14 @@ const main = async () => {
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Kendaraan, Pengguna, User, Peminjaman, KendaraanRutin],
+    entities: [
+      Kendaraan,
+      Pengguna,
+      User,
+      Peminjaman,
+      KendaraanRutin,
+      KendaraanOperational,
+    ],
   });
 
   // await conection.runMigrations();
