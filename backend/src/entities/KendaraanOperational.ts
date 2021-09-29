@@ -9,17 +9,16 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Kendaraan } from "./Kendaraan";
-import { Pengguna } from "./Pengguna";
 
 @ObjectType()
 @Entity()
-export class Peminjaman extends BaseEntity {
+export class KendaraanOperational extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Field()
-  @Column({ unique: false })
+  @Column()
   kendaraanId!: number;
 
   @Field()
@@ -27,12 +26,37 @@ export class Peminjaman extends BaseEntity {
   kendaraan: Kendaraan;
 
   @Field()
-  @Column({ unique: false })
-  penggunaId!: number;
+  @Column()
+  jenisPeminjam!: string; // Dinas atau Pegawai
 
-  @Field()
-  @ManyToOne(() => Pengguna)
-  pengguna: Pengguna;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  namaDinas: string | null;
+
+  // PEGAWAI
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  nipPegawai: string | null;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  namaPegawai: string | null;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  jabatanPegawai: string | null;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  instansiPegawai: string | null;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  subBagianPegawai: string | null;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  fotoProfilPegawai: string | null;
 
   @Field()
   @Column()
@@ -61,10 +85,6 @@ export class Peminjaman extends BaseEntity {
   @Field()
   @Column()
   nomorHpSupir!: string;
-
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  keterangan!: string | null;
 
   @CreateDateColumn()
   createAt: Date;
