@@ -12,7 +12,7 @@ import { Kendaraan } from "./Kendaraan";
 
 @ObjectType()
 @Entity()
-export class KendaraanOperational extends BaseEntity {
+export class PeminjamanOperasional extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
@@ -27,52 +27,27 @@ export class KendaraanOperational extends BaseEntity {
 
   @Field()
   @Column()
-  jenisPeminjam!: string; // Dinas atau Pegawai
-
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  namaDinas: string | null;
-
-  // PEGAWAI
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  nipPegawai: string | null;
-
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  namaPegawai: string | null;
-
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  jabatanPegawai: string | null;
-
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  instansiPegawai: string | null;
-
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  subBagianPegawai: string | null;
-
-  @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
-  fotoProfilPegawai: string | null;
+  instansi!: string;
 
   @Field()
   @Column()
-  nomorDisposisi!: string;
+  penanggungJawab!: string;
 
-  @Field()
-  @Column()
-  fileDisposisi!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  nomorSuratDisposisi: string | null;
 
-  @Field()
-  @Column()
-  nomorSuratPermohonan!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  fileSuratDisposisi: string | null;
 
-  @Field()
-  @Column()
-  fileSuratPermohonan!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  nomorSuratPermohonan: string | null;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  fileSuratPermohonan: string | null;
 
   @Field()
   @Column({ type: "date" })
@@ -84,7 +59,7 @@ export class KendaraanOperational extends BaseEntity {
 
   @Field()
   @Column()
-  nomorHpSupir!: string;
+  nomorTelepon!: string;
 
   @CreateDateColumn()
   createdAt: Date;

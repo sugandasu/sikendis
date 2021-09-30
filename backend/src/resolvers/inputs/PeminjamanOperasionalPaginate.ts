@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from "type-graphql";
 import { GraphQLJSONObject } from "graphql-type-json";
 
-export interface KendaraanOperationalPaginateInputFilter {
+export interface PeminjamanOperasionalPaginateFilter {
   all?: string;
   columns?: [
     {
@@ -13,7 +13,7 @@ export interface KendaraanOperationalPaginateInputFilter {
 }
 
 @InputType()
-export class KendaraanOperationalPaginateInput {
+export class PeminjamanOperasionalPaginate {
   @Field(() => Int)
   limit: number;
 
@@ -21,5 +21,5 @@ export class KendaraanOperationalPaginateInput {
   page: number;
 
   @Field(() => GraphQLJSONObject, { nullable: true })
-  filter?: KendaraanOperationalPaginateInputFilter | null;
+  filter?: PeminjamanOperasionalPaginateFilter | null;
 }

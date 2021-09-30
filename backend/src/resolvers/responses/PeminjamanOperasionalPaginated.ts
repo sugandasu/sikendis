@@ -1,11 +1,11 @@
 import { GraphQLJSONObject } from "graphql-type-json";
-import { KendaraanOperational } from "../../entities/KendaraanOperational";
+import { PeminjamanOperasional } from "../../entities/PeminjamanOperasional";
 import { Field, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
-export class KendaraanOperationalPaginated {
-  @Field(() => [KendaraanOperational])
-  data: KendaraanOperational[];
+export class PeminjamanOperasionalPaginated {
+  @Field(() => [PeminjamanOperasional])
+  data: PeminjamanOperasional[];
 
   @Field(() => Int)
   total: number;

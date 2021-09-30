@@ -12,14 +12,14 @@ import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { __prod__ } from "./constants";
 import { Kendaraan } from "./entities/Kendaraan";
-import { KendaraanOperational } from "./entities/KendaraanOperational";
 import { Peminjaman } from "./entities/Peminjaman";
+import { PeminjamanOperasional } from "./entities/PeminjamanOperasional";
 import { Pengguna } from "./entities/Pengguna";
 import { PenggunaRutin } from "./entities/PenggunaRutin";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/HelloResolver";
-import { KendaraanOperationalResolver } from "./resolvers/KendaraanOperationalResolver";
 import { KendaraanResolver } from "./resolvers/KendaraanResolver";
+import { PeminjamanOperasionalResolver } from "./resolvers/PeminjamanOperasionalResolver";
 import { PeminjamanResolver } from "./resolvers/PeminjamanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { PenggunaRutinResolver } from "./resolvers/PenggunaRutinResolver";
@@ -39,7 +39,7 @@ const main = async () => {
       Pengguna,
       User,
       Peminjaman,
-      KendaraanOperational,
+      PeminjamanOperasional,
       PenggunaRutin,
     ],
   });
@@ -54,7 +54,7 @@ const main = async () => {
         UserResolver,
         PenggunaResolver,
         KendaraanResolver,
-        KendaraanOperationalResolver,
+        PeminjamanOperasionalResolver,
         PeminjamanResolver,
         PenggunaRutinResolver,
       ],
