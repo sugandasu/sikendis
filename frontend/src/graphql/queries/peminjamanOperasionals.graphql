@@ -1,0 +1,11 @@
+query PeminjamanOperasionals($options: PeminjamanOperasionalPaginate!) {
+  peminjamanOperasionals(options: $options) {
+    data {
+      ...RegularPeminjamanOperasional
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

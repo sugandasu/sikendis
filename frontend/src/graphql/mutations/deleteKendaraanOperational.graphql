@@ -1,3 +1,0 @@
-mutation DeleteKendaraanOperational($id: Int!) {
-  deleteKendaraanOperational(id: $id)
-}

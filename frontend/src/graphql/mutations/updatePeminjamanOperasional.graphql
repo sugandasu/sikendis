@@ -1,0 +1,21 @@
+mutation UpdatePeminjamanOperasional(
+  $id: Int!
+  $payload: PeminjamanOperasionalInput!
+  $fileSuratDisposisi: Upload
+  $fileSuratPermohonan: Upload
+) {
+  updatePeminjamanOperasional(
+    id: $id
+    payload: $payload
+    fileSuratDisposisi: $fileSuratDisposisi
+    fileSuratPermohonan: $fileSuratPermohonan
+  ) {
+    errors {
+      field
+      message
+    }
+    peminjamanOperasional {
+      ...RegularPeminjamanOperasional
+    }
+  }
+}

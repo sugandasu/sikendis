@@ -1,0 +1,17 @@
+fragment RegularPeminjamanOperasional on PeminjamanOperasional {
+  id
+  kendaraan {
+    ...RegularKendaraan
+  }
+  instansi
+  penanggungJawab
+  nomorSuratDisposisi
+  fileSuratDisposisi
+  fileSuratDisposisiUrl
+  nomorSuratPermohonan
+  fileSuratPermohonan
+  fileSuratPermohonanUrl
+  tanggalMulai
+  tanggalSelesai
+  nomorTelepon
+}

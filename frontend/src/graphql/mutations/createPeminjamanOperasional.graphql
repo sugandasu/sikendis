@@ -1,0 +1,19 @@
+mutation CreatePeminjamanOperasional(
+  $payload: PeminjamanOperasionalInput!
+  $fileSuratDisposisi: Upload
+  $fileSuratPermohonan: Upload
+) {
+  createPeminjamanOperasional(
+    payload: $payload
+    fileSuratDisposisi: $fileSuratDisposisi
+    fileSuratPermohonan: $fileSuratPermohonan
+  ) {
+    errors {
+      field
+      message
+    }
+    peminjamanOperasional {
+      ...RegularPeminjamanOperasional
+    }
+  }
+}

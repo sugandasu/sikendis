@@ -1,3 +1,0 @@
-mutation DeletePeminjaman($id: Int!) {
-  deletePeminjaman(id: $id)
-}

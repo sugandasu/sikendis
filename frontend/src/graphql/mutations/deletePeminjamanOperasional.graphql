@@ -1,0 +1,3 @@
+mutation DeletePeminjamanOperasional($id: Int!) {
+  deletePeminjamanOperasional(id: $id)
+}
