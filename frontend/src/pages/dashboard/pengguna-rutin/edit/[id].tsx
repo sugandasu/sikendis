@@ -53,6 +53,7 @@ const DashboardPenggunaRutinEdit: React.FC<{}> = ({}) => {
         page: 1,
         filter: {
           columns: [
+            { name: "tipeKendaraan", value: "Kendaraan Rutin", operation: "=" },
             { name: "nomorPolisi", value: searchKendaraan, operation: "LIKE" },
           ],
         },
@@ -74,13 +75,6 @@ const DashboardPenggunaRutinEdit: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  if (loading) {
-    return <Box>Loading...</Box>;
-  }
-  if (!data?.penggunaRutin) {
-    return <Box>Data tidak ditemukan</Box>;
-  }
-
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
@@ -97,95 +91,101 @@ const DashboardPenggunaRutinEdit: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              <Formik
-                initialValues={{
-                  kendaraanId: data.penggunaRutin.kendaraan.id,
-                  penggunaId: data.penggunaRutin.pengguna.id,
-                  nomorBap: data.penggunaRutin.nomorBap,
-                  fileBap: data.penggunaRutin.fileBap,
-                  tanggalBap: getFormattedDate(data.penggunaRutin.tanggalBap),
-                }}
-                onSubmit={async (values, { setErrors }) => {
-                  const response = await updatePenggunaRutin({
-                    variables: {
-                      id: intId,
-                      payload: values,
-                      fileBap,
-                    },
-                    update: (cache) => {
-                      cache.evict({ fieldName: "penggunaRutins" });
-                    },
-                  });
-                  if (response.data?.updatePenggunaRutin.errors) {
-                    setErrors(
-                      toErrorMap(response.data.updatePenggunaRutin.errors)
-                    );
-                  } else if (response.data?.updatePenggunaRutin.penggunaRutin) {
-                    router.push("/dashboard/pengguna-rutin");
-                  }
-                }}
-              >
-                {({ isSubmitting, setFieldValue }) => (
-                  <Form>
-                    <AutoCompleteField
-                      name="kendaraanId"
-                      label="Kendaraan"
-                      placeholder="Pilih Kendaraan"
-                      ChildrenIcon={AiFillCar}
-                      options={
-                        kendaraans?.kendaraans.data && !kendaraansLoading
-                          ? kendaraans.kendaraans.data
-                          : []
-                      }
-                      initialValue={data.penggunaRutin.kendaraan.nomorPolisi}
-                      setSearch={setSearchKendaraan}
-                      fieldName="nomorPolisi"
-                      setFieldValue={setFieldValue}
-                    />
-                    <AutoCompleteField
-                      name="penggunaId"
-                      label="Pengguna"
-                      placeholder="Pilih Pengguna"
-                      ChildrenIcon={FaUsers}
-                      options={
-                        penggunas?.penggunas.data && !penggunasLoading
-                          ? penggunas.penggunas.data
-                          : []
-                      }
-                      initialValue={data.penggunaRutin.pengguna.nama}
-                      setSearch={setSearchPengguna}
-                      fieldName="nama"
-                      setFieldValue={setFieldValue}
-                    />
-                    <InputField
-                      name="nomorBap"
-                      label="Nomor BAP"
-                      placeholder="Nomor BAP"
-                    />
-                    <FileField
-                      name="fileBap"
-                      label="File BAP"
-                      placeholder="File BAP"
-                      setFile={setFileBap}
-                      setFieldValue={setFieldValue}
-                    />
-                    <InputField
-                      name="tanggalBap"
-                      label="Tanggal BAP"
-                      placeholder="Tanggal BAP"
-                      type="date"
-                    />
-                    <Button
-                      mt={4}
-                      type="submit"
-                      isLoading={isSubmitting}
-                      colorScheme="teal"
-                    >
-                      Edit Pengguna Rutin
-                    </Button>
-                  </Form>
-                )}
-              </Formik>
+              {!loading && data.penggunaRutin ? (
+                <Formik
+                  initialValues={{
+                    kendaraanId: data.penggunaRutin.kendaraan.id,
+                    penggunaId: data.penggunaRutin.pengguna.id,
+                    nomorBap: data.penggunaRutin.nomorBap,
+                    fileBap: data.penggunaRutin.fileBap,
+                    tanggalBap: getFormattedDate(data.penggunaRutin.tanggalBap),
+                  }}
+                  onSubmit={async (values, { setErrors }) => {
+                    const response = await updatePenggunaRutin({
+                      variables: {
+                        id: intId,
+                        payload: values,
+                        fileBap,
+                      },
+                      update: (cache) => {
+                        cache.evict({ fieldName: "penggunaRutins" });
+                      },
+                    });
+                    if (response.data?.updatePenggunaRutin.errors) {
+                      setErrors(
+                        toErrorMap(response.data.updatePenggunaRutin.errors)
+                      );
+                    } else if (
+                      response.data?.updatePenggunaRutin.penggunaRutin
+                    ) {
+                      router.push("/dashboard/pengguna-rutin");
+                    }
+                  }}
+                >
+                  {({ isSubmitting, setFieldValue }) => (
+                    <Form>
+                      <AutoCompleteField
+                        name="kendaraanId"
+                        label="Kendaraan"
+                        placeholder="Pilih Kendaraan"
+                        ChildrenIcon={AiFillCar}
+                        options={
+                          kendaraans?.kendaraans.data && !kendaraansLoading
+                            ? kendaraans.kendaraans.data
+                            : []
+                        }
+                        initialValue={data.penggunaRutin.kendaraan.nomorPolisi}
+                        setSearch={setSearchKendaraan}
+                        fieldName="nomorPolisi"
+                        setFieldValue={setFieldValue}
+                      />
+                      <AutoCompleteField
+                        name="penggunaId"
+                        label="Pengguna"
+                        placeholder="Pilih Pengguna"
+                        ChildrenIcon={FaUsers}
+                        options={
+                          penggunas?.penggunas.data && !penggunasLoading
+                            ? penggunas.penggunas.data
+                            : []
+                        }
+                        initialValue={data.penggunaRutin.pengguna.nama}
+                        setSearch={setSearchPengguna}
+                        fieldName="nama"
+                        setFieldValue={setFieldValue}
+                      />
+                      <InputField
+                        name="nomorBap"
+                        label="Nomor BAP"
+                        placeholder="Nomor BAP"
+                      />
+                      <FileField
+                        name="fileBap"
+                        label="File BAP"
+                        placeholder="File BAP"
+                        setFile={setFileBap}
+                        setFieldValue={setFieldValue}
+                      />
+                      <InputField
+                        name="tanggalBap"
+                        label="Tanggal BAP"
+                        placeholder="Tanggal BAP"
+                        type="date"
+                      />
+                      <Button
+                        mt={4}
+                        type="submit"
+                        isLoading={isSubmitting}
+                        colorScheme="teal"
+                      >
+                        Edit Pengguna Rutin
+                      </Button>
+                    </Form>
+                  )}
+                </Formik>
+              ) : (
+                "Loading..."
+              )}
             </Box>
           </Box>
         </Box>

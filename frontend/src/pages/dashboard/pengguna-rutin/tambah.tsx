@@ -43,6 +43,7 @@ const DashboardPenggunaRutinTambah: React.FC<{}> = ({}) => {
         page: 1,
         filter: {
           columns: [
+            { name: "tipeKendaraan", value: "Kendaraan Rutin", operation: "=" },
             { name: "nomorPolisi", value: searchKendaraan, operation: "LIKE" },
           ],
         },
@@ -103,7 +104,7 @@ const DashboardPenggunaRutinTambah: React.FC<{}> = ({}) => {
                       toErrorMap(response.data.createPenggunaRutin.errors)
                     );
                   } else if (response.data?.createPenggunaRutin.penggunaRutin) {
-                    router.push("/dashboard/kendaraan-rutin");
+                    router.push("/dashboard/pengguna-rutin");
                   }
                 }}
               >
@@ -123,6 +124,7 @@ const DashboardPenggunaRutinTambah: React.FC<{}> = ({}) => {
                       setSearch={setSearchKendaraan}
                       fieldName="nomorPolisi"
                       setFieldValue={setFieldValue}
+                      required={true}
                     />
                     <AutoCompleteField
                       name="penggunaId"
@@ -138,11 +140,13 @@ const DashboardPenggunaRutinTambah: React.FC<{}> = ({}) => {
                       setSearch={setSearchPengguna}
                       fieldName="nama"
                       setFieldValue={setFieldValue}
+                      required={true}
                     />
                     <InputField
                       name="nomorBap"
                       label="Nomor BAP"
                       placeholder="Nomor BAP"
+                      required={true}
                     />
                     <FileField
                       name="fileBap"
@@ -150,12 +154,14 @@ const DashboardPenggunaRutinTambah: React.FC<{}> = ({}) => {
                       placeholder="File BAP"
                       setFile={setFileBap}
                       setFieldValue={setFieldValue}
+                      required={true}
                     />
                     <InputField
                       name="tanggalBap"
                       label="Tanggal BAP"
                       placeholder="Tanggal BAP"
                       type="date"
+                      required={true}
                     />
                     <Button
                       mt={4}
