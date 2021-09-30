@@ -51,7 +51,7 @@ export const kendaraanRutinValidation = async (
     }
   }
 
-  if (!payload.tanggalBap) {
+  if (isNaN(payload.tanggalBap.getTime())) {
     return [
       {
         field: "tanggalBap",
