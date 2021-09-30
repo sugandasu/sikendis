@@ -81,27 +81,40 @@ const DashboardPenggunaKendaraanEdit: React.FC<{}> = ({}) => {
                 >
                   {({ isSubmitting, setFieldValue }) => (
                     <Form>
-                      <InputField name="nip" label="Nip" placeholder="nip" />
-                      <InputField name="nama" label="Nama" placeholder="nama" />
+                      <InputField
+                        name="nip"
+                        label="Nip"
+                        placeholder="Nip"
+                        required={true}
+                      />
+                      <InputField
+                        name="nama"
+                        label="Nama"
+                        placeholder="Nama"
+                        required={true}
+                      />
                       <InputField
                         name="jabatan"
                         label="Jabatan"
-                        placeholder="jabatan"
+                        placeholder="Jabatan"
+                        required={true}
                       />
                       <InputField
                         name="instansi"
                         label="Instansi"
-                        placeholder="instansi"
+                        placeholder="Instansi"
+                        required={true}
                       />
                       <InputField
                         name="subBagian"
                         label="Sub bagian"
-                        placeholder="subBagian"
+                        placeholder="Sub bagian"
+                        required={true}
                       />
                       <FileField
                         name="fotoProfil"
                         label="Foto Profil"
-                        placeholder="Foto Profil"
+                        placeholder="Foto profil"
                         setFile={setFotoProfil}
                         setFieldValue={setFieldValue}
                       />
