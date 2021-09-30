@@ -8,6 +8,7 @@ import {
   MenuList,
   Stack,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useState } from "react";
@@ -21,11 +22,11 @@ import {
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 
-const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
+const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
   useIsAuth();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
-    { text: "Kendaraan Roda 2", link: "#", isCurrentPage: true },
+    { text: "Kendaraan Rutin", link: "#", isCurrentPage: true },
   ];
   const { data, loading } = useKendaraansQuery({
     variables: {
@@ -33,7 +34,9 @@ const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
         limit: 10,
         page: 1,
         filter: {
-          columns: [{ name: "tipeRoda", value: "Roda 2", operation: "=" }],
+          columns: [
+            { name: "tipeKendaraan", value: "Kendaraan Rutin", operation: "=" },
+          ],
         },
       },
     },
@@ -55,13 +58,6 @@ const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
   const deleteDialogClose = () => setDeleteDialogOpen(false);
   const deleteDialogCancel = React.useRef();
   const dialogKey = "nomorPolisi";
-
-  if (loading) {
-    return <Box>Loading...</Box>;
-  }
-  if (!loading && !data?.kendaraans?.data) {
-    return <Box>Error data...</Box>;
-  }
 
   const headers = [
     {
@@ -114,6 +110,17 @@ const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
       hide: true,
     },
     {
+      label: "Foto",
+      key: "fotoUrl",
+      hide: true,
+      render: (row: any) => {
+        if (row.fotoUrl) {
+          return <Image src={row.fotoUrl} alt={row.nomorPolisi} />;
+        }
+        return "";
+      },
+    },
+    {
       label: "Keterangan",
       key: "keterangan",
       hide: true,
@@ -137,8 +144,8 @@ const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
                 <Text>View</Text>
               </MenuItem>
               <NextLink
-                href="/dashboard/kendaraan-roda-2/edit/[id]"
-                as={`/dashboard/kendaraan-roda-2/edit/${row.id}`}
+                href="/dashboard/kendaraan-rutin/edit/[id]"
+                as={`/dashboard/kendaraan-rutin/edit/${row.id}`}
               >
                 <Link>
                   <MenuItem>Edit</MenuItem>
@@ -164,8 +171,8 @@ const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Kendaraan Roda 2</Text>
-              <NextLink href="/dashboard/kendaraan-roda-2/tambah">
+              <Text fontSize="l">Kendaraan Rutin</Text>
+              <NextLink href="/dashboard/kendaraan-rutin/tambah">
                 <Link>
                   <Button bg="blue.500" color="white">
                     Tambah
@@ -174,11 +181,15 @@ const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              <SimpleTable
-                headers={headers}
-                data={data.kendaraans}
-                tableCaption="Kendaraan"
-              ></SimpleTable>
+              {loading ? (
+                "Loading..."
+              ) : (
+                <SimpleTable
+                  headers={headers}
+                  data={data.kendaraans}
+                  tableCaption="Kendaraan"
+                ></SimpleTable>
+              )}
             </Box>
           </Box>
         </Box>
@@ -195,4 +206,4 @@ const DashboardKendaraanRoda2Index: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardKendaraanRoda2Index;
+export default DashboardKendaraanRutinIndex;

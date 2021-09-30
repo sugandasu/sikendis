@@ -1,5 +1,6 @@
 fragment RegularKendaraan on Kendaraan {
   id
+  tipeKendaraan
   tipeRoda
   kode
   nama
@@ -13,7 +14,11 @@ fragment RegularKendaraan on Kendaraan {
   nomorPolisi
   nomorBpkb
   asalUsul
+  warna
+  bahanBakar
   harga
+  foto
+  fotoUrl
   keterangan
   createdAt
   updatedAt

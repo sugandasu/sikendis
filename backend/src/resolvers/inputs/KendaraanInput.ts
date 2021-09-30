@@ -60,5 +60,8 @@ export class KendaraanInput {
   harga: string;
 
   @Field(() => String, { nullable: true })
+  foto: string | null;
+
+  @Field(() => String, { nullable: true })
   keterangan: string | null;
 }

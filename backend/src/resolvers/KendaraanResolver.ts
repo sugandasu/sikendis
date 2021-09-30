@@ -1,12 +1,15 @@
+import { uploadFile } from "./../utils/UploadFile";
 import { SearchByInput } from "./inputs/SearchByInput";
 import { isAuth } from "./../middlewares/isAuth";
 import { getConnection } from "typeorm";
 import {
   Arg,
+  FieldResolver,
   Int,
   Mutation,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from "type-graphql";
 import { isOperator } from "../middlewares/isOperator";
@@ -16,18 +19,43 @@ import { KendaraanResponse } from "./responses/KendaraanResponse";
 import { kendaraanValidation } from "./validations/kendaraanValidation";
 import { KendaraanPaginated } from "./responses/KendaraanPaginated";
 import { KendaraanPaginateInput } from "./inputs/KendaraanPaginateInput";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
+import { unlinkSync } from "fs";
 
 @Resolver(Kendaraan)
 export class KendaraanResolver {
+  @FieldResolver(() => String, { nullable: true })
+  fotoUrl(@Root() root: Kendaraan) {
+    return root.foto ? process.env.BACKEND_URL + "/static/" + root.foto : null;
+  }
+
   @Mutation(() => KendaraanResponse)
   @UseMiddleware(isOperator)
   async createKendaraan(
-    @Arg("payload") payload: KendaraanInput
+    @Arg("payload") payload: KendaraanInput,
+    @Arg("foto", () => GraphQLUpload, { nullable: true }) foto: FileUpload
   ): Promise<KendaraanResponse> {
     const errors = await kendaraanValidation(payload);
     if (errors) {
       return { errors };
     }
+
+    if (foto) {
+      const { createReadStream, filename } = foto;
+      if (filename) {
+        const upload = await uploadFile({
+          createReadStream,
+          filename: payload.foto,
+        });
+
+        if (!upload) {
+          return {
+            errors: [{ field: "foto", message: "Foto gagal disimpan" }],
+          };
+        }
+      }
+    }
+
     const kendaraan = await Kendaraan.create({ ...payload }).save();
     return { kendaraan };
   }
@@ -89,7 +117,8 @@ export class KendaraanResolver {
   @UseMiddleware(isOperator)
   async updateKendaraan(
     @Arg("id", () => Int) id: number,
-    @Arg("payload") payload: KendaraanInput
+    @Arg("payload") payload: KendaraanInput,
+    @Arg("foto", () => GraphQLUpload, { nullable: true }) foto: FileUpload
   ): Promise<KendaraanResponse> {
     const errors = await kendaraanValidation(payload, id);
     if (errors) {
@@ -106,6 +135,22 @@ export class KendaraanResolver {
           },
         ],
       };
+    }
+
+    if (foto) {
+      const { createReadStream, filename } = foto;
+      if (filename) {
+        const upload = await uploadFile({
+          createReadStream,
+          filename: payload.foto,
+        });
+
+        if (!upload) {
+          return {
+            errors: [{ field: "foto", message: "Foto gagal disimpan" }],
+          };
+        }
+      }
     }
 
     const result = await getConnection()
@@ -125,7 +170,11 @@ export class KendaraanResolver {
   @UseMiddleware(isOperator)
   async deleteKendaraan(@Arg("id", () => Int) id: number): Promise<Boolean> {
     try {
+      const kendaraan = await Kendaraan.findOne({ id });
       await Kendaraan.delete({ id });
+      if (kendaraan?.foto) {
+        unlinkSync(`${__dirname}/../../uploads/${kendaraan.foto}`);
+      }
       return true;
     } catch (error) {
       return false;

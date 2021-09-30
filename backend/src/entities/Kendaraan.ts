@@ -10,7 +10,7 @@ import {
 
 export enum TipeKendaraan {
   RUTIN = "Kendaraan Rutin",
-  OPERATIONAL = "Kendaraan Operational",
+  OPERASIONAL = "Kendaraan Operasional",
 }
 
 export enum TipeRoda {
@@ -107,6 +107,10 @@ export class Kendaraan extends BaseEntity {
   @Field()
   @Column()
   harga!: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  foto: string | null;
 
   @Field(() => String, { nullable: true })
   @Column({ type: "text", nullable: true })

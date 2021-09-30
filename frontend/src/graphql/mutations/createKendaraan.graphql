@@ -1,5 +1,5 @@
-mutation CreateKendaraan($payload: KendaraanInput!) {
-  createKendaraan(payload: $payload) {
+mutation CreateKendaraan($payload: KendaraanInput!, $foto: Upload) {
+  createKendaraan(payload: $payload, foto: $foto) {
     errors {
       field
       message
