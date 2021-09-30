@@ -17,6 +17,7 @@ import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
+  PenggunaRutin,
   useDeletePenggunaRutinMutation,
   usePenggunaRutinsQuery,
 } from "../../../generated/graphql";
@@ -39,7 +40,7 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
+  const [currentRow, setCurrentRow] = useState<PenggunaRutin>();
   const [deletePenggunaRutin] = useDeletePenggunaRutinMutation();
   const deleteConfirm = () => {
     deletePenggunaRutin({

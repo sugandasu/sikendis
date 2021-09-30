@@ -17,6 +17,7 @@ import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
+  Kendaraan,
   useDeleteKendaraanMutation,
   useKendaraansQuery,
 } from "../../../generated/graphql";
@@ -43,7 +44,7 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
+  const [currentRow, setCurrentRow] = useState<Kendaraan>();
   const [deleteKendaraan] = useDeleteKendaraanMutation();
   const deleteConfirm = () => {
     deleteKendaraan({
