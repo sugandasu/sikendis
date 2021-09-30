@@ -229,7 +229,9 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
                     </Form>
                   )}
                 </Formik>
-              ) : null}
+              ) : (
+                "Loading..."
+              )}
             </Box>
           </Box>
         </Box>
