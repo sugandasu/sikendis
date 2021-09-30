@@ -11,9 +11,14 @@ import {
 import NextLink from "next/link";
 import React from "react";
 import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
-import { RiEBikeFill } from "react-icons/ri";
+import {
+  RiCarWashingFill,
+  RiEBikeFill,
+  RiGovernmentFill,
+} from "react-icons/ri";
 import { AiFillCar } from "react-icons/ai";
 import { GiCarKey, GiCarWheel } from "react-icons/gi";
+import { BiServer } from "react-icons/bi";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarMenuLevel } from "./SidebarMenuLevel";
 
@@ -94,6 +99,24 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
               color="gray.700"
               icon={FaUsers}
             />
+            <SidebarMenuLevel
+              text="Integrasi Aplikasi"
+              color="blue.600"
+              icon={BiServer}
+            >
+              <SidebarMenu
+                link="/dashboard/data-samsat"
+                text="Data SAMSAT"
+                color="green.500"
+                icon={RiCarWashingFill}
+              />
+              <SidebarMenu
+                link="/dashboard/data-simda"
+                text="Data SIMDA BMD"
+                color="red.500"
+                icon={RiGovernmentFill}
+              />
+            </SidebarMenuLevel>
           </Box>
           {lessThan640 ? (
             <Box
