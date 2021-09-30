@@ -18,9 +18,8 @@ import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
-  useDeletePeminjamanMutation,
+  useDeleteKendaraanOperationalMutation,
   useKendaraanOperationalsQuery,
-  usePeminjamansQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import { getFormattedDate } from "../../../utils/getFormattedDate";
@@ -42,9 +41,9 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
   });
 
   const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
-  const [deletePeminjaman] = useDeletePeminjamanMutation();
+  const [deleteKendaraanOperational] = useDeleteKendaraanOperationalMutation();
   const deleteConfirm = () => {
-    deletePeminjaman({
+    deleteKendaraanOperational({
       variables: { id: currentRow.id },
       update: (cache) => {
         cache.evict({ id: `KendaraanOperational:${currentRow.id}` });
