@@ -65,7 +65,7 @@ const DashboardPenggunaKendaraanTambah: React.FC<{}> = ({}) => {
                   if (response.data?.createPengguna.errors) {
                     setErrors(toErrorMap(response.data.createPengguna.errors));
                   } else if (response.data?.createPengguna.pengguna) {
-                    router.push("/dashboard/pengguna");
+                    router.push("/dashboard/pengguna-kendaraan");
                   }
                 }}
               >
