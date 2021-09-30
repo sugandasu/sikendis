@@ -113,7 +113,7 @@ export class PenggunaRutinResolver {
     const data = await getConnection().query(
       `
       SELECT *
-      FROM kendaraan_rutin
+      FROM pengguna_rutin
       ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
       LIMIT $1
       OFFSET $2
