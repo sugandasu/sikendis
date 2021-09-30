@@ -1,7 +1,5 @@
-import { uploadFile } from "./../utils/UploadFile";
-import { SearchByInput } from "./inputs/SearchByInput";
-import { isAuth } from "./../middlewares/isAuth";
-import { getConnection } from "typeorm";
+import { unlinkSync } from "fs";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
   Arg,
   FieldResolver,
@@ -12,15 +10,16 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
+import { getConnection } from "typeorm";
 import { isOperator } from "../middlewares/isOperator";
 import { Kendaraan } from "./../entities/Kendaraan";
+import { isAuth } from "./../middlewares/isAuth";
+import { uploadFile } from "./../utils/UploadFile";
 import { KendaraanInput } from "./inputs/KendaraanInput";
+import { KendaraanPaginateInput } from "./inputs/KendaraanPaginateInput";
+import { KendaraanPaginated } from "./responses/KendaraanPaginated";
 import { KendaraanResponse } from "./responses/KendaraanResponse";
 import { kendaraanValidation } from "./validations/kendaraanValidation";
-import { KendaraanPaginated } from "./responses/KendaraanPaginated";
-import { KendaraanPaginateInput } from "./inputs/KendaraanPaginateInput";
-import { FileUpload, GraphQLUpload } from "graphql-upload";
-import { unlinkSync } from "fs";
 
 @Resolver(Kendaraan)
 export class KendaraanResolver {
@@ -179,23 +178,5 @@ export class KendaraanResolver {
     } catch (error) {
       return false;
     }
-  }
-
-  @Query(() => [Kendaraan], { nullable: true })
-  @UseMiddleware(isAuth)
-  async kendaraansSearchBy(
-    @Arg("options") options: SearchByInput
-  ): Promise<Kendaraan | undefined> {
-    const params = ["%" + options.value + "%", options.limit];
-    const data = await getConnection().query(
-      `
-      SELECT *
-      FROM kendaraan
-      WHERE "${options.column}" LIKE $1
-      LIMIT $2
-      `,
-      params
-    );
-    return data;
   }
 }

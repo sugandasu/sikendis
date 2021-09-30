@@ -426,7 +426,6 @@ export type Query = {
   hello: Scalars['String'];
   kendaraan?: Maybe<Kendaraan>;
   kendaraans: KendaraanPaginated;
-  kendaraansSearchBy?: Maybe<Array<Kendaraan>>;
   me?: Maybe<User>;
   peminjaman?: Maybe<Peminjaman>;
   peminjamanOperasional?: Maybe<PeminjamanOperasional>;
@@ -435,7 +434,6 @@ export type Query = {
   pengguna?: Maybe<Pengguna>;
   penggunaRutin?: Maybe<PenggunaRutin>;
   penggunaRutins: PenggunaRutinPaginated;
-  penggunaSearchBy?: Maybe<Array<Pengguna>>;
   penggunas: PenggunaPaginated;
 };
 
@@ -447,11 +445,6 @@ export type QueryKendaraanArgs = {
 
 export type QueryKendaraansArgs = {
   options: KendaraanPaginateInput;
-};
-
-
-export type QueryKendaraansSearchByArgs = {
-  options: SearchByInput;
 };
 
 
@@ -490,19 +483,8 @@ export type QueryPenggunaRutinsArgs = {
 };
 
 
-export type QueryPenggunaSearchByArgs = {
-  options: SearchByInput;
-};
-
-
 export type QueryPenggunasArgs = {
   options: PenggunaPaginateInput;
-};
-
-export type SearchByInput = {
-  column: Scalars['String'];
-  limit: Scalars['Int'];
-  value?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -657,13 +639,6 @@ export type KendaraanQueryVariables = Exact<{
 
 export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> };
 
-export type KendaraansSearchByQueryVariables = Exact<{
-  options: SearchByInput;
-}>;
-
-
-export type KendaraansSearchByQuery = { __typename?: 'Query', kendaraansSearchBy?: Maybe<Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }>> };
-
 export type KendaraansQueryVariables = Exact<{
   options: KendaraanPaginateInput;
 }>;
@@ -710,13 +685,6 @@ export type PenggunaRutinsQueryVariables = Exact<{
 
 
 export type PenggunaRutinsQuery = { __typename?: 'Query', penggunaRutins: { __typename?: 'PenggunaRutinPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
-
-export type PenggunaSearchByQueryVariables = Exact<{
-  options: SearchByInput;
-}>;
-
-
-export type PenggunaSearchByQuery = { __typename?: 'Query', penggunaSearchBy?: Maybe<Array<{ __typename?: 'Pengguna', id: number, nama: string }>> };
 
 export type PenggunasQueryVariables = Exact<{
   options: PenggunaPaginateInput;
@@ -1374,41 +1342,6 @@ export function useKendaraanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type KendaraanQueryHookResult = ReturnType<typeof useKendaraanQuery>;
 export type KendaraanLazyQueryHookResult = ReturnType<typeof useKendaraanLazyQuery>;
 export type KendaraanQueryResult = Apollo.QueryResult<KendaraanQuery, KendaraanQueryVariables>;
-export const KendaraansSearchByDocument = gql`
-    query KendaraansSearchBy($options: SearchByInput!) {
-  kendaraansSearchBy(options: $options) {
-    ...RegularKendaraan
-  }
-}
-    ${RegularKendaraanFragmentDoc}`;
-
-/**
- * __useKendaraansSearchByQuery__
- *
- * To run a query within a React component, call `useKendaraansSearchByQuery` and pass it any options that fit your needs.
- * When your component renders, `useKendaraansSearchByQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useKendaraansSearchByQuery({
- *   variables: {
- *      options: // value for 'options'
- *   },
- * });
- */
-export function useKendaraansSearchByQuery(baseOptions: Apollo.QueryHookOptions<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>(KendaraansSearchByDocument, options);
-      }
-export function useKendaraansSearchByLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>(KendaraansSearchByDocument, options);
-        }
-export type KendaraansSearchByQueryHookResult = ReturnType<typeof useKendaraansSearchByQuery>;
-export type KendaraansSearchByLazyQueryHookResult = ReturnType<typeof useKendaraansSearchByLazyQuery>;
-export type KendaraansSearchByQueryResult = Apollo.QueryResult<KendaraansSearchByQuery, KendaraansSearchByQueryVariables>;
 export const KendaraansDocument = gql`
     query Kendaraans($options: KendaraanPaginateInput!) {
   kendaraans(options: $options) {
@@ -1674,42 +1607,6 @@ export function usePenggunaRutinsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type PenggunaRutinsQueryHookResult = ReturnType<typeof usePenggunaRutinsQuery>;
 export type PenggunaRutinsLazyQueryHookResult = ReturnType<typeof usePenggunaRutinsLazyQuery>;
 export type PenggunaRutinsQueryResult = Apollo.QueryResult<PenggunaRutinsQuery, PenggunaRutinsQueryVariables>;
-export const PenggunaSearchByDocument = gql`
-    query PenggunaSearchBy($options: SearchByInput!) {
-  penggunaSearchBy(options: $options) {
-    id
-    nama
-  }
-}
-    `;
-
-/**
- * __usePenggunaSearchByQuery__
- *
- * To run a query within a React component, call `usePenggunaSearchByQuery` and pass it any options that fit your needs.
- * When your component renders, `usePenggunaSearchByQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePenggunaSearchByQuery({
- *   variables: {
- *      options: // value for 'options'
- *   },
- * });
- */
-export function usePenggunaSearchByQuery(baseOptions: Apollo.QueryHookOptions<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>(PenggunaSearchByDocument, options);
-      }
-export function usePenggunaSearchByLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>(PenggunaSearchByDocument, options);
-        }
-export type PenggunaSearchByQueryHookResult = ReturnType<typeof usePenggunaSearchByQuery>;
-export type PenggunaSearchByLazyQueryHookResult = ReturnType<typeof usePenggunaSearchByLazyQuery>;
-export type PenggunaSearchByQueryResult = Apollo.QueryResult<PenggunaSearchByQuery, PenggunaSearchByQueryVariables>;
 export const PenggunasDocument = gql`
     query Penggunas($options: PenggunaPaginateInput!) {
   penggunas(options: $options) {

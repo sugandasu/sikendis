@@ -1,5 +1,0 @@
-query KendaraansSearchBy($options: SearchByInput!) {
-  kendaraansSearchBy(options: $options) {
-    ...RegularKendaraan
-  }
-}
