@@ -65,6 +65,10 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
 
   const headers = [
     {
+      label: "Jenis",
+      key: "tipeRoda",
+    },
+    {
       label: "Nomor Polisi",
       key: "nomorPolisi",
     },
