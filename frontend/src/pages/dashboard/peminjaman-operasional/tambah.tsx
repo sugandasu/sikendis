@@ -10,29 +10,28 @@ import { AutoCompleteField } from "../../../components/AutoCompleteField";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { FileField } from "../../../components/FileField";
 import { InputField } from "../../../components/InputField";
-import { SelectionField } from "../../../components/SelectionField";
 import {
-  useCreateKendaraanOperationalMutation,
+  useCreatePeminjamanOperasionalMutation,
   useKendaraansQuery,
 } from "../../../generated/graphql";
 import { useIsOperator } from "../../../middlewares/useIsOperator";
 import { toErrorMap } from "../../../utils/toErrorMap";
 
-const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
+const DashboardPeminjamanOperasionalTambah: React.FC<{}> = ({}) => {
   useIsOperator();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     {
-      text: "Kendaraan Operational",
-      link: "/dashboard/kendaraan-operational",
+      text: "Peminjaman Operasional",
+      link: "/dashboard/peminjaman-operasional",
       isCurrentPage: false,
     },
     { text: "Tambah", link: "#", isCurrentPage: true },
   ];
   const router = useRouter();
-  const [createKendaraanOperational] = useCreateKendaraanOperationalMutation();
-  const [fotoProfilPegawai, setFotoProfilePegawai] = useState<File>();
-  const [fileDisposisi, setFileDisposisi] = useState<File>();
+  const [createPeminjamanOperasional] =
+    useCreatePeminjamanOperasionalMutation();
+  const [fileSuratDisposisi, setFileSuratDisposisi] = useState<File>();
   const [fileSuratPermohonan, setFileSuratPermohon] = useState<File>();
   const [searchKendaraan, setSearchKendaraan] = useState();
 
@@ -43,6 +42,11 @@ const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
         page: 1,
         filter: {
           columns: [
+            {
+              name: "tipeKendaraan",
+              value: "Kendaraan Operasional",
+              operation: "=",
+            },
             { name: "nomorPolisi", value: searchKendaraan, operation: "LIKE" },
           ],
         },
@@ -57,8 +61,8 @@ const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Tambah Kendaraan Operational</Text>
-              <NextLink href="/dashboard/kendaraan-operational">
+              <Text fontSize="l">Tambah Peminjaman Operasional</Text>
+              <NextLink href="/dashboard/peminjaman-operasional">
                 <Link>
                   <Button bg="red.500" color="white">
                     Kembali
@@ -70,45 +74,38 @@ const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
               <Formik
                 initialValues={{
                   kendaraanId: -1,
-                  jenisPeminjam: "",
-                  namaDinas: "",
-                  nipPegawai: "",
-                  namaPegawai: "",
-                  jabatanPegawai: "",
-                  instansiPegawai: "",
-                  subBagianPegawai: "",
-                  fotoProfilPegawai: "",
-                  nomorDisposisi: "",
-                  fileDisposisi: "",
+                  instansi: "",
+                  penanggungJawab: "",
+                  nomorSuratDisposisi: "",
+                  fileSuratDisposisi: "",
                   nomorSuratPermohonan: "",
                   fileSuratPermohonan: "",
                   tanggalMulai: "",
                   tanggalSelesai: "",
-                  nomorHpSupir: "",
+                  nomorTelepon: "",
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                  const response = await createKendaraanOperational({
+                  const response = await createPeminjamanOperasional({
                     variables: {
                       payload: values,
-                      fotoProfilPegawai,
-                      fileDisposisi,
+                      fileSuratDisposisi,
                       fileSuratPermohonan,
                     },
                     update: (cache) => {
-                      cache.evict({ fieldName: "kendaraanOperationals" });
+                      cache.evict({ fieldName: "peminjamanOperasionals" });
                     },
                   });
-                  if (response.data?.createKendaraanOperational.errors) {
+                  if (response.data?.createPeminjamanOperasional.errors) {
                     setErrors(
                       toErrorMap(
-                        response.data.createKendaraanOperational.errors
+                        response.data.createPeminjamanOperasional.errors
                       )
                     );
                   } else if (
-                    response.data?.createKendaraanOperational
-                      .kendaraanOperational
+                    response.data?.createPeminjamanOperasional
+                      .peminjamanOperasional
                   ) {
-                    router.push("/dashboard/kendaraan-operational");
+                    router.push("/dashboard/peminjaman-operasional");
                   }
                 }}
               >
@@ -128,81 +125,47 @@ const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
                       setSearch={setSearchKendaraan}
                       fieldName="nomorPolisi"
                       setFieldValue={setFieldValue}
+                      required={true}
                     />
-                    <SelectionField
-                      name="jenisPeminjam"
-                      label="Jenis Peminjam"
-                      placeholder="Jenis Peminjam"
-                      options={[{ value: "Dinas" }, { value: "Pegawai" }]}
-                      textField="value"
-                      valueField="value"
-                    />
-                    {values.jenisPeminjam === "Dinas" ? (
-                      <Box>
-                        <InputField
-                          name="namaDinas"
-                          label="Nama Dinas"
-                          placeholder="Nama Dinas"
-                        />
-                      </Box>
-                    ) : null}
-                    {/* {values.jenisPeminjam === "Pegawai" ? ( */}
-                    <Box>
-                      <InputField
-                        name="nipPegawai"
-                        label="Nip Pegawai"
-                        placeholder="Nip Pegawai"
-                      />
-                      <InputField
-                        name="namaPegawai"
-                        label="Nama Pegawai"
-                        placeholder="Nama Pegawai"
-                      />
-                      <InputField
-                        name="jabatanPegawai"
-                        label="Jabatan Pegawai"
-                        placeholder="Jabatan Pegawai"
-                      />
-                      <InputField
-                        name="instansiPegawai"
-                        label="Instansi Pegawai"
-                        placeholder="Instansi Pegawai"
-                      />
-                      <InputField
-                        name="subBagianPegawai"
-                        label="Sub Bagian Pegawai"
-                        placeholder="Sub Bagian Pegawai"
-                      />
-                      <FileField
-                        name="fotoProfilPegawai"
-                        label="Foto Profil Pegawai"
-                        placeholder="Foto Profil Pegawai"
-                        setFile={setFotoProfilePegawai}
-                        setFieldValue={setFieldValue}
-                      />
-                    </Box>
-                    {/* ) : null} */}
                     <InputField
-                      name="nomorDisposisi"
-                      label="Nomor Disposisi"
-                      placeholder="Nomor Disposisi"
+                      name="instansi"
+                      label="Instansi"
+                      placeholder="Instansi"
+                      required={true}
+                    />
+                    <InputField
+                      name="penanggungJawab"
+                      label="Penanggungjawab"
+                      placeholder="Penanggungjawab"
+                      required={true}
+                    />
+                    <InputField
+                      name="nomorTelepon"
+                      label="Nomor Telepon"
+                      placeholder="Nomor telepon"
+                      required={true}
+                    />
+                    <InputField
+                      name="nomorSuratDisposisi"
+                      label="Nomor Surat Disposisi"
+                      placeholder="Nomor surat disposisi"
                     />
                     <FileField
-                      name="fileDisposisi"
-                      label="File Disposisi"
-                      placeholder="File Disposisi"
-                      setFile={setFileDisposisi}
+                      name="fileSuratDisposisi"
+                      label="File Surat Disposisi"
+                      placeholder="File surat disposisi"
+                      setFile={setFileSuratDisposisi}
                       setFieldValue={setFieldValue}
                     />
                     <InputField
                       name="nomorSuratPermohonan"
                       label="Nomor Surat Permohonan"
-                      placeholder="Nomor Surat Permohonan"
+                      placeholder="Nomor surat permohonan"
                     />
                     <FileField
                       name="fileSuratPermohonan"
                       label="File Surat Permohonan"
-                      placeholder="File Surat Permohonan"
+                      placeholder="File surat permohonan"
                       setFile={setFileSuratPermohon}
                       setFieldValue={setFieldValue}
                     />
@@ -211,17 +174,14 @@ const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
                       label="Tanggal Mulai"
                       placeholder="Tanggal Mulai"
                       type="date"
+                      required={true}
                     />
                     <InputField
                       name="tanggalSelesai"
                       label="Tanggal Selesai"
                       placeholder="Tanggal Selesai"
                       type="date"
-                    />
-                    <InputField
-                      name="nomorHpSupir"
-                      label="Nomor HP Supir"
-                      placeholder="Nomor HP Supir"
+                      required={true}
                     />
                     <Button
                       mt={4}
@@ -229,7 +189,7 @@ const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
                       isLoading={isSubmitting}
                       colorScheme="teal"
                     >
-                      Tambah Kendaraan Operational
+                      Tambah Peminjaman Operasional
                     </Button>
                   </Form>
                 )}
@@ -242,4 +202,4 @@ const DashboardKendaraanOperationalTambah: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardKendaraanOperationalTambah;
+export default DashboardPeminjamanOperasionalTambah;

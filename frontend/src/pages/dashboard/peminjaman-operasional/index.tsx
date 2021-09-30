@@ -1,6 +1,5 @@
 import { Button } from "@chakra-ui/button";
 import {
-  Avatar,
   Box,
   Flex,
   Link,
@@ -18,19 +17,20 @@ import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
-  useDeleteKendaraanOperationalMutation,
-  useKendaraanOperationalsQuery,
+  PeminjamanOperasional,
+  useDeletePeminjamanOperasionalMutation,
+  usePeminjamanOperasionalsQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import { getFormattedDate } from "../../../utils/getFormattedDate";
 
-const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
+const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
   useIsAuth();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Kendaraan Operational", link: "#", isCurrentPage: true },
   ];
-  const { data, loading } = useKendaraanOperationalsQuery({
+  const { data, loading } = usePeminjamanOperasionalsQuery({
     variables: {
       options: {
         limit: 10,
@@ -40,13 +40,14 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
-  const [deleteKendaraanOperational] = useDeleteKendaraanOperationalMutation();
+  const [currentRow, setCurrentRow] = useState<PeminjamanOperasional>();
+  const [deletePeminjamanOperasional] =
+    useDeletePeminjamanOperasionalMutation();
   const deleteConfirm = () => {
-    deleteKendaraanOperational({
+    deletePeminjamanOperasional({
       variables: { id: currentRow.id },
       update: (cache) => {
-        cache.evict({ id: `KendaraanOperational:${currentRow.id}` });
+        cache.evict({ id: `PeminjamanOperasional:${currentRow.id}` });
       },
     });
   };
@@ -54,43 +55,25 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const deleteDialogClose = () => setDeleteDialogOpen(false);
   const deleteDialogCancel = React.useRef();
-  const dialogKey = "nomorDisposisi";
-
-  if (loading) {
-    return <Box>Loading...</Box>;
-  }
-  if (!loading && !data?.kendaraanOperationals?.data) {
-    return <Box>Error data...</Box>;
-  }
+  const dialogKey = "instansi";
 
   const headers = [
     {
       label: "Kendaraan",
       key: "kendaraan",
-      render: (row) => {
-        return row?.kendaraan?.nomorPolisi;
+      render: (row: PeminjamanOperasional) => {
+        return row.kendaraan.nomorPolisi;
       },
     },
-    { label: "Jenis Peminjam", key: "jenisPeminjam", hideSm: true },
-    { label: "Nama Dinas", key: "namaDinas", hide: true },
-    { label: "Nip Pegawai", key: "nipPegawai", hide: true },
-    { label: "Nama Pegawai", key: "namaPegawai", hide: true },
-    { label: "Jabatan Pegawai", key: "jabatanPegawai", hide: true },
-    { label: "Instansi Pegawai", key: "instansiPegawai", hide: true },
-    { label: "Sub Bagian Pegawai", key: "subBagianPegawai", hide: true },
+    { label: "Instansi", key: "instansi" },
     {
-      label: "Foto Pegawai",
-      key: "fotoProfilPegawai",
-      hide: true,
-      render: (row) => {
-        return row.fotoProfilPegawaiUrl ? (
-          <Avatar size="sm" src={row.fotoProfilPegawaiUrl}></Avatar>
-        ) : (
-          <Avatar size="sm"></Avatar>
-        );
-      },
+      label: "Penanggungjawab",
+      key: "penanggungJawab",
+      hideSm: true,
+      hideMd: true,
     },
-    { label: "Nomor Disposisi", key: "nomorDisposisi", hide: true },
+    { label: "Nomor Telepon", key: "nomorTelepon", hideSm: true, hideMd: true },
+    { label: "Nomor Surat Disposisi", key: "nomorSuratDisposisi", hide: true },
     {
       label: "Nomor Surat Permohonan",
       key: "nomorSuratPermohonan",
@@ -101,7 +84,7 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
       key: "tanggalMulai",
       hideSm: true,
       hideMd: true,
-      render: (row: any) => {
+      render: (row: PeminjamanOperasional) => {
         return getFormattedDate(row.tanggalMulai);
       },
     },
@@ -109,15 +92,19 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
       label: "Tanggal Selesai",
       key: "tanggalSelesai",
       hideSm: true,
-      render: (row: any) => {
+      render: (row: PeminjamanOperasional) => {
         return getFormattedDate(row.tanggalSelesai);
       },
     },
-    { label: "Nomor HP Supir", key: "nomorHpSupir", hide: true },
     {
       label: "Aksi",
       key: "id",
-      render: (row: any, showView: boolean, setViewRow: any, onOpen: any) => {
+      render: (
+        row: PeminjamanOperasional,
+        showView: boolean,
+        setViewRow: any,
+        onOpen: any
+      ) => {
         return (
           <Menu>
             <MenuButton as={Button}>
@@ -132,15 +119,19 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
               >
                 <Text>View</Text>
               </MenuItem>
-              <Link href={row.fileDisposisiUrl} isExternal>
-                <MenuItem>Download Disposisi</MenuItem>
-              </Link>
-              <Link href={row.fileSuratPermohonanUrl} isExternal>
-                <MenuItem>Download Surat Permohonan</MenuItem>
-              </Link>
+              {row.fileSuratDisposisi ? (
+                <Link href={row.fileSuratDisposisiUrl} isExternal>
+                  <MenuItem>Download Surat Disposisi</MenuItem>
+                </Link>
+              ) : null}
+              {row.fileSuratPermohonan ? (
+                <Link href={row.fileSuratPermohonanUrl} isExternal>
+                  <MenuItem>Download Surat Permohonan</MenuItem>
+                </Link>
+              ) : null}
               <NextLink
-                href="/dashboard/kendaraan-operational/edit/[id]"
-                as={`/dashboard/kendaraan-operational/edit/${row.id}`}
+                href="/dashboard/peminjaman-operasional/edit/[id]"
+                as={`/dashboard/peminjaman-operasional/edit/${row.id}`}
               >
                 <Link>
                   <MenuItem>Edit</MenuItem>
@@ -167,8 +158,8 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Kendaraan Operational</Text>
-              <NextLink href="/dashboard/kendaraan-operational/tambah">
+              <Text fontSize="l">Peminjaman Operasional</Text>
+              <NextLink href="/dashboard/peminjaman-operasional/tambah">
                 <Link>
                   <Button bg="blue.500" color="white">
                     Tambah
@@ -177,11 +168,15 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              <SimpleTable
-                headers={headers}
-                data={data.kendaraanOperationals}
-                tableCaption="Kendaraan Operational"
-              ></SimpleTable>
+              {loading ? (
+                "Loading..."
+              ) : (
+                <SimpleTable
+                  headers={headers}
+                  data={data.peminjamanOperasionals}
+                  tableCaption="Peminjaman Operasional"
+                ></SimpleTable>
+              )}
             </Box>
           </Box>
         </Box>
@@ -198,4 +193,4 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardKendaraanOperationalIndex;
+export default DashboardPeminjamanOperasionalIndex;
