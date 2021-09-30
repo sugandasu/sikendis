@@ -76,9 +76,7 @@ const DashboardPeminjamanOperasionalEdit: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              {loading || !data?.peminjamanOperasional ? (
-                "Loading..."
-              ) : (
+              {!loading || data?.peminjamanOperasional ? (
                 <Formik
                   initialValues={{
                     kendaraanId: data.peminjamanOperasional.kendaraan.id,
@@ -213,6 +211,8 @@ const DashboardPeminjamanOperasionalEdit: React.FC<{}> = ({}) => {
                     </Form>
                   )}
                 </Formik>
+              ) : (
+                "Loading..."
               )}
             </Box>
           </Box>
