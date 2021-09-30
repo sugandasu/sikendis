@@ -26,7 +26,7 @@ import { peminjamanOperasionalValidation } from "./validations/peminjamanOperasi
 @Resolver(PeminjamanOperasional)
 export class PeminjamanOperasionalResolver {
   @FieldResolver(() => String)
-  fileDisposisiUrl(@Root() root: PeminjamanOperasional) {
+  fileSuratDisposisiUrl(@Root() root: PeminjamanOperasional) {
     return root.fileSuratDisposisi
       ? process.env.BACKEND_URL + "/static/" + root.fileSuratDisposisi
       : "";
