@@ -1,14 +1,15 @@
 import { Kendaraan } from "../../entities/Kendaraan";
 import { Pengguna } from "../../entities/Pengguna";
-import { KendaraanRutinInput } from "../inputs/KendaraanRutinInput";
+import { PenggunaRutinInput } from "../inputs/PenggunaRutinInput";
 
-export const kendaraanRutinValidation = async (
-  payload: KendaraanRutinInput,
+export const penggunaRutinValidation = async (
+  payload: PenggunaRutinInput,
   skipId: number | undefined = undefined
 ) => {
   const kendaraan = await Kendaraan.findOne({
     where: { id: payload.kendaraanId },
   });
+
   if (!kendaraan) {
     return [
       {

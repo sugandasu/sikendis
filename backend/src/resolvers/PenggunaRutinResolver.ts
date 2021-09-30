@@ -14,46 +14,46 @@ import { getConnection } from "typeorm";
 import { isAuth } from "../middlewares/isAuth";
 import { isOperator } from "../middlewares/isOperator";
 import { Kendaraan } from "./../entities/Kendaraan";
-import { KendaraanRutin } from "./../entities/KendaraanRutin";
+import { PenggunaRutin } from "./../entities/PenggunaRutin";
 import { Pengguna } from "./../entities/Pengguna";
 import { uploadFile } from "./../utils/UploadFile";
-import { KendaraanRutinInput } from "./inputs/KendaraanRutinInput";
-import { KendaraanRutinPaginateInput } from "./inputs/KendaraanRutinPaginateInput";
+import { PenggunaRutinInput } from "./inputs/PenggunaRutinInput";
+import { PenggunaRutinPaginate } from "./inputs/PenggunaRutinPaginate";
 import { KendaraanLoader } from "./loaders/KendaraanLoader";
 import { PenggunaLoader } from "./loaders/PenggunaLoader";
-import { KendaraanRutinPaginated } from "./responses/KendaraanRutinPaginated";
-import { KendaraanRutinResponse } from "./responses/KendaraanRutinResponse";
-import { kendaraanRutinValidation } from "./validations/kendaraanRutinValidation";
+import { PenggunaRutinPaginated } from "./responses/PenggunaRutinPaginated";
+import { PenggunaRutinResponse } from "./responses/PenggunaRutinResponse";
+import { penggunaRutinValidation } from "./validations/penggunaRutinValidation";
 
-@Resolver(KendaraanRutin)
-export class KendaraanRutinResolver {
+@Resolver(PenggunaRutin)
+export class PenggunaRutinResolver {
   @FieldResolver(() => String)
-  fileBapUrl(@Root() root: KendaraanRutin) {
+  fileBapUrl(@Root() root: PenggunaRutin) {
     return process.env.BACKEND_URL + "/static/" + root.fileBap;
   }
 
   @FieldResolver(() => Kendaraan)
-  kendaraan(@Root() root: KendaraanRutin) {
+  kendaraan(@Root() root: PenggunaRutin) {
     return KendaraanLoader().load(root.kendaraanId);
   }
 
   @FieldResolver(() => Pengguna)
-  pengguna(@Root() root: KendaraanRutin) {
+  pengguna(@Root() root: PenggunaRutin) {
     return PenggunaLoader().load(root.penggunaId);
   }
 
-  @FieldResolver(() => KendaraanRutin)
-  tanggalBap(@Root() root: KendaraanRutin) {
+  @FieldResolver(() => PenggunaRutin)
+  tanggalBap(@Root() root: PenggunaRutin) {
     return new Date(root.tanggalBap);
   }
 
-  @Mutation(() => KendaraanRutinResponse)
+  @Mutation(() => PenggunaRutinResponse)
   @UseMiddleware(isOperator)
-  async createKendaraanRutin(
-    @Arg("payload") payload: KendaraanRutinInput,
+  async createPenggunaRutin(
+    @Arg("payload") payload: PenggunaRutinInput,
     @Arg("fileBap", () => GraphQLUpload, { nullable: true }) fileBap: FileUpload
-  ): Promise<KendaraanRutinResponse> {
-    const errors = await kendaraanRutinValidation(payload);
+  ): Promise<PenggunaRutinResponse> {
+    const errors = await penggunaRutinValidation(payload);
     if (errors) {
       return { errors };
     }
@@ -78,16 +78,16 @@ export class KendaraanRutinResolver {
       };
     }
 
-    const kendaraanRutin = await KendaraanRutin.create({ ...payload }).save();
+    const penggunaRutin = await PenggunaRutin.create({ ...payload }).save();
 
-    return { kendaraanRutin };
+    return { penggunaRutin };
   }
 
-  @Query(() => KendaraanRutinPaginated)
+  @Query(() => PenggunaRutinPaginated)
   @UseMiddleware(isAuth)
-  async kendaraanRutins(
-    @Arg("options") options: KendaraanRutinPaginateInput
-  ): Promise<KendaraanRutinPaginated> {
+  async penggunaRutins(
+    @Arg("options") options: PenggunaRutinPaginate
+  ): Promise<PenggunaRutinPaginated> {
     const realLimit = Math.min(50, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
@@ -122,7 +122,7 @@ export class KendaraanRutinResolver {
     );
 
     const { total } = await getConnection()
-      .getRepository(KendaraanRutin)
+      .getRepository(PenggunaRutin)
       .createQueryBuilder()
       .select("COUNT(id)", "total")
       .getRawOne();
@@ -130,29 +130,29 @@ export class KendaraanRutinResolver {
     return { data, total, ...options };
   }
 
-  @Query(() => KendaraanRutin, { nullable: true })
+  @Query(() => PenggunaRutin, { nullable: true })
   @UseMiddleware(isAuth)
-  kendaraanRutin(
+  penggunaRutin(
     @Arg("id", () => Int) id: number
-  ): Promise<KendaraanRutin | undefined> {
-    return KendaraanRutin.findOne({ id });
+  ): Promise<PenggunaRutin | undefined> {
+    return PenggunaRutin.findOne({ id });
   }
 
-  @Mutation(() => KendaraanRutinResponse)
+  @Mutation(() => PenggunaRutinResponse)
   @UseMiddleware(isOperator)
-  async updateKendaraanRutin(
+  async updatePenggunaRutin(
     @Arg("id", () => Int) id: number,
-    @Arg("payload") payload: KendaraanRutinInput,
+    @Arg("payload") payload: PenggunaRutinInput,
     @Arg("fileBap", () => GraphQLUpload, { nullable: true })
     fileBap: FileUpload | null
-  ): Promise<KendaraanRutinResponse> {
-    const errors = await kendaraanRutinValidation(payload);
+  ): Promise<PenggunaRutinResponse> {
+    const errors = await penggunaRutinValidation(payload);
     if (errors) {
       return { errors };
     }
 
-    const kendaraanRutin = await KendaraanRutin.findOne({ id });
-    if (!kendaraanRutin) {
+    const penggunaRutin = await PenggunaRutin.findOne({ id });
+    if (!penggunaRutin) {
       return {
         errors: [
           {
@@ -172,7 +172,7 @@ export class KendaraanRutinResolver {
         });
 
         if (upload) {
-          unlinkSync(`${__dirname}/../../uploads/${kendaraanRutin.fileBap}`);
+          unlinkSync(`${__dirname}/../../uploads/${penggunaRutin.fileBap}`);
         } else {
           return {
             errors: [{ field: "fileBap", message: "File BAP gagal disimpan" }],
@@ -183,25 +183,25 @@ export class KendaraanRutinResolver {
 
     const result = await getConnection()
       .createQueryBuilder()
-      .update(KendaraanRutin)
+      .update(PenggunaRutin)
       .set({ ...payload })
       .where("id = :id", { id })
       .returning("*")
       .execute();
 
-    return { kendaraanRutin: result.raw[0] };
+    return { penggunaRutin: result.raw[0] };
   }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isOperator)
-  async deleteKendaraanRutin(
+  async deletePenggunaRutin(
     @Arg("id", () => Int) id: number
   ): Promise<Boolean> {
     try {
-      const kendaraanRutin = await KendaraanRutin.findOne({ id });
-      await KendaraanRutin.delete({ id });
-      if (kendaraanRutin) {
-        unlinkSync(`${__dirname}/../../uploads/${kendaraanRutin.fileBap}`);
+      const penggunaRutin = await PenggunaRutin.findOne({ id });
+      await PenggunaRutin.delete({ id });
+      if (penggunaRutin) {
+        unlinkSync(`${__dirname}/../../uploads/${penggunaRutin.fileBap}`);
       }
       return true;
     } catch (error) {

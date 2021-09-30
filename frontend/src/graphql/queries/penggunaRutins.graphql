@@ -1,0 +1,11 @@
+query PenggunaRutins($options: PenggunaRutinPaginate!) {
+  penggunaRutins(options: $options) {
+    data {
+      ...RegularPenggunaRutin
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

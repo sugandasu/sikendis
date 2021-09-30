@@ -1,5 +1,0 @@
-query KendaraanRutin($id: Int!) {
-  kendaraanRutin(id: $id) {
-    ...RegularKendaraanRutin
-  }
-}

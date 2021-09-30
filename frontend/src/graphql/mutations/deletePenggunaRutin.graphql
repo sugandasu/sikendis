@@ -1,0 +1,3 @@
+mutation DeletePenggunaRutin($id: Int!) {
+  deletePenggunaRutin(id: $id)
+}

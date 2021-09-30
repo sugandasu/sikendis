@@ -1,0 +1,15 @@
+mutation UpdatePenggunaRutin(
+  $id: Int!
+  $payload: PenggunaRutinInput!
+  $fileBap: Upload
+) {
+  updatePenggunaRutin(id: $id, payload: $payload, fileBap: $fileBap) {
+    errors {
+      field
+      message
+    }
+    penggunaRutin {
+      ...RegularPenggunaRutin
+    }
+  }
+}

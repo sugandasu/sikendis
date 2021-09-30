@@ -1,4 +1,4 @@
-fragment RegularKendaraanRutin on KendaraanRutin {
+fragment RegularPenggunaRutin on PenggunaRutin {
   id
   kendaraan {
     ...RegularKendaraan

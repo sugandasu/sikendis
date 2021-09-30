@@ -1,0 +1,11 @@
+mutation CreatePenggunaRutin($payload: PenggunaRutinInput!, $fileBap: Upload) {
+  createPenggunaRutin(payload: $payload, fileBap: $fileBap) {
+    errors {
+      field
+      message
+    }
+    penggunaRutin {
+      ...RegularPenggunaRutin
+    }
+  }
+}

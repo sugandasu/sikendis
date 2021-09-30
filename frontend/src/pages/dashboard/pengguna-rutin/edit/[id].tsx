@@ -7,31 +7,41 @@ import NextLink from "next/link";
 import React, { useState } from "react";
 import { AiFillCar } from "react-icons/ai";
 import { FaUsers } from "react-icons/fa";
-import { AutoCompleteField } from "../../../components/AutoCompleteField";
-import { DashboardLayout } from "../../../components/DashboardLayout";
-import { FileField } from "../../../components/FileField";
-import { InputField } from "../../../components/InputField";
+import { AutoCompleteField } from "../../../../components/AutoCompleteField";
+import { DashboardLayout } from "../../../../components/DashboardLayout";
+import { FileField } from "../../../../components/FileField";
+import { InputField } from "../../../../components/InputField";
 import {
-  useCreateKendaraanRutinMutation,
   useKendaraansQuery,
+  usePenggunaRutinQuery,
   usePenggunasQuery,
-} from "../../../generated/graphql";
-import { useIsOperator } from "../../../middlewares/useIsOperator";
-import { toErrorMap } from "../../../utils/toErrorMap";
+  useUpdatePenggunaRutinMutation,
+} from "../../../../generated/graphql";
+import { useIsOperator } from "../../../../middlewares/useIsOperator";
+import { getFormattedDate } from "../../../../utils/getFormattedDate";
+import { useGetIntId } from "../../../../utils/getIntId";
+import { toErrorMap } from "../../../../utils/toErrorMap";
 
-const DashboardKendaraanRutinTambah: React.FC<{}> = ({}) => {
+const DashboardPenggunaRutinEdit: React.FC<{}> = ({}) => {
   useIsOperator();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     {
-      text: "Kendaraan Rutin",
-      link: "/dashboard/kendaraan-rutin",
+      text: "Pengguna Rutin",
+      link: "/dashboard/pengguna-rutin",
       isCurrentPage: false,
     },
-    { text: "Tambah", link: "#", isCurrentPage: true },
+    { text: "Edit", link: "#", isCurrentPage: true },
   ];
   const router = useRouter();
-  const [createKendaraanRutin] = useCreateKendaraanRutinMutation();
+  const [updatePenggunaRutin] = useUpdatePenggunaRutinMutation();
+
+  const intId = useGetIntId();
+  const { data, loading } = usePenggunaRutinQuery({
+    skip: intId === -1,
+    variables: { id: intId },
+  });
+
   const [fileBap, setFileBap] = useState<File>();
   const [searchKendaraan, setSearchKendaraan] = useState();
   const [searchPengguna, setSearchPengguna] = useState();
@@ -64,14 +74,21 @@ const DashboardKendaraanRutinTambah: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
+  if (loading) {
+    return <Box>Loading...</Box>;
+  }
+  if (!data?.penggunaRutin) {
+    return <Box>Data tidak ditemukan</Box>;
+  }
+
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Tambah Kendaraan Rutin</Text>
-              <NextLink href="/dashboard/kendaraan-rutin">
+              <Text fontSize="l">Edit Pengguna Rutin</Text>
+              <NextLink href="/dashboard/pengguna-rutin">
                 <Link>
                   <Button bg="red.500" color="white">
                     Kembali
@@ -82,30 +99,29 @@ const DashboardKendaraanRutinTambah: React.FC<{}> = ({}) => {
             <Box>
               <Formik
                 initialValues={{
-                  kendaraanId: -1,
-                  penggunaId: -1,
-                  nomorBap: "",
-                  fileBap: "",
-                  tanggalBap: "",
+                  kendaraanId: data.penggunaRutin.kendaraan.id,
+                  penggunaId: data.penggunaRutin.pengguna.id,
+                  nomorBap: data.penggunaRutin.nomorBap,
+                  fileBap: data.penggunaRutin.fileBap,
+                  tanggalBap: getFormattedDate(data.penggunaRutin.tanggalBap),
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                  const response = await createKendaraanRutin({
+                  const response = await updatePenggunaRutin({
                     variables: {
+                      id: intId,
                       payload: values,
                       fileBap,
                     },
                     update: (cache) => {
-                      cache.evict({ fieldName: "kendaraanRutins" });
+                      cache.evict({ fieldName: "penggunaRutins" });
                     },
                   });
-                  if (response.data?.createKendaraanRutin.errors) {
+                  if (response.data?.updatePenggunaRutin.errors) {
                     setErrors(
-                      toErrorMap(response.data.createKendaraanRutin.errors)
+                      toErrorMap(response.data.updatePenggunaRutin.errors)
                     );
-                  } else if (
-                    response.data?.createKendaraanRutin.kendaraanRutin
-                  ) {
-                    router.push("/dashboard/kendaraan-rutin");
+                  } else if (response.data?.updatePenggunaRutin.penggunaRutin) {
+                    router.push("/dashboard/pengguna-rutin");
                   }
                 }}
               >
@@ -121,7 +137,7 @@ const DashboardKendaraanRutinTambah: React.FC<{}> = ({}) => {
                           ? kendaraans.kendaraans.data
                           : []
                       }
-                      initialValue=""
+                      initialValue={data.penggunaRutin.kendaraan.nomorPolisi}
                       setSearch={setSearchKendaraan}
                       fieldName="nomorPolisi"
                       setFieldValue={setFieldValue}
@@ -136,7 +152,7 @@ const DashboardKendaraanRutinTambah: React.FC<{}> = ({}) => {
                           ? penggunas.penggunas.data
                           : []
                       }
-                      initialValue=""
+                      initialValue={data.penggunaRutin.pengguna.nama}
                       setSearch={setSearchPengguna}
                       fieldName="nama"
                       setFieldValue={setFieldValue}
@@ -165,7 +181,7 @@ const DashboardKendaraanRutinTambah: React.FC<{}> = ({}) => {
                       isLoading={isSubmitting}
                       colorScheme="teal"
                     >
-                      Tambah Kendaraan Rutin
+                      Edit Pengguna Rutin
                     </Button>
                   </Form>
                 )}
@@ -178,4 +194,4 @@ const DashboardKendaraanRutinTambah: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardKendaraanRutinTambah;
+export default DashboardPenggunaRutinEdit;

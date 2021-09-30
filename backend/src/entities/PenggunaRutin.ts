@@ -13,13 +13,13 @@ import { Pengguna } from "./Pengguna";
 
 @ObjectType()
 @Entity()
-export class KendaraanRutin extends BaseEntity {
+export class PenggunaRutin extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Field()
-  @Column({ unique: false })
+  @Column({ type: "int" })
   kendaraanId!: number;
 
   @Field()
@@ -27,7 +27,7 @@ export class KendaraanRutin extends BaseEntity {
   kendaraan: Kendaraan;
 
   @Field()
-  @Column({ unique: false })
+  @Column({ type: "int" })
   penggunaId!: number;
 
   @Field()

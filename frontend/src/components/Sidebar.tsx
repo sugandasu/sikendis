@@ -2,23 +2,20 @@ import {
   Box,
   Button,
   Heading,
-  Icon,
   Link,
-  Text,
   useColorMode,
   useMediaQuery,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
-import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
-import {
-  RiCarWashingFill,
-  RiEBikeFill,
-  RiGovernmentFill,
-} from "react-icons/ri";
 import { AiFillCar } from "react-icons/ai";
-import { GiCarKey, GiCarWheel } from "react-icons/gi";
 import { BiServer } from "react-icons/bi";
+import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
+import { FiCodesandbox } from "react-icons/fi";
+import { GiCarKey } from "react-icons/gi";
+import { IoCarSharp } from "react-icons/io";
+import { MdNaturePeople } from "react-icons/md";
+import { RiCarWashingFill, RiGovernmentFill } from "react-icons/ri";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarMenuLevel } from "./SidebarMenuLevel";
 
@@ -69,32 +66,38 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
             />
             <SidebarMenuLevel text="Kendaraan" color="red.500" icon={FaCarSide}>
               <SidebarMenu
-                link="/dashboard/kendaraan-roda-2"
-                text="Kendaraan Roda 2"
+                link="/dashboard/kendaraan-rutin"
+                text="Kendaraan Rutin"
                 color="green.500"
-                icon={RiEBikeFill}
-              />
-              <SidebarMenu
-                link="/dashboard/kendaraan-roda-4"
-                text="Kendaraan Roda 4"
-                color="gray.500"
                 icon={AiFillCar}
               />
               <SidebarMenu
-                link="/dashboard/kendaraan-rutin"
-                text="Kendaraan Rutin"
+                link="/dashboard/kendaraan-operasional"
+                text="Kendaraan Operasional"
+                color="gray.500"
+                icon={IoCarSharp}
+              />
+            </SidebarMenuLevel>
+            <SidebarMenuLevel
+              text="Penggunaan"
+              color="yellow.500"
+              icon={FiCodesandbox}
+            >
+              <SidebarMenu
+                link="/dashboard/pengguna-rutin"
+                text="Pengguna Rutin"
                 color="yellow.500"
-                icon={GiCarWheel}
+                icon={MdNaturePeople}
               />
               <SidebarMenu
-                link="/dashboard/kendaraan-operational"
-                text="Kendaraan Operational"
+                link="/dashboard/peminjaman-operasional"
+                text="Peminjaman Operasional"
                 color="pink.500"
                 icon={GiCarKey}
               />
             </SidebarMenuLevel>
             <SidebarMenu
-              link="/dashboard/pengguna"
+              link="/dashboard/pengguna-kendaraan"
               text="Pengguna"
               color="gray.700"
               icon={FaUsers}

@@ -1,6 +1,3 @@
-import { KendaraanOperational } from "./entities/KendaraanOperational";
-import { KendaraanRutin } from "./entities/KendaraanRutin";
-import { KendaraanRutinResolver } from "./resolvers/KendaraanRutinResolver";
 import { ApolloServer, Config, ExpressContext } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
@@ -15,16 +12,19 @@ import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { __prod__ } from "./constants";
 import { Kendaraan } from "./entities/Kendaraan";
+import { KendaraanOperational } from "./entities/KendaraanOperational";
 import { Peminjaman } from "./entities/Peminjaman";
 import { Pengguna } from "./entities/Pengguna";
+import { PenggunaRutin } from "./entities/PenggunaRutin";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/HelloResolver";
+import { KendaraanOperationalResolver } from "./resolvers/KendaraanOperationalResolver";
 import { KendaraanResolver } from "./resolvers/KendaraanResolver";
 import { PeminjamanResolver } from "./resolvers/PeminjamanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
+import { PenggunaRutinResolver } from "./resolvers/PenggunaRutinResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
-import { KendaraanOperationalResolver } from "./resolvers/KendaraanOperationalResolver";
 
 const main = async () => {
   // const conection = await createConnection({
@@ -39,8 +39,8 @@ const main = async () => {
       Pengguna,
       User,
       Peminjaman,
-      KendaraanRutin,
       KendaraanOperational,
+      PenggunaRutin,
     ],
   });
 
@@ -54,9 +54,9 @@ const main = async () => {
         UserResolver,
         PenggunaResolver,
         KendaraanResolver,
-        KendaraanRutinResolver,
         KendaraanOperationalResolver,
         PeminjamanResolver,
+        PenggunaRutinResolver,
       ],
       validate: false,
     }),

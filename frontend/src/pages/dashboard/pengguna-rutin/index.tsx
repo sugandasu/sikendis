@@ -17,19 +17,19 @@ import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
-  useDeleteKendaraanRutinMutation,
-  useKendaraansRutinsQuery,
+  useDeletePenggunaRutinMutation,
+  usePenggunaRutinsQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import { getFormattedDate } from "../../../utils/getFormattedDate";
 
-const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
+const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
   useIsAuth();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
-    { text: "Kendaraan Rutin", link: "#", isCurrentPage: true },
+    { text: "Pengguna Rutin", link: "#", isCurrentPage: true },
   ];
-  const { data, loading } = useKendaraansRutinsQuery({
+  const { data, loading } = usePenggunaRutinsQuery({
     variables: {
       options: {
         limit: 10,
@@ -40,12 +40,12 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
   });
 
   const [currentRow, setCurrentRow] = useState({ id: -1, nama: "" });
-  const [deleteKendaraanRutin] = useDeleteKendaraanRutinMutation();
+  const [deletePenggunaRutin] = useDeletePenggunaRutinMutation();
   const deleteConfirm = () => {
-    deleteKendaraanRutin({
+    deletePenggunaRutin({
       variables: { id: currentRow.id },
       update: (cache) => {
-        cache.evict({ id: `KendaraanRutin:${currentRow.id}` });
+        cache.evict({ id: `PenggunaRutin:${currentRow.id}` });
       },
     });
   };
@@ -54,13 +54,6 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
   const deleteDialogClose = () => setDeleteDialogOpen(false);
   const deleteDialogCancel = React.useRef();
   const dialogKey = "nomorBap";
-
-  if (loading) {
-    return <Box>Loading...</Box>;
-  }
-  if (!loading && !data?.kendaraanRutins?.data) {
-    return <Box>Error data...</Box>;
-  }
 
   const headers = [
     {
@@ -110,8 +103,8 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
                 <MenuItem>Download File Bap</MenuItem>
               </Link>
               <NextLink
-                href="/dashboard/kendaraan-rutin/edit/[id]"
-                as={`/dashboard/kendaraan-rutin/edit/${row.id}`}
+                href="/dashboard/pengguna-rutin/edit/[id]"
+                as={`/dashboard/pengguna-rutin/edit/${row.id}`}
               >
                 <Link>
                   <MenuItem>Edit</MenuItem>
@@ -138,8 +131,8 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Kendaraan Rutin</Text>
-              <NextLink href="/dashboard/kendaraan-rutin/tambah">
+              <Text fontSize="l">Pengguna Rutin</Text>
+              <NextLink href="/dashboard/pengguna-rutin/tambah">
                 <Link>
                   <Button bg="blue.500" color="white">
                     Tambah
@@ -148,11 +141,15 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              <SimpleTable
-                headers={headers}
-                data={data.kendaraanRutins}
-                tableCaption="Kendaraan Rutin"
-              ></SimpleTable>
+              {loading ? (
+                "Loading..."
+              ) : (
+                <SimpleTable
+                  headers={headers}
+                  data={data.penggunaRutins}
+                  tableCaption="Pengguna Rutin"
+                ></SimpleTable>
+              )}
             </Box>
           </Box>
         </Box>
@@ -169,4 +166,4 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardKendaraanRutinIndex;
+export default DashboardPenggunaRutinIndex;
