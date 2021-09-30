@@ -11,6 +11,7 @@ type SelectionFieldProps = SelectHTMLAttributes<HTMLSelectElement> & {
   name: string;
   label: string;
   placeholder: string;
+  required?: boolean | false;
   options: any[];
   textField: string;
   valueField: string;
@@ -19,6 +20,7 @@ type SelectionFieldProps = SelectHTMLAttributes<HTMLSelectElement> & {
 export const SelectionField: React.FC<SelectionFieldProps> = ({
   label,
   placeholder,
+  required,
   options,
   textField,
   valueField,
@@ -28,8 +30,16 @@ export const SelectionField: React.FC<SelectionFieldProps> = ({
   // console.log(props);
   return (
     <FormControl isInvalid={!!error} my={5}>
-      <FormLabel htmlFor={field.name}>{label}</FormLabel>
-      <Select id={field.name} placeholder={placeholder} {...field}>
+      <FormLabel htmlFor={field.name}>
+        {label}
+        {required ? <sup> *</sup> : null}
+      </FormLabel>
+      <Select
+        id={field.name}
+        required={required}
+        placeholder={placeholder}
+        {...field}
+      >
         {options.map((option, i) => (
           <option key={i} value={option[valueField]}>
             {option[textField]}

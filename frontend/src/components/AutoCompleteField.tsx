@@ -21,6 +21,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
   placeholder: string;
+  required?: boolean | false;
   ChildrenIcon: IconType;
   options: any[];
   fieldName: string;
@@ -32,6 +33,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 export const AutoCompleteField: React.FC<InputFieldProps> = ({
   label,
   placeholder,
+  required,
   ChildrenIcon,
   size: _,
   options,
@@ -46,11 +48,15 @@ export const AutoCompleteField: React.FC<InputFieldProps> = ({
   const [value, setValue] = useState(initialValue);
   return (
     <FormControl isInvalid={!!error} my={5}>
-      <FormLabel htmlFor={field.name}>{label}</FormLabel>
+      <FormLabel htmlFor={field.name}>
+        {label}
+        {required ? <sup> *</sup> : null}
+      </FormLabel>
       <Input
         value={value}
         id={field.name}
         placeholder={placeholder}
+        required={required}
         onChange={onOpen}
         onClick={(event) => {
           onOpen();

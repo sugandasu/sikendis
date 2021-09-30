@@ -11,12 +11,14 @@ import getNewFileName from "../utils/getNewFileName";
 type FileFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
+  required?: boolean | false;
   setFile: (value: any) => void;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 };
 
 export const FileField: React.FC<FileFieldProps> = ({
   label,
+  required,
   size: _,
   setFile,
   setFieldValue,
@@ -25,8 +27,11 @@ export const FileField: React.FC<FileFieldProps> = ({
   const [field, { error }] = useField(props);
   return (
     <FormControl isInvalid={!!error} my={2}>
-      <FormLabel htmlFor={field.name}>{label}</FormLabel>
+      <FormLabel htmlFor={field.name}>
+        {label} {required ? <sup color="red">*</sup> : null}
+      </FormLabel>
       <Input
+        required={required}
         type="file"
         {...props}
         id={field.name}
