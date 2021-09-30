@@ -133,16 +133,12 @@ const DashboardKendaraanOperationalIndex: React.FC<{}> = ({}) => {
               >
                 <Text>View</Text>
               </MenuItem>
-              <NextLink href="" as={``}>
-                <Link>
-                  <MenuItem>Download Surat Disposisi</MenuItem>
-                </Link>
-              </NextLink>
-              <NextLink href="" as={``}>
-                <Link>
-                  <MenuItem>Download Surat Permohonan</MenuItem>
-                </Link>
-              </NextLink>
+              <Link href={row.fileDisposisiUrl} isExternal>
+                <MenuItem>Download Disposisi</MenuItem>
+              </Link>
+              <Link href={row.fileSuratPermohonanUrl} isExternal>
+                <MenuItem>Download Surat Permohonan</MenuItem>
+              </Link>
               <NextLink
                 href="/dashboard/kendaraan-operational/edit/[id]"
                 as={`/dashboard/kendaraan-operational/edit/${row.id}`}

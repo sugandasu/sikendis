@@ -106,11 +106,9 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
               >
                 <Text>View</Text>
               </MenuItem>
-              <NextLink href="" as={``}>
-                <Link>
-                  <MenuItem>Download File Bap</MenuItem>
-                </Link>
-              </NextLink>
+              <Link href={row.fileBapUrl} isExternal>
+                <MenuItem>Download File Bap</MenuItem>
+              </Link>
               <NextLink
                 href="/dashboard/kendaraan-rutin/edit/[id]"
                 as={`/dashboard/kendaraan-rutin/edit/${row.id}`}
