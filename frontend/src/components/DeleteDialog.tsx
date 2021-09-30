@@ -40,8 +40,9 @@ export const DeleteDialog: React.FC<DeleteDialogProps> = ({
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            Apakah anda yakin menghapus data {currentRow[dialogKey]}?
-            Penghapusan permanen tidak bisa dikembalikan.
+            Apakah anda yakin menghapus data{" "}
+            {currentRow ? currentRow[dialogKey] : null}? Penghapusan permanen
+            tidak bisa dikembalikan.
           </AlertDialogBody>
 
           <AlertDialogFooter>
