@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/layout";
 import { Stack, Flex, Link, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useState } from "react";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { InputField } from "../../../components/InputField";
 import { SelectionField } from "../../../components/SelectionField";
@@ -11,28 +11,39 @@ import { useCreateKendaraanMutation } from "../../../generated/graphql";
 import { useIsOperator } from "../../../middlewares/useIsOperator";
 import { toErrorMap } from "../../../utils/toErrorMap";
 import NextLink from "next/link";
+import { FileField } from "../../../components/FileField";
 
-const DashboardKendaraanRoda4Tambah: React.FC<{}> = ({}) => {
+const DashboardKendaraanOperasionalTambah: React.FC<{}> = ({}) => {
   useIsOperator();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     {
-      text: "Kendaraan Roda 4",
-      link: "/dashboard/kendaraan-roda-4",
+      text: "Kendaraan Operasional",
+      link: "/dashboard/kendaraan-operasional",
       isCurrentPage: false,
     },
     { text: "Tambah", link: "#", isCurrentPage: true },
   ];
   const router = useRouter();
   const [createKendaraan] = useCreateKendaraanMutation();
+  const [foto, setFoto] = useState<File>();
+
+  const tipeRodaOptions = [
+    { value: "Roda 2" },
+    { value: "Roda 3" },
+    { value: "Roda 4" },
+  ];
+  const asalUsulOptions = [{ value: "Pembelian" }, { value: "Hibah" }];
+  const bahanBakarOptions = [{ value: "Bensin" }, { value: "Solar" }];
+
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Tambah Kendaraan Roda 4</Text>
-              <NextLink href="/dashboard/kendaraan-roda-4">
+              <Text fontSize="l">Tambah Kendaraan Operasional</Text>
+              <NextLink href="/dashboard/kendaraan-operasional">
                 <Link>
                   <Button bg="red.500" color="white">
                     Kembali
@@ -43,7 +54,8 @@ const DashboardKendaraanRoda4Tambah: React.FC<{}> = ({}) => {
             <Box>
               <Formik
                 initialValues={{
-                  tipeRoda: "Roda 4",
+                  tipeKendaraan: "Kendaraan Operasional",
+                  tipeRoda: "",
                   kode: "",
                   nama: "",
                   nomorRegister: "",
@@ -56,12 +68,14 @@ const DashboardKendaraanRoda4Tambah: React.FC<{}> = ({}) => {
                   nomorPolisi: "",
                   nomorBpkb: "",
                   asalUsul: "",
+                  warna: "",
+                  bahanBakar: "",
                   harga: "",
                   keterangan: "",
                 }}
                 onSubmit={async (values, { setErrors }) => {
                   const response = await createKendaraan({
-                    variables: { payload: values },
+                    variables: { payload: values, foto: foto },
                     update: (cache) => {
                       cache.evict({ fieldName: "kendaraans" });
                     },
@@ -69,76 +83,126 @@ const DashboardKendaraanRoda4Tambah: React.FC<{}> = ({}) => {
                   if (response.data?.createKendaraan.errors) {
                     setErrors(toErrorMap(response.data.createKendaraan.errors));
                   } else if (response.data?.createKendaraan.kendaraan) {
-                    router.push("/dashboard/kendaraan-roda-4");
+                    router.push("/dashboard/kendaraan-operasional");
                   }
                 }}
               >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, setFieldValue }) => (
                   <Form>
+                    <SelectionField
+                      name="tipeRoda"
+                      placeholder="Tipe Roda"
+                      label="Tipe Roda"
+                      options={tipeRodaOptions}
+                      textField="value"
+                      valueField="value"
+                      required={true}
+                    ></SelectionField>
                     <InputField
                       name="kode"
                       label="Kode Barang"
-                      placeholder="kode barang"
+                      placeholder="Kode barang"
+                      required={true}
                     />
                     <InputField
                       name="nama"
                       label="Nama Barang"
-                      placeholder="nama barang"
+                      placeholder="Nama barang"
+                      required={true}
+                    />
+                    <InputField
+                      name="nomorRegister"
+                      label="Nomor Register"
+                      placeholder="Nomor register"
                     />
                     <InputField
                       name="merek"
                       label="Merek Kendaraan"
-                      placeholder="merek kendaraan"
+                      placeholder="Merek kendaraan"
+                      required={true}
                     />
                     <InputField
                       name="ukuranCc"
                       label="Ukuran CC"
-                      placeholder="ukuran cc"
+                      placeholder="Ukuran cc"
+                      required={true}
                     />
                     <InputField
                       name="bahan"
                       label="Bahan"
-                      placeholder="bahan"
+                      placeholder="Bahan"
+                      required={true}
                     />
                     <InputField
                       name="tahunPembelian"
                       label="Tahun Pembelian"
-                      placeholder="tahun pembelian"
+                      placeholder="Tahun pembelian"
+                      required={true}
                     />
                     <InputField
                       name="nomorRangka"
                       label="Nomor Rangka"
-                      placeholder="nomor rangka"
+                      placeholder="Nomor rangka"
+                      required={true}
                     />
                     <InputField
                       name="nomorMesin"
                       label="Nomor Mesin"
-                      placeholder="nomor mesin"
+                      placeholder="Nomor mesin"
+                      required={true}
                     />
                     <InputField
                       name="nomorPolisi"
                       label="Nomor Polisi"
-                      placeholder="nomor polisi"
+                      placeholder="Nomor polisi"
+                      required={true}
                     />
                     <InputField
                       name="nomorBpkb"
                       label="Nomor BPKB"
-                      placeholder="nomor bpkb"
+                      placeholder="Nomor bpkb"
                     />
-                    <InputField
+                    <SelectionField
                       name="asalUsul"
-                      label="Asal Usul kendaraan"
-                      placeholder="asal usul kendaraan"
+                      label="Asal Usul"
+                      placeholder="Asal usul"
+                      options={asalUsulOptions}
+                      textField="value"
+                      valueField="value"
+                      required={true}
+                    ></SelectionField>
+                    <InputField
+                      name="warna"
+                      label="Warna kendaraan"
+                      placeholder="Warna kendaraan"
+                      required={true}
                     />
+                    <SelectionField
+                      name="bahanBakar"
+                      label="Bahan Bakar"
+                      placeholder="Bahan bakar"
+                      options={bahanBakarOptions}
+                      textField="value"
+                      valueField="value"
+                      required={true}
+                    ></SelectionField>
                     <InputField
                       name="harga"
                       label="Harga"
-                      placeholder="harga"
+                      placeholder="Harga"
+                      required={true}
+                    />
+                    <FileField
+                      name="foto"
+                      label="Foto Kendaraan"
+                      placeholder="Foto"
+                      setFile={setFoto}
+                      setFieldValue={setFieldValue}
                     />
                     <InputField
                       name="keterangan"
                       label="Keterangan"
-                      placeholder="keterangan"
+                      placeholder="Keterangan"
                       textarea
                     />
                     <Button
@@ -160,4 +224,4 @@ const DashboardKendaraanRoda4Tambah: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardKendaraanRoda4Tambah;
+export default DashboardKendaraanOperasionalTambah;
