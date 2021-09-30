@@ -24,11 +24,11 @@ import {
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 
-const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
+const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
   useIsAuth();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
-    { text: "Pengguna", link: "#", isCurrentPage: true },
+    { text: "Pengguna Kendaraan", link: "#", isCurrentPage: true },
   ];
   const { data, loading } = usePenggunasQuery({
     variables: {
@@ -55,13 +55,6 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
   const deleteDialogClose = () => setDeleteDialogOpen(false);
   const deleteDialogCancel = React.useRef();
   const dialogKey = "nama";
-
-  if (loading) {
-    return <Box>Loading...</Box>;
-  }
-  if (!loading && !data?.penggunas?.data) {
-    return <Box>Error data...</Box>;
-  }
 
   const headers = [
     {
@@ -104,8 +97,8 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
                 <Text>View</Text>
               </MenuItem>
               <NextLink
-                href="/dashboard/pengguna/edit/[id]"
-                as={`/dashboard/pengguna/edit/${row.id}`}
+                href="/dashboard/pengguna-kendaraan/edit/[id]"
+                as={`/dashboard/pengguna-kendaraan/edit/${row.id}`}
               >
                 <Link>
                   <MenuItem>Edit</MenuItem>
@@ -132,8 +125,8 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Pengguna</Text>
-              <NextLink href="/dashboard/pengguna/tambah">
+              <Text fontSize="l">Pengguna Kendaraan</Text>
+              <NextLink href="/dashboard/pengguna-kendaraan/tambah">
                 <Link>
                   <Button bg="blue.500" color="white">
                     Tambah
@@ -142,11 +135,15 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              <SimpleTable
-                headers={headers}
-                data={data.penggunas}
-                tableCaption="Pengguna Kendaraan"
-              ></SimpleTable>
+              {loading ? (
+                "Loading..."
+              ) : (
+                <SimpleTable
+                  headers={headers}
+                  data={data.penggunas}
+                  tableCaption="Pengguna Kendaraan"
+                ></SimpleTable>
+              )}
             </Box>
           </Box>
         </Box>
@@ -163,4 +160,4 @@ const DashboardPenggunaIndex: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardPenggunaIndex;
+export default DashboardPenggunaKendaraanIndex;

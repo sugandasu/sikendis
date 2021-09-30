@@ -12,11 +12,15 @@ import { useCreatePenggunaMutation } from "../../../generated/graphql";
 import { useIsOperator } from "../../../middlewares/useIsOperator";
 import { toErrorMap } from "../../../utils/toErrorMap";
 
-const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
+const DashboardPenggunaKendaraanTambah: React.FC<{}> = ({}) => {
   useIsOperator();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
-    { text: "Pengguna", link: "/dashboard/pengguna", isCurrentPage: false },
+    {
+      text: "Pengguna Kendaraan",
+      link: "/dashboard/pengguna-kendaraan",
+      isCurrentPage: false,
+    },
     { text: "Tambah", link: "#", isCurrentPage: true },
   ];
   const router = useRouter();
@@ -29,8 +33,8 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Tambah Pengguna</Text>
-              <NextLink href="/dashboard/pengguna">
+              <Text fontSize="l">Tambah Pengguna Kendaraan</Text>
+              <NextLink href="/dashboard/pengguna-kendaraan">
                 <Link>
                   <Button bg="red.500" color="white">
                     Kembali
@@ -110,4 +114,4 @@ const DashboardPenggunaTambah: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardPenggunaTambah;
+export default DashboardPenggunaKendaraanTambah;
