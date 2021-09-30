@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, Flex, Grid, Text } from "@chakra-ui/layout";
 import { Stack } from "@chakra-ui/react";
 import React from "react";
 import { DashboardLayout } from "../../components/DashboardLayout";
@@ -7,13 +7,18 @@ const dashboardIndex: React.FC<{}> = ({}) => {
   const breadCrumbs = [{ text: "Dashboard", link: "#", isCurrentPage: true }];
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
-      <Stack>
-        <Box rounded="md" boxShadow="md" bg="white">
+      <Grid templateColumns="repeat(2, 1fr)" gap={5}>
+        <Box width="md" rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
-            <Text fontSize="l">Dashboard</Text>
+            <Text fontSize="l"></Text>
           </Box>
         </Box>
-      </Stack>
+        <Box width="md" rounded="md" boxShadow="md" bg="white">
+          <Box p={8}>
+            <Text fontSize="l"></Text>
+          </Box>
+        </Box>
+      </Grid>
     </DashboardLayout>
   );
 };
