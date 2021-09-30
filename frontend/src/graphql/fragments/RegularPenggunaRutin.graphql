@@ -10,6 +10,4 @@ fragment RegularPenggunaRutin on PenggunaRutin {
   fileBap
   fileBapUrl
   tanggalBap
-  createdAt
-  updatedAt
 }

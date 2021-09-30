@@ -20,6 +20,4 @@ fragment RegularKendaraan on Kendaraan {
   foto
   fotoUrl
   keterangan
-  createdAt
-  updatedAt
 }
