@@ -239,7 +239,7 @@ export type MutationCreateKendaraanOperationalArgs = {
 
 
 export type MutationCreateKendaraanRutinArgs = {
-  fileBap: Scalars['Upload'];
+  fileBap?: Maybe<Scalars['Upload']>;
   payload: KendaraanRutinInput;
 };
 
@@ -560,7 +560,7 @@ export type CreateKendaraanOperationalMutation = { __typename?: 'Mutation', crea
 
 export type CreateKendaraanRutinMutationVariables = Exact<{
   payload: KendaraanRutinInput;
-  fileBap: Scalars['Upload'];
+  fileBap?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -958,7 +958,7 @@ export type CreateKendaraanOperationalMutationHookResult = ReturnType<typeof use
 export type CreateKendaraanOperationalMutationResult = Apollo.MutationResult<CreateKendaraanOperationalMutation>;
 export type CreateKendaraanOperationalMutationOptions = Apollo.BaseMutationOptions<CreateKendaraanOperationalMutation, CreateKendaraanOperationalMutationVariables>;
 export const CreateKendaraanRutinDocument = gql`
-    mutation CreateKendaraanRutin($payload: KendaraanRutinInput!, $fileBap: Upload!) {
+    mutation CreateKendaraanRutin($payload: KendaraanRutinInput!, $fileBap: Upload) {
   createKendaraanRutin(payload: $payload, fileBap: $fileBap) {
     errors {
       field

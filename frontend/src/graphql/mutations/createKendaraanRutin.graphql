@@ -1,6 +1,6 @@
 mutation CreateKendaraanRutin(
   $payload: KendaraanRutinInput!
-  $fileBap: Upload!
+  $fileBap: Upload
 ) {
   createKendaraanRutin(payload: $payload, fileBap: $fileBap) {
     errors {

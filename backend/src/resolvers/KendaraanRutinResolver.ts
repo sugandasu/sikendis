@@ -51,7 +51,7 @@ export class KendaraanRutinResolver {
   @UseMiddleware(isOperator)
   async createKendaraanRutin(
     @Arg("payload") payload: KendaraanRutinInput,
-    @Arg("fileBap", () => GraphQLUpload) fileBap: FileUpload
+    @Arg("fileBap", () => GraphQLUpload, { nullable: true }) fileBap: FileUpload
   ): Promise<KendaraanRutinResponse> {
     const errors = await kendaraanRutinValidation(payload);
     if (errors) {
