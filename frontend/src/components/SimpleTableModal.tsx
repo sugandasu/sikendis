@@ -12,6 +12,7 @@ import {
 import React from "react";
 
 interface SimpleTableModalProps {
+  tableCaption: string;
   onClose: () => void;
   isOpen: boolean;
   headers: any[];
@@ -33,20 +34,21 @@ const showHeaderRender = (header, row, i) => {
 };
 
 export const SimpleTableModal: React.FC<SimpleTableModalProps> = ({
+  tableCaption,
   onClose,
   isOpen,
   headers,
   row,
 }) => {
   return (
-    <Modal onClose={onClose} isOpen={isOpen} isCentered>
+    <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside" isCentered>
       <ModalOverlay />
       <ModalContent mx={5} pb={5}>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>{tableCaption}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {row ? (
-            <VStack>
+            <VStack overflow="hidden">
               {headers.map((header, i) => {
                 return typeof header.render !== "function" ? (
                   <Box width="100%" key={i}>

@@ -188,6 +188,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
         <SimpleTableModal
           headers={headers}
           row={viewRow}
+          tableCaption={tableCaption}
           isOpen={isOpen}
           onClose={onClose}
         />
