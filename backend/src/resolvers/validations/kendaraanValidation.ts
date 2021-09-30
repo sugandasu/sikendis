@@ -1,4 +1,10 @@
-import { Kendaraan } from "./../../entities/Kendaraan";
+import {
+  Kendaraan,
+  TipeAsalUsul,
+  TipeBahanBakar,
+  TipeKendaraan,
+  TipeRoda,
+} from "./../../entities/Kendaraan";
 import { KendaraanInput } from "../inputs/KendaraanInput";
 import { getConnection } from "typeorm";
 
@@ -6,7 +12,11 @@ export const kendaraanValidation = async (
   payload: KendaraanInput,
   skipId: number | null = null
 ) => {
-  if (!(payload.tipeRoda === "Roda 2" || payload.tipeRoda === "Roda 4")) {
+  if (!(<any>Object).values(TipeKendaraan).includes(payload.tipeKendaraan)) {
+    return [{ field: "tipeKendaraan", message: "Tipe kendaraan tidak valid" }];
+  }
+
+  if (!(<any>Object).values(TipeRoda).includes(payload.tipeRoda)) {
     return [{ field: "tipeRoda", message: "Tipe roda tidak valid" }];
   }
 
@@ -136,39 +146,45 @@ export const kendaraanValidation = async (
     ];
   }
 
-  if (payload.nomorBpkb.trim().length === 0) {
-    return [{ field: "nomorBpkb", message: "Nomor BPKB tidak boleh kosong" }];
+  if (payload.nomorBpkb) {
+    const nomorBpkb = await getConnection()
+      .getRepository(Kendaraan)
+      .createQueryBuilder("kendaraan")
+      .where(
+        `kendaraan."nomorBpkb" = :nomorBpkb ${
+          skipId ? "AND kendaraan.id != :id" : ""
+        }`,
+        skipId
+          ? {
+              nomorBpkb: payload.nomorBpkb,
+              id: skipId,
+            }
+          : {
+              nomorBpkb: payload.nomorBpkb,
+            }
+      )
+      .getOne();
+
+    if (nomorBpkb) {
+      return [
+        {
+          field: "nomorBpkb",
+          message: "Nomor BPKB telah terdaftar",
+        },
+      ];
+    }
   }
 
-  const nomorBpkb = await getConnection()
-    .getRepository(Kendaraan)
-    .createQueryBuilder("kendaraan")
-    .where(
-      `kendaraan."nomorBpkb" = :nomorBpkb ${
-        skipId ? "AND kendaraan.id != :id" : ""
-      }`,
-      skipId
-        ? {
-            nomorBpkb: payload.nomorBpkb,
-            id: skipId,
-          }
-        : {
-            nomorBpkb: payload.nomorBpkb,
-          }
-    )
-    .getOne();
-
-  if (nomorBpkb) {
-    return [
-      {
-        field: "nomorBpkb",
-        message: "Nomor BPKB telah terdaftar",
-      },
-    ];
+  if (!(<any>Object).values(TipeAsalUsul).includes(payload.asalUsul)) {
+    return [{ field: "asalUsul", message: "Asal usul tidak valid" }];
   }
 
-  if (payload.asalUsul.trim().length === 0) {
-    return [{ field: "asalUsul", message: "Asal usul tidak boleh kosong" }];
+  if (payload.warna.trim().length === 0) {
+    return [{ field: "warna", message: "Warna tidak boleh kosong" }];
+  }
+
+  if (!(<any>Object).values(TipeBahanBakar).includes(payload.bahanBakar)) {
+    return [{ field: "bahanBakar", message: "Bahan bakar tidak valid" }];
   }
 
   if (payload.harga.trim().length === 0) {

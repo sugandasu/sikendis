@@ -8,6 +8,27 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
+export enum TipeKendaraan {
+  RUTIN = "Kendaraan Rutin",
+  OPERATIONAL = "Kendaraan Operational",
+}
+
+export enum TipeRoda {
+  RODA2 = "Roda 2",
+  RODA3 = "Roda 3",
+  RODA4 = "Roda 4",
+}
+
+export enum TipeAsalUsul {
+  PEMBELIAN = "Pembelian",
+  HIBAH = "Hibah",
+}
+
+export enum TipeBahanBakar {
+  BENSIN = "Bensin",
+  SOLAR = "Solar",
+}
+
 @ObjectType()
 @Entity()
 export class Kendaraan extends BaseEntity {
@@ -15,9 +36,13 @@ export class Kendaraan extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @Field(() => String)
+  @Column({ type: "enum", enum: TipeKendaraan, default: TipeKendaraan.RUTIN })
+  tipeKendaraan!: TipeKendaraan;
+
   @Field()
-  @Column()
-  tipeRoda!: string;
+  @Column({ type: "enum", enum: TipeRoda, default: TipeRoda.RODA4 })
+  tipeRoda!: TipeRoda;
 
   @Field()
   @Column()
@@ -27,7 +52,6 @@ export class Kendaraan extends BaseEntity {
   @Column()
   nama!: string;
 
-  // Roda 2
   @Field(() => String, { nullable: true })
   @Column({ type: "varchar", nullable: true })
   nomorRegister: string | null;
@@ -60,13 +84,25 @@ export class Kendaraan extends BaseEntity {
   @Column({ unique: true })
   nomorPolisi!: string;
 
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", unique: true, nullable: true })
+  nomorBpkb: string | null;
+
   @Field()
-  @Column({ unique: true })
-  nomorBpkb!: string;
+  @Column({ type: "enum", enum: TipeAsalUsul, default: TipeAsalUsul.PEMBELIAN })
+  asalUsul!: TipeAsalUsul;
 
   @Field()
   @Column()
-  asalUsul!: string;
+  warna!: string;
+
+  @Field()
+  @Column({
+    type: "enum",
+    enum: TipeBahanBakar,
+    default: TipeBahanBakar.BENSIN,
+  })
+  bahanBakar!: TipeBahanBakar;
 
   @Field()
   @Column()

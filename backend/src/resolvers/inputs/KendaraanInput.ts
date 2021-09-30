@@ -1,9 +1,18 @@
+import {
+  TipeAsalUsul,
+  TipeBahanBakar,
+  TipeKendaraan,
+  TipeRoda,
+} from "./../../entities/Kendaraan";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class KendaraanInput {
   @Field()
-  tipeRoda: string;
+  tipeKendaraan: TipeKendaraan;
+
+  @Field()
+  tipeRoda: TipeRoda;
 
   @Field()
   kode: string;
@@ -11,7 +20,6 @@ export class KendaraanInput {
   @Field()
   nama: string;
 
-  // Roda 2
   @Field(() => String, { nullable: true })
   nomorRegister: string | null;
 
@@ -36,11 +44,17 @@ export class KendaraanInput {
   @Field()
   nomorPolisi: string;
 
-  @Field()
-  nomorBpkb: string;
+  @Field(() => String, { nullable: true })
+  nomorBpkb: string | null;
 
   @Field()
-  asalUsul: string;
+  asalUsul: TipeAsalUsul;
+
+  @Field()
+  warna: string;
+
+  @Field()
+  bahanBakar: TipeBahanBakar;
 
   @Field()
   harga: string;
