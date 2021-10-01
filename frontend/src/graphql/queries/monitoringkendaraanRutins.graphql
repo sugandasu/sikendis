@@ -1,0 +1,17 @@
+query MonitoringKendaraanRutins($options: KendaraanPaginateInput!) {
+  kendaraans(options: $options) {
+    data {
+      ...RegularKendaraan
+      statusPenggunaan {
+        status
+        penggunaRutinLast {
+          ...RegularPenggunaRutin
+        }
+      }
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

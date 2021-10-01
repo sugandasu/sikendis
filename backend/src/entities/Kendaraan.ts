@@ -4,9 +4,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { PeminjamanOperasional } from "./PeminjamanOperasional";
+import { PenggunaRutin } from "./PenggunaRutin";
 
 export enum TipeKendaraan {
   RUTIN = "Kendaraan Rutin",
@@ -36,7 +39,7 @@ export class Kendaraan extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field(() => String)
+  @Field()
   @Column({ type: "enum", enum: TipeKendaraan, default: TipeKendaraan.RUTIN })
   tipeKendaraan!: TipeKendaraan;
 
@@ -115,6 +118,17 @@ export class Kendaraan extends BaseEntity {
   @Field(() => String, { nullable: true })
   @Column({ type: "text", nullable: true })
   keterangan: string | null;
+
+  @Field(() => [PenggunaRutin])
+  @OneToMany(() => PenggunaRutin, (penggunaRutin) => penggunaRutin.kendaraan)
+  penggunaRutin: PenggunaRutin[];
+
+  @Field(() => [PeminjamanOperasional])
+  @OneToMany(
+    () => PeminjamanOperasional,
+    (peminjamanOperasional) => peminjamanOperasional.kendaraan
+  )
+  peminjamanOperasional: PeminjamanOperasional[];
 
   @Field()
   @CreateDateColumn()

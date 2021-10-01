@@ -4,9 +4,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { PenggunaRutin } from "./PenggunaRutin";
 
 export enum Instansi {
   UMUM = "Biro Umum pada Sekretariat Daerah Provinsi Sulawesi Tengah",
@@ -51,6 +53,10 @@ export class Pengguna extends BaseEntity {
   @Field(() => String, { nullable: true })
   @Column({ type: "varchar", nullable: true })
   fotoProfil: string | null;
+
+  @Field(() => [PenggunaRutin])
+  @OneToMany(() => PenggunaRutin, (penggunaRutin) => penggunaRutin.pengguna)
+  penggunaRutin: PenggunaRutin[];
 
   @Field()
   @CreateDateColumn()

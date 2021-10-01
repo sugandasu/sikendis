@@ -11,14 +11,20 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
+import { PeminjamanOperasional } from "../entities/PeminjamanOperasional";
 import { isOperator } from "../middlewares/isOperator";
-import { Kendaraan } from "./../entities/Kendaraan";
+import { Kendaraan, TipeKendaraan } from "./../entities/Kendaraan";
+import { PenggunaRutin } from "./../entities/PenggunaRutin";
 import { isAuth } from "./../middlewares/isAuth";
 import { uploadFile } from "./../utils/UploadFile";
 import { KendaraanInput } from "./inputs/KendaraanInput";
 import { KendaraanPaginateInput } from "./inputs/KendaraanPaginateInput";
 import { KendaraanPaginated } from "./responses/KendaraanPaginated";
 import { KendaraanResponse } from "./responses/KendaraanResponse";
+import {
+  StatusKendaraanField,
+  TipeStatusKendaraan,
+} from "./responses/StatusKendaraanField";
 import { kendaraanValidation } from "./validations/kendaraanValidation";
 
 @Resolver(Kendaraan)
@@ -26,6 +32,39 @@ export class KendaraanResolver {
   @FieldResolver(() => String, { nullable: true })
   fotoUrl(@Root() root: Kendaraan) {
     return root.foto ? process.env.BACKEND_URL + "/static/" + root.foto : null;
+  }
+
+  @FieldResolver(() => StatusKendaraanField, { nullable: true })
+  async statusPenggunaan(@Root() root: Kendaraan) {
+    if (root.tipeKendaraan === TipeKendaraan.RUTIN) {
+      const penggunaRutinLast = await PenggunaRutin.findOne({
+        where: { kendaraanId: root.id },
+        order: { tanggalBap: "DESC" },
+      });
+
+      return {
+        status: penggunaRutinLast
+          ? TipeStatusKendaraan.DIPAKAI
+          : TipeStatusKendaraan.BEBAS,
+        penggunaRutinLast,
+      };
+    }
+
+    if (root.tipeKendaraan === TipeKendaraan.OPERASIONAL) {
+      const peminjamanOperasionalLast = await PeminjamanOperasional.findOne({
+        where: { kendaraanId: root.id },
+        order: { tanggalSelesai: "DESC" },
+      });
+
+      return {
+        status: peminjamanOperasionalLast
+          ? TipeStatusKendaraan.DIPAKAI
+          : TipeStatusKendaraan.BEBAS,
+        peminjamanOperasionalLast,
+      };
+    }
+
+    return { status: TipeStatusKendaraan.BEBAS };
   }
 
   @Mutation(() => KendaraanResponse)

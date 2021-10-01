@@ -22,17 +22,17 @@ export class PenggunaRutin extends BaseEntity {
   @Column({ type: "int" })
   kendaraanId!: number;
 
-  @Field()
-  @ManyToOne(() => Kendaraan)
-  kendaraan: Kendaraan;
+  @Field(() => Kendaraan)
+  @ManyToOne(() => Kendaraan, (kendaraan) => kendaraan.penggunaRutin)
+  kendaraan!: Kendaraan;
 
   @Field()
   @Column({ type: "int" })
   penggunaId!: number;
 
-  @Field()
-  @ManyToOne(() => Pengguna)
-  pengguna: Pengguna;
+  @Field(() => Pengguna)
+  @ManyToOne(() => Pengguna, (pengguna) => pengguna.penggunaRutin)
+  pengguna!: Pengguna;
 
   @Field()
   @Column()

@@ -21,9 +21,9 @@ export class PeminjamanOperasional extends BaseEntity {
   @Column()
   kendaraanId!: number;
 
-  @Field()
-  @ManyToOne(() => Kendaraan)
-  kendaraan: Kendaraan;
+  @Field(() => Kendaraan)
+  @ManyToOne(() => Kendaraan, (kendaraan) => kendaraan.peminjamanOperasional)
+  kendaraan!: Kendaraan;
 
   @Field()
   @Column()

@@ -45,6 +45,9 @@ export type Kendaraan = {
   nomorPolisi: Scalars['String'];
   nomorRangka: Scalars['String'];
   nomorRegister?: Maybe<Scalars['String']>;
+  peminjamanOperasional: Array<PeminjamanOperasional>;
+  penggunaRutin: Array<PenggunaRutin>;
+  statusPenggunaan?: Maybe<StatusKendaraanField>;
   tahunPembelian: Scalars['String'];
   tipeKendaraan: Scalars['String'];
   tipeRoda: Scalars['String'];
@@ -342,6 +345,7 @@ export type Pengguna = {
   jabatan: Scalars['String'];
   nama: Scalars['String'];
   nip: Scalars['String'];
+  penggunaRutin: Array<PenggunaRutin>;
   subBagian: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
@@ -486,6 +490,21 @@ export type QueryPenggunaRutinsArgs = {
 export type QueryPenggunasArgs = {
   options: PenggunaPaginateInput;
 };
+
+export type StatusKendaraanField = {
+  __typename?: 'StatusKendaraanField';
+  peminjamanOperasional?: Maybe<Array<PeminjamanOperasional>>;
+  peminjamanOperasionalLast?: Maybe<PeminjamanOperasional>;
+  penggunaRutin?: Maybe<Array<PenggunaRutin>>;
+  penggunaRutinLast?: Maybe<PenggunaRutin>;
+  status: TipeStatusKendaraan;
+};
+
+/** Tipe status kendaraan */
+export enum TipeStatusKendaraan {
+  Bebas = 'BEBAS',
+  Dipakai = 'DIPAKAI'
+}
 
 export type User = {
   __typename?: 'User';
@@ -650,6 +669,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, username: string, email: string, role: string }> };
+
+export type MonitoringKendaraanRutinsQueryVariables = Exact<{
+  options: KendaraanPaginateInput;
+}>;
+
+
+export type MonitoringKendaraanRutinsQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string>, statusPenggunaan?: Maybe<{ __typename?: 'StatusKendaraanField', status: TipeStatusKendaraan, penggunaRutinLast?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> }> }> } };
 
 export type PeminjamanOperasionalQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -1420,6 +1446,54 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const MonitoringKendaraanRutinsDocument = gql`
+    query MonitoringKendaraanRutins($options: KendaraanPaginateInput!) {
+  kendaraans(options: $options) {
+    data {
+      ...RegularKendaraan
+      statusPenggunaan {
+        status
+        penggunaRutinLast {
+          ...RegularPenggunaRutin
+        }
+      }
+    }
+    total
+    limit
+    page
+    filter
+  }
+}
+    ${RegularKendaraanFragmentDoc}
+${RegularPenggunaRutinFragmentDoc}`;
+
+/**
+ * __useMonitoringKendaraanRutinsQuery__
+ *
+ * To run a query within a React component, call `useMonitoringKendaraanRutinsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMonitoringKendaraanRutinsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMonitoringKendaraanRutinsQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useMonitoringKendaraanRutinsQuery(baseOptions: Apollo.QueryHookOptions<MonitoringKendaraanRutinsQuery, MonitoringKendaraanRutinsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MonitoringKendaraanRutinsQuery, MonitoringKendaraanRutinsQueryVariables>(MonitoringKendaraanRutinsDocument, options);
+      }
+export function useMonitoringKendaraanRutinsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MonitoringKendaraanRutinsQuery, MonitoringKendaraanRutinsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MonitoringKendaraanRutinsQuery, MonitoringKendaraanRutinsQueryVariables>(MonitoringKendaraanRutinsDocument, options);
+        }
+export type MonitoringKendaraanRutinsQueryHookResult = ReturnType<typeof useMonitoringKendaraanRutinsQuery>;
+export type MonitoringKendaraanRutinsLazyQueryHookResult = ReturnType<typeof useMonitoringKendaraanRutinsLazyQuery>;
+export type MonitoringKendaraanRutinsQueryResult = Apollo.QueryResult<MonitoringKendaraanRutinsQuery, MonitoringKendaraanRutinsQueryVariables>;
 export const PeminjamanOperasionalDocument = gql`
     query PeminjamanOperasional($id: Int!) {
   peminjamanOperasional(id: $id) {

@@ -36,7 +36,18 @@ export const SidebarMenuLevel: React.FC<SidebarMenuLevelProps> = ({
         }
       }
     });
+  } else {
+    if (typeof children === "object") {
+      if ("props" in children) {
+        if ("link" in children.props) {
+          if (router.route.includes(children.props.link)) {
+            routeIsHere.push(children.props.link);
+          }
+        }
+      }
+    }
   }
+
   return (
     <Box>
       <Accordion defaultIndex={routeIsHere.length > 0 ? [0] : null} allowToggle>

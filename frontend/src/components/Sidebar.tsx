@@ -9,7 +9,7 @@ import {
 import NextLink from "next/link";
 import React from "react";
 import { AiFillCar } from "react-icons/ai";
-import { BiServer } from "react-icons/bi";
+import { BiNetworkChart } from "react-icons/bi";
 import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
 import { FiCodesandbox } from "react-icons/fi";
 import { GiCarKey } from "react-icons/gi";
@@ -103,21 +103,21 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
               icon={FaUsers}
             />
             <SidebarMenuLevel
-              text="Integrasi Aplikasi"
+              text="Monitoring"
               color="blue.600"
-              icon={BiServer}
+              icon={BiNetworkChart}
             >
               <SidebarMenu
-                link="/dashboard/data-samsat"
-                text="Data SAMSAT"
+                link="/dashboard/monitoring/kendaraan-rutin"
+                text="Kendaraan Rutin"
                 color="green.500"
                 icon={RiCarWashingFill}
               />
               <SidebarMenu
-                link="/dashboard/data-simda"
-                text="Data SIMDA BMD"
-                color="red.500"
-                icon={RiGovernmentFill}
+                link="/dashboard/monitoring/kendaraan-operasional"
+                text="Kendaraan Operasional"
+                color="blue.500"
+                icon={RiCarWashingFill}
               />
             </SidebarMenuLevel>
           </Box>
