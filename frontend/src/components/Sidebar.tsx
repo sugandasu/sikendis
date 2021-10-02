@@ -15,7 +15,8 @@ import { FiCodesandbox } from "react-icons/fi";
 import { GiCarKey } from "react-icons/gi";
 import { IoCarSharp } from "react-icons/io";
 import { MdNaturePeople } from "react-icons/md";
-import { RiCarWashingFill, RiGovernmentFill } from "react-icons/ri";
+import { RiCarWashingFill, RiMoneyDollarBoxFill } from "react-icons/ri";
+import { SiElectron } from "react-icons/si";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarMenuLevel } from "./SidebarMenuLevel";
 
@@ -118,6 +119,18 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                 text="Kendaraan Operasional"
                 color="blue.500"
                 icon={RiCarWashingFill}
+              />
+            </SidebarMenuLevel>
+            <SidebarMenuLevel
+              text="Integrasi"
+              color="blue.600"
+              icon={SiElectron}
+            >
+              <SidebarMenu
+                link="/dashboard/integrasi/pajak-kendaraan"
+                text="Pajak Kendaraan"
+                color="green.500"
+                icon={RiMoneyDollarBoxFill}
               />
             </SidebarMenuLevel>
           </Box>
