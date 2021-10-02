@@ -47,6 +47,7 @@ export type Kendaraan = {
   nomorRegister?: Maybe<Scalars['String']>;
   peminjamanOperasional: Array<PeminjamanOperasional>;
   penggunaRutin: Array<PenggunaRutin>;
+  statusPajak?: Maybe<Scalars['String']>;
   statusPenggunaan?: Maybe<StatusKendaraanField>;
   tahunPembelian: Scalars['String'];
   tipeKendaraan: Scalars['String'];
@@ -650,6 +651,13 @@ export type UpdatePenggunaRutinMutationVariables = Exact<{
 
 
 export type UpdatePenggunaRutinMutation = { __typename?: 'Mutation', updatePenggunaRutin: { __typename?: 'PenggunaRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
+
+export type IntegrasiPajaksQueryVariables = Exact<{
+  options: KendaraanPaginateInput;
+}>;
+
+
+export type IntegrasiPajaksQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', statusPajak?: Maybe<string>, id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
 
 export type KendaraanQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -1340,6 +1348,48 @@ export function useUpdatePenggunaRutinMutation(baseOptions?: Apollo.MutationHook
 export type UpdatePenggunaRutinMutationHookResult = ReturnType<typeof useUpdatePenggunaRutinMutation>;
 export type UpdatePenggunaRutinMutationResult = Apollo.MutationResult<UpdatePenggunaRutinMutation>;
 export type UpdatePenggunaRutinMutationOptions = Apollo.BaseMutationOptions<UpdatePenggunaRutinMutation, UpdatePenggunaRutinMutationVariables>;
+export const IntegrasiPajaksDocument = gql`
+    query IntegrasiPajaks($options: KendaraanPaginateInput!) {
+  kendaraans(options: $options) {
+    data {
+      ...RegularKendaraan
+      statusPajak
+    }
+    total
+    limit
+    page
+    filter
+  }
+}
+    ${RegularKendaraanFragmentDoc}`;
+
+/**
+ * __useIntegrasiPajaksQuery__
+ *
+ * To run a query within a React component, call `useIntegrasiPajaksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIntegrasiPajaksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIntegrasiPajaksQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useIntegrasiPajaksQuery(baseOptions: Apollo.QueryHookOptions<IntegrasiPajaksQuery, IntegrasiPajaksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IntegrasiPajaksQuery, IntegrasiPajaksQueryVariables>(IntegrasiPajaksDocument, options);
+      }
+export function useIntegrasiPajaksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IntegrasiPajaksQuery, IntegrasiPajaksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IntegrasiPajaksQuery, IntegrasiPajaksQueryVariables>(IntegrasiPajaksDocument, options);
+        }
+export type IntegrasiPajaksQueryHookResult = ReturnType<typeof useIntegrasiPajaksQuery>;
+export type IntegrasiPajaksLazyQueryHookResult = ReturnType<typeof useIntegrasiPajaksLazyQuery>;
+export type IntegrasiPajaksQueryResult = Apollo.QueryResult<IntegrasiPajaksQuery, IntegrasiPajaksQueryVariables>;
 export const KendaraanDocument = gql`
     query Kendaraan($id: Int!) {
   kendaraan(id: $id) {

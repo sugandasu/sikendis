@@ -1,0 +1,12 @@
+query IntegrasiPajaks($options: KendaraanPaginateInput!) {
+  kendaraans(options: $options) {
+    data {
+      ...RegularKendaraan
+      statusPajak
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

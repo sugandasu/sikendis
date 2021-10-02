@@ -1,3 +1,4 @@
+import axios from "axios";
 import { unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
@@ -77,6 +78,45 @@ export class KendaraanResolver {
     }
 
     return { status: TipeStatusKendaraan.BEBAS };
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  async statusPajak(@Root() root: Kendaraan) {
+    const response = await axios
+      .get("http://123.231.246.164:7272/api/samapi/kend?", {
+        params: {
+          rangka: root.nomorRangka,
+          u: "121n",
+          p: "S4ms4t",
+        },
+      })
+      .then((response) => {
+        if (response.data) {
+          const terakhir = Date.parse(response.data["MASALAKU TERAKHIR"]);
+          const dateTerakhir = new Date(terakhir);
+          console.log("Data: ", dateTerakhir.getDate());
+
+          const dateNow = new Date();
+
+          if (dateNow < dateTerakhir) {
+            return `Pajak kendaraan berakhir pada tanggal ${dateTerakhir.getFullYear()}-${
+              dateTerakhir.getMonth() + 1
+            }-${dateTerakhir.getDate()}`;
+          }
+          return `Pajak kendaraan telah berakhir pada ${dateTerakhir.getFullYear()}-${
+            dateTerakhir.getMonth() + 1
+          }-${dateTerakhir.getDate()}`;
+        }
+        return "Pajak tidak diketahui";
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          return "Data kendaraan tidak terdaftar";
+        }
+        return "Integrasi gagal";
+      });
+
+    return response;
   }
 
   @Mutation(() => KendaraanResponse)
