@@ -49,11 +49,11 @@ export class PeminjamanOperasional extends BaseEntity {
   @Column({ type: "varchar", nullable: true })
   fileSuratPermohonan: string | null;
 
-  @Field()
+  @Field(() => Date)
   @Column({ type: "date" })
   tanggalMulai!: Date;
 
-  @Field()
+  @Field(() => Date)
   @Column({ type: "date" })
   tanggalSelesai!: Date;
 

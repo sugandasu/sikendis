@@ -1,0 +1,17 @@
+query MonitoringKendaraanOperasionals($options: KendaraanPaginateInput!) {
+  kendaraans(options: $options) {
+    data {
+      ...RegularKendaraan
+      statusPenggunaan {
+        status
+        peminjamanOperasionalLast {
+          ...RegularPeminjamanOperasional
+        }
+      }
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

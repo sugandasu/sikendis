@@ -24,6 +24,7 @@ import { KendaraanResponse } from "./responses/KendaraanResponse";
 import {
   StatusKendaraanField,
   TipeStatusKendaraan,
+  TipeStatusKendaraan,
 } from "./responses/StatusKendaraanField";
 import { kendaraanValidation } from "./validations/kendaraanValidation";
 
@@ -56,12 +57,24 @@ export class KendaraanResolver {
         order: { tanggalSelesai: "DESC" },
       });
 
-      return {
-        status: peminjamanOperasionalLast
-          ? TipeStatusKendaraan.DIPAKAI
-          : TipeStatusKendaraan.BEBAS,
-        peminjamanOperasionalLast,
-      };
+      if (peminjamanOperasionalLast) {
+        const tanggalMulai = new Date(peminjamanOperasionalLast.tanggalMulai);
+        const tanggalSelesai = new Date(
+          peminjamanOperasionalLast.tanggalSelesai
+        );
+
+        const currentDate = new Date();
+
+        let status = TipeStatusKendaraan.BEBAS;
+        if (currentDate > tanggalMulai && currentDate <= tanggalMulai) {
+          status = TipeStatusKendaraan.DIPAKAI;
+        }
+
+        return {
+          status,
+          peminjamanOperasionalLast,
+        };
+      }
     }
 
     return { status: TipeStatusKendaraan.BEBAS };
