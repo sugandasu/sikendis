@@ -82,7 +82,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
     }
   }
 
-  const fontSize = isSm ? "sm" : isMd ? "md" : "l";
+  const size = isSm ? "sm" : isMd ? "md" : "l";
 
   return (
     <Box my={4}>
@@ -108,13 +108,12 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
         </Flex>
       </Flex>
       <Box overflow="scroll" pb={5}>
-        <Table>
+        <Table variant="striped" size={size}>
           <TableCaption>{tableCaption}</TableCaption>
           <Thead>
             <Tr>
               {headers.map((header) => (
                 <Th
-                  fontSize={fontSize}
                   fontWeight="regular"
                   key={header.key}
                   display={
@@ -135,7 +134,6 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
               <Tr key={row.id}>
                 {headers.map((header) => (
                   <Td
-                    fontSize={fontSize}
                     key={row.id + header.key}
                     display={
                       header.hide ||
