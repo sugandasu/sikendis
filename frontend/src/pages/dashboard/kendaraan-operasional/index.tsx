@@ -68,6 +68,7 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
     {
       label: "Jenis",
       key: "tipeRoda",
+      hideSm: true,
     },
     {
       label: "Nomor Polisi",
