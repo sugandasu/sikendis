@@ -82,6 +82,8 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
     }
   }
 
+  const fontSize = isSm ? "sm" : isMd ? "md" : "l";
+
   return (
     <Box my={4}>
       {/* <Flex align="center" mb={4}>
@@ -105,32 +107,16 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
           </Select>
         </Flex>
       </Flex>
-      <Table>
-        <TableCaption>{tableCaption}</TableCaption>
-        <Thead>
-          <Tr>
-            {headers.map((header) => (
-              <Th
-                key={header.key}
-                display={
-                  header.hide ||
-                  (isSm && header.hideSm) ||
-                  (isMd && header.hideMd)
-                    ? "none"
-                    : null
-                }
-              >
-                {header.label}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.data.map((row) => (
-            <Tr key={row.id}>
+      <Box overflow="scroll">
+        <Table>
+          <TableCaption>{tableCaption}</TableCaption>
+          <Thead>
+            <Tr>
               {headers.map((header) => (
-                <Td
-                  key={row.id + header.key}
+                <Th
+                  fontSize={fontSize}
+                  fontWeight="regular"
+                  key={header.key}
                   display={
                     header.hide ||
                     (isSm && header.hideSm) ||
@@ -139,15 +125,36 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
                       : null
                   }
                 >
-                  {header.render
-                    ? header.render(row, isMd, setViewRow, onOpen)
-                    : row[header.key]}
-                </Td>
+                  {header.label}
+                </Th>
               ))}
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {data.data.map((row) => (
+              <Tr key={row.id}>
+                {headers.map((header) => (
+                  <Td
+                    fontSize={fontSize}
+                    key={row.id + header.key}
+                    display={
+                      header.hide ||
+                      (isSm && header.hideSm) ||
+                      (isMd && header.hideMd)
+                        ? "none"
+                        : null
+                    }
+                  >
+                    {header.render
+                      ? header.render(row, isMd, setViewRow, onOpen)
+                      : row[header.key]}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
       <Flex mb={4}>
         <Flex ml="auto">
           <IconButton
