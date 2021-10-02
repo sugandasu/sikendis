@@ -24,7 +24,6 @@ import { KendaraanResponse } from "./responses/KendaraanResponse";
 import {
   StatusKendaraanField,
   TipeStatusKendaraan,
-  TipeStatusKendaraan,
 } from "./responses/StatusKendaraanField";
 import { kendaraanValidation } from "./validations/kendaraanValidation";
 
@@ -66,7 +65,7 @@ export class KendaraanResolver {
         const currentDate = new Date();
 
         let status = TipeStatusKendaraan.BEBAS;
-        if (currentDate > tanggalMulai && currentDate <= tanggalMulai) {
+        if (currentDate > tanggalMulai && currentDate <= tanggalSelesai) {
           status = TipeStatusKendaraan.DIPAKAI;
         }
 

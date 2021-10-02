@@ -16,7 +16,6 @@ import { DashboardLayout } from "../../../components/DashboardLayout";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
   Kendaraan,
-  TipeStatusKendaraan,
   useMonitoringKendaraanRutinsQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
@@ -44,27 +43,8 @@ const DashboardMonitoringKendaraanRutinIndex: React.FC<{}> = ({}) => {
 
   const headers = [
     {
-      label: "Kendaraan",
-      key: "tipeKendaraan",
-    },
-    {
-      label: "Jenis",
-      key: "tipeRoda",
-    },
-    {
       label: "Nomor Polisi",
       key: "nomorPolisi",
-    },
-    {
-      label: "Keterangan",
-      key: "statusPenggunaan",
-      render: (row: Kendaraan) => {
-        let statusPenggunaan = `${row.statusPenggunaan.status}`;
-        if (row.statusPenggunaan.penggunaRutinLast) {
-          statusPenggunaan += ` oleh ${row.statusPenggunaan.penggunaRutinLast.pengguna.nama}`;
-        }
-        return statusPenggunaan;
-      },
     },
     { label: "Kode", key: "kode", hide: true },
     { label: "Nama", key: "nama", hide: true },
@@ -125,6 +105,17 @@ const DashboardMonitoringKendaraanRutinIndex: React.FC<{}> = ({}) => {
       label: "Keterangan",
       key: "keterangan",
       hide: true,
+    },
+    {
+      label: "Keterangan",
+      key: "statusPenggunaan",
+      render: (row: Kendaraan) => {
+        let statusPenggunaan = `${row.statusPenggunaan.status}`;
+        if (row.statusPenggunaan.penggunaRutinLast) {
+          statusPenggunaan += ` oleh ${row.statusPenggunaan.penggunaRutinLast.pengguna.nama}`;
+        }
+        return statusPenggunaan;
+      },
     },
     {
       label: "Aksi",

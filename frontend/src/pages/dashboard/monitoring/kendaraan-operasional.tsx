@@ -16,6 +16,7 @@ import { DashboardLayout } from "../../../components/DashboardLayout";
 import { SimpleTable } from "../../../components/SimpleTable";
 import {
   Kendaraan,
+  TipeStatusKendaraan,
   useMonitoringKendaraanOperasionalsQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
@@ -109,10 +110,9 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
     {
       label: "Keterangan",
       key: "statusPenggunaan",
-      hideSm: true,
       render: (row: Kendaraan) => {
         let statusPenggunaan = `${row.statusPenggunaan.status}`;
-        if (row.statusPenggunaan.peminjamanOperasionalLast) {
+        if (row.statusPenggunaan.status === TipeStatusKendaraan.Dipakai) {
           statusPenggunaan += ` oleh instansi ${
             row.statusPenggunaan.peminjamanOperasionalLast.instansi
           } dari tanggal ${getFormattedDate(
