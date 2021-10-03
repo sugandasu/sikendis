@@ -108,7 +108,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
         </Flex>
       </Flex>
       <Box overflow="scroll" pb={5}>
-        <Table variant="striped" size={size}>
+        <Table size={size}>
           <TableCaption>{tableCaption}</TableCaption>
           <Thead>
             <Tr>
