@@ -94,8 +94,6 @@ export class KendaraanResolver {
         if (response.data) {
           const terakhir = Date.parse(response.data["MASALAKU TERAKHIR"]);
           const dateTerakhir = new Date(terakhir);
-          console.log("Data: ", dateTerakhir.getDate());
-
           const dateNow = new Date();
 
           if (dateNow < dateTerakhir) {
@@ -107,7 +105,7 @@ export class KendaraanResolver {
             dateTerakhir.getMonth() + 1
           }-${dateTerakhir.getDate()}`;
         }
-        return "Pajak tidak diketahui";
+        return "Pajak telah kadaluarsa";
       })
       .catch((err) => {
         if (err.response.status === 404) {
