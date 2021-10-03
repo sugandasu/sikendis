@@ -13,8 +13,7 @@ import { BiNetworkChart } from "react-icons/bi";
 import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
 import { FiCodesandbox } from "react-icons/fi";
 import { GiCarKey } from "react-icons/gi";
-import { IoCarSharp } from "react-icons/io";
-import { MdNaturePeople } from "react-icons/md";
+import { MdNaturePeople, MdDirectionsCar } from "react-icons/md";
 import { RiCarWashingFill, RiMoneyDollarBoxFill } from "react-icons/ri";
 import { SiElectron } from "react-icons/si";
 import { SidebarMenu } from "./SidebarMenu";
@@ -76,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                 link="/dashboard/kendaraan-operasional"
                 text="Kendaraan Operasional"
                 color="gray.500"
-                icon={IoCarSharp}
+                icon={MdDirectionsCar}
               />
             </SidebarMenuLevel>
             <SidebarMenuLevel
