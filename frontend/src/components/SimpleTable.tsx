@@ -85,7 +85,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
   const size = isSm ? "sm" : isMd ? "md" : "l";
 
   return (
-    <Box my={4}>
+    <Box my={4} overflow="hidden">
       {/* <Flex align="center" mb={4}>
         <Input placeholder="Filter" />
       </Flex> */}
@@ -107,7 +107,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
           </Select>
         </Flex>
       </Flex>
-      <Box overflow="scroll" pb={5}>
+      <Box width="100%" overflowX="scroll" pb={5}>
         <Table size={size}>
           <TableCaption>{tableCaption}</TableCaption>
           <Thead>
