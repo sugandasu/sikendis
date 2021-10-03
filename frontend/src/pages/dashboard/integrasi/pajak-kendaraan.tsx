@@ -118,7 +118,7 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
       render: (row: any, showView: boolean, setViewRow: any, onOpen: any) => {
         return (
           <Menu>
-            <MenuButton as={Button} variant="transparent">
+            <MenuButton as={Button}>
               <FaEllipsisV></FaEllipsisV>
             </MenuButton>
             <MenuList>
