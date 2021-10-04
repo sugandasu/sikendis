@@ -20,6 +20,15 @@ export type Scalars = {
   Upload: any;
 };
 
+export type DashboardCardResponse = {
+  __typename?: 'DashboardCardResponse';
+  kendaraanOperasional: Scalars['Int'];
+  kendaraanOperasionalBebas: Scalars['Int'];
+  kendaraanRutin: Scalars['Int'];
+  peminjamanKendaraan: Scalars['Int'];
+  pengguna: Scalars['Int'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -428,6 +437,7 @@ export type PenggunaRutinResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  dashboardCard: DashboardCardResponse;
   hello: Scalars['String'];
   kendaraan?: Maybe<Kendaraan>;
   kendaraans: KendaraanPaginated;
@@ -651,6 +661,11 @@ export type UpdatePenggunaRutinMutationVariables = Exact<{
 
 
 export type UpdatePenggunaRutinMutation = { __typename?: 'Mutation', updatePenggunaRutin: { __typename?: 'PenggunaRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
+
+export type DashboardCardQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DashboardCardQuery = { __typename?: 'Query', dashboardCard: { __typename?: 'DashboardCardResponse', kendaraanRutin: number, kendaraanOperasional: number, pengguna: number, kendaraanOperasionalBebas: number, peminjamanKendaraan: number } };
 
 export type IntegrasiPajaksQueryVariables = Exact<{
   options: KendaraanPaginateInput;
@@ -1348,6 +1363,44 @@ export function useUpdatePenggunaRutinMutation(baseOptions?: Apollo.MutationHook
 export type UpdatePenggunaRutinMutationHookResult = ReturnType<typeof useUpdatePenggunaRutinMutation>;
 export type UpdatePenggunaRutinMutationResult = Apollo.MutationResult<UpdatePenggunaRutinMutation>;
 export type UpdatePenggunaRutinMutationOptions = Apollo.BaseMutationOptions<UpdatePenggunaRutinMutation, UpdatePenggunaRutinMutationVariables>;
+export const DashboardCardDocument = gql`
+    query DashboardCard {
+  dashboardCard {
+    kendaraanRutin
+    kendaraanOperasional
+    pengguna
+    kendaraanOperasionalBebas
+    peminjamanKendaraan
+  }
+}
+    `;
+
+/**
+ * __useDashboardCardQuery__
+ *
+ * To run a query within a React component, call `useDashboardCardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDashboardCardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDashboardCardQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDashboardCardQuery(baseOptions?: Apollo.QueryHookOptions<DashboardCardQuery, DashboardCardQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DashboardCardQuery, DashboardCardQueryVariables>(DashboardCardDocument, options);
+      }
+export function useDashboardCardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DashboardCardQuery, DashboardCardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DashboardCardQuery, DashboardCardQueryVariables>(DashboardCardDocument, options);
+        }
+export type DashboardCardQueryHookResult = ReturnType<typeof useDashboardCardQuery>;
+export type DashboardCardLazyQueryHookResult = ReturnType<typeof useDashboardCardLazyQuery>;
+export type DashboardCardQueryResult = Apollo.QueryResult<DashboardCardQuery, DashboardCardQueryVariables>;
 export const IntegrasiPajaksDocument = gql`
     query IntegrasiPajaks($options: KendaraanPaginateInput!) {
   kendaraans(options: $options) {

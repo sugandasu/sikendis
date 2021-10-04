@@ -17,6 +17,7 @@ import { PeminjamanOperasional } from "./entities/PeminjamanOperasional";
 import { Pengguna } from "./entities/Pengguna";
 import { PenggunaRutin } from "./entities/PenggunaRutin";
 import { User } from "./entities/User";
+import { DashboardResolver } from "./resolvers/DashboardResolver";
 import { HelloResolver } from "./resolvers/HelloResolver";
 import { KendaraanResolver } from "./resolvers/KendaraanResolver";
 import { PeminjamanOperasionalResolver } from "./resolvers/PeminjamanOperasionalResolver";
@@ -57,6 +58,7 @@ const main = async () => {
         PeminjamanOperasionalResolver,
         PeminjamanResolver,
         PenggunaRutinResolver,
+        DashboardResolver,
       ],
       validate: false,
     }),

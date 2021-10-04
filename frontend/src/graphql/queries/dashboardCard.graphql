@@ -1,0 +1,9 @@
+query DashboardCard {
+  dashboardCard {
+    kendaraanRutin
+    kendaraanOperasional
+    pengguna
+    kendaraanOperasionalBebas
+    peminjamanKendaraan
+  }
+}
