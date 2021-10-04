@@ -12,8 +12,8 @@ import { AiFillCar } from "react-icons/ai";
 import { BiNetworkChart } from "react-icons/bi";
 import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
 import { FiCodesandbox } from "react-icons/fi";
-import { GiCarKey } from "react-icons/gi";
-import { MdNaturePeople, MdDirectionsCar } from "react-icons/md";
+import { GiBlackBook, GiCarKey } from "react-icons/gi";
+import { MdDirectionsCar, MdNaturePeople } from "react-icons/md";
 import { RiCarWashingFill, RiMoneyDollarBoxFill } from "react-icons/ri";
 import { SiElectron } from "react-icons/si";
 import { SidebarMenu } from "./SidebarMenu";
@@ -130,6 +130,12 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                 text="Pajak Kendaraan"
                 color="green.500"
                 icon={RiMoneyDollarBoxFill}
+              />
+              <SidebarMenu
+                link="/dashboard/integrasi/simda"
+                text="Simda"
+                color="yellow.500"
+                icon={GiBlackBook}
               />
             </SidebarMenuLevel>
           </Box>
