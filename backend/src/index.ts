@@ -16,6 +16,7 @@ import { Peminjaman } from "./entities/Peminjaman";
 import { PeminjamanOperasional } from "./entities/PeminjamanOperasional";
 import { Pengguna } from "./entities/Pengguna";
 import { PenggunaRutin } from "./entities/PenggunaRutin";
+import { Simda } from "./entities/Simda";
 import { User } from "./entities/User";
 import { DashboardResolver } from "./resolvers/DashboardResolver";
 import { HelloResolver } from "./resolvers/HelloResolver";
@@ -24,6 +25,7 @@ import { PeminjamanOperasionalResolver } from "./resolvers/PeminjamanOperasional
 import { PeminjamanResolver } from "./resolvers/PeminjamanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { PenggunaRutinResolver } from "./resolvers/PenggunaRutinResolver";
+import { SimdaResolver } from "./resolvers/SimdaResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
 
@@ -42,6 +44,7 @@ const main = async () => {
       Peminjaman,
       PeminjamanOperasional,
       PenggunaRutin,
+      Simda,
     ],
   });
 
@@ -59,6 +62,7 @@ const main = async () => {
         PeminjamanResolver,
         PenggunaRutinResolver,
         DashboardResolver,
+        SimdaResolver,
       ],
       validate: false,
     }),
