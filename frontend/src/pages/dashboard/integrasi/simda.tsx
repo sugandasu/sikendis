@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/button";
 import { Box } from "@chakra-ui/layout";
 import {
   Flex,
-  Image,
   Menu,
   MenuButton,
   MenuItem,
@@ -10,7 +9,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { SimpleTable } from "../../../components/SimpleTable";
@@ -24,11 +23,13 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Integrasi Simda", link: "#", isCurrentPage: true },
   ];
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const { data, loading } = useIntegrasiSimdasQuery({
     variables: {
       options: {
-        limit: 10,
-        page: 1,
+        limit: limit,
+        page: page,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -136,6 +137,8 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
                   headers={headers}
                   data={data.simdas}
                   tableCaption="Integrasi Simda"
+                  setPage={setPage}
+                  setLimit={setLimit}
                 ></SimpleTable>
               )}
             </Box>

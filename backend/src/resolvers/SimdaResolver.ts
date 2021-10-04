@@ -65,7 +65,7 @@ export class SimdaResolver {
   async simdas(
     @Arg("options") options: SimdaPaginate
   ): Promise<SimdaPaginated> {
-    const realLimit = Math.min(10, options.limit);
+    const realLimit = Math.min(50, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
     params.push(realLimit);

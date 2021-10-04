@@ -1,27 +1,27 @@
 import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@chakra-ui/icons";
-import {
   Box,
+  Button,
   Flex,
+  Input,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Select,
+  Spacer,
   Table,
   TableCaption,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
   useDisclosure,
   useMediaQuery,
-  Text,
-  Input,
-  Spacer,
-  IconButton,
-  Select,
-  Button,
 } from "@chakra-ui/react";
 import React, { Dispatch, useState } from "react";
 import { SimpleTableModal } from "./SimpleTableModal";
@@ -51,12 +51,16 @@ interface SimpleTableProps {
   headers: Header[];
   data: Data;
   tableCaption: string;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setLimit: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const SimpleTable: React.FC<SimpleTableProps> = ({
   headers,
   data,
   tableCaption,
+  setPage,
+  setLimit,
 }) => {
   const [isSm] = useMediaQuery("(max-width: 500px)");
   const [isMd] = useMediaQuery("(max-width: 780px)");
@@ -66,19 +70,47 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
   const totalPage = Math.ceil(data.total / data.limit);
   const onlyOnePage = totalPage === 0 || totalPage === 1;
 
-  const hideFirstPage = onlyOnePage;
-  const hidePreviousPage = onlyOnePage;
-  const hideNextPage = onlyOnePage;
-  const hideLastPage = onlyOnePage;
+  const [kePage, setKePage] = useState<number>();
 
-  let buttons = [1];
+  let buttons = [];
 
   if (!onlyOnePage) {
-    const midBottom = Math.floor(data.page / 2);
-    const midTop = (data.page + totalPage) / 2;
-    if (isSm) {
+    if (!isSm) {
+      if (data.page !== 1) {
+        buttons = buttons.concat([1]);
+      }
     }
-    if (isMd) {
+
+    if (!isSm) {
+      const midBottom = Math.floor(data.page / 2);
+      if (midBottom > 0 && buttons.indexOf(midBottom) === -1) {
+        buttons = buttons.concat([midBottom]);
+      }
+    }
+
+    if (data.page - 1 > 0 && buttons.indexOf(data.page - 1) === -1) {
+      buttons = buttons.concat([data.page - 1]);
+    }
+
+    if (buttons.indexOf(data.page) === -1) {
+      buttons = buttons.concat([data.page]);
+    }
+
+    if (data.page + 1 < totalPage && buttons.indexOf(data.page + 1) === -1) {
+      buttons = buttons.concat([data.page + 1]);
+    }
+
+    if (!isSm) {
+      const midTop = (data.page + totalPage) / 2;
+      if (buttons.indexOf(midTop)) {
+        buttons = buttons.concat(midTop);
+      }
+    }
+
+    if (!isSm) {
+      if (buttons.indexOf(totalPage) === -1) {
+        buttons = buttons.concat([totalPage]);
+      }
     }
   }
 
@@ -98,7 +130,12 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
           <Text mr={1} fontSize="xs">
             Show
           </Text>
-          <Select>
+          <Select
+            value={data.limit}
+            onChange={(event) => {
+              setLimit(parseInt(event.currentTarget.value));
+            }}
+          >
             <option value={5}>5</option>
             <option value={10}>10</option>
             <option value={15}>15</option>
@@ -153,40 +190,54 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
           </Tbody>
         </Table>
       </Box>
-      <Flex mb={4}>
+      <Flex my={4}>
         <Flex ml="auto">
-          <IconButton
-            aria-label="page pertama"
-            mr={1}
-            icon={<ArrowLeftIcon />}
-            display={hideFirstPage ? "none" : null}
-          />
-          <IconButton
-            aria-label="sebelumnya"
-            mr={1}
-            icon={<ChevronLeftIcon />}
-            display={hidePreviousPage ? "none" : null}
-          />
           {buttons.map((button, b) => (
             <Button
               key={b}
               mr={1}
               disabled={button === data.page ? true : null}
+              fontSize="sm"
+              onClick={() => {
+                setPage(button);
+              }}
             >
               {button}
             </Button>
           ))}
-          <IconButton
-            aria-label="selanjutnya"
-            mr={1}
-            icon={<ChevronRightIcon />}
-            display={hideNextPage ? "none" : null}
-          />
-          <IconButton
-            aria-label="page terakhir"
-            icon={<ArrowRightIcon />}
-            display={hideLastPage ? "none" : null}
-          />
+          <Popover>
+            <PopoverTrigger>
+              <Button>Ke</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Pilih Page</PopoverHeader>
+              <PopoverBody>
+                <Flex align="center">
+                  <Input
+                    type="number"
+                    value={kePage}
+                    onChange={(event) => {
+                      setKePage(parseInt(event.currentTarget.value));
+                    }}
+                    mr={2}
+                  ></Input>
+                  <Button
+                    color="white"
+                    bgColor="blue.500"
+                    onClick={() => {
+                      if (kePage > 0 && kePage <= totalPage) {
+                        setPage(kePage);
+                      }
+                    }}
+                  >
+                    Pilih
+                  </Button>
+                </Flex>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
         </Flex>
       </Flex>
       <Box>
