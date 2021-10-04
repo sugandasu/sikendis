@@ -1,0 +1,42 @@
+query IntegrasiSimdas($options: SimdaPaginate!) {
+  simdas(options: $options) {
+    data {
+      id
+      kdBidang
+      kdUnit
+      kdSubunit
+      kdUpb
+      nmUpb
+      noRegister
+      merk
+      type
+      cc
+      bahan
+      tglPerolehan
+      nomorPabrik
+      nomorRangka
+      nomorMesin
+      nomorBpkb
+      asalUsul
+      harga
+      keterangan
+      tahun
+      noSp2d
+      tglPembukuan
+      kdAset1
+      kdAset2
+      kdAset3
+      kdAset4
+      kdAset5
+      nmAset5
+      kondisi
+      uraian
+      createdAt
+      updatedAt
+    }
+    total
+    limit
+    page
+    filter
+  }
+}

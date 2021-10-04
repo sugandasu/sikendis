@@ -450,6 +450,7 @@ export type Query = {
   penggunaRutin?: Maybe<PenggunaRutin>;
   penggunaRutins: PenggunaRutinPaginated;
   penggunas: PenggunaPaginated;
+  simdas: SimdaPaginated;
 };
 
 
@@ -500,6 +501,62 @@ export type QueryPenggunaRutinsArgs = {
 
 export type QueryPenggunasArgs = {
   options: PenggunaPaginateInput;
+};
+
+
+export type QuerySimdasArgs = {
+  options: SimdaPaginate;
+};
+
+export type Simda = {
+  __typename?: 'Simda';
+  asalUsul?: Maybe<Scalars['String']>;
+  bahan?: Maybe<Scalars['String']>;
+  cc?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  harga?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
+  kdAset1?: Maybe<Scalars['String']>;
+  kdAset2?: Maybe<Scalars['String']>;
+  kdAset3?: Maybe<Scalars['String']>;
+  kdAset4?: Maybe<Scalars['String']>;
+  kdAset5?: Maybe<Scalars['String']>;
+  kdBidang?: Maybe<Scalars['String']>;
+  kdSubunit?: Maybe<Scalars['String']>;
+  kdUnit?: Maybe<Scalars['String']>;
+  kdUpb?: Maybe<Scalars['String']>;
+  keterangan?: Maybe<Scalars['String']>;
+  kondisi?: Maybe<Scalars['String']>;
+  merk?: Maybe<Scalars['String']>;
+  nmAset5?: Maybe<Scalars['String']>;
+  nmUpb?: Maybe<Scalars['String']>;
+  noRegister?: Maybe<Scalars['String']>;
+  noSp2d?: Maybe<Scalars['String']>;
+  nomorBpkb?: Maybe<Scalars['String']>;
+  nomorMesin?: Maybe<Scalars['String']>;
+  nomorPabrik?: Maybe<Scalars['String']>;
+  nomorRangka?: Maybe<Scalars['String']>;
+  tahun?: Maybe<Scalars['String']>;
+  tglPembukuan?: Maybe<Scalars['String']>;
+  tglPerolehan?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+  uraian?: Maybe<Scalars['String']>;
+};
+
+export type SimdaPaginate = {
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+};
+
+export type SimdaPaginated = {
+  __typename?: 'SimdaPaginated';
+  data: Array<Simda>;
+  filter?: Maybe<Scalars['JSONObject']>;
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+  total: Scalars['Int'];
 };
 
 export type StatusKendaraanField = {
@@ -673,6 +730,13 @@ export type IntegrasiPajaksQueryVariables = Exact<{
 
 
 export type IntegrasiPajaksQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', statusPajak?: Maybe<string>, id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
+
+export type IntegrasiSimdasQueryVariables = Exact<{
+  options: SimdaPaginate;
+}>;
+
+
+export type IntegrasiSimdasQuery = { __typename?: 'Query', simdas: { __typename?: 'SimdaPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Simda', id: number, kdBidang?: Maybe<string>, kdUnit?: Maybe<string>, kdSubunit?: Maybe<string>, kdUpb?: Maybe<string>, nmUpb?: Maybe<string>, noRegister?: Maybe<string>, merk?: Maybe<string>, type?: Maybe<string>, cc?: Maybe<string>, bahan?: Maybe<string>, tglPerolehan?: Maybe<string>, nomorPabrik?: Maybe<string>, nomorRangka?: Maybe<string>, nomorMesin?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, harga?: Maybe<string>, keterangan?: Maybe<string>, tahun?: Maybe<string>, noSp2d?: Maybe<string>, tglPembukuan?: Maybe<string>, kdAset1?: Maybe<string>, kdAset2?: Maybe<string>, kdAset3?: Maybe<string>, kdAset4?: Maybe<string>, kdAset5?: Maybe<string>, nmAset5?: Maybe<string>, kondisi?: Maybe<string>, uraian?: Maybe<string>, createdAt: any, updatedAt: any }> } };
 
 export type KendaraanQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -1443,6 +1507,78 @@ export function useIntegrasiPajaksLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type IntegrasiPajaksQueryHookResult = ReturnType<typeof useIntegrasiPajaksQuery>;
 export type IntegrasiPajaksLazyQueryHookResult = ReturnType<typeof useIntegrasiPajaksLazyQuery>;
 export type IntegrasiPajaksQueryResult = Apollo.QueryResult<IntegrasiPajaksQuery, IntegrasiPajaksQueryVariables>;
+export const IntegrasiSimdasDocument = gql`
+    query IntegrasiSimdas($options: SimdaPaginate!) {
+  simdas(options: $options) {
+    data {
+      id
+      kdBidang
+      kdUnit
+      kdSubunit
+      kdUpb
+      nmUpb
+      noRegister
+      merk
+      type
+      cc
+      bahan
+      tglPerolehan
+      nomorPabrik
+      nomorRangka
+      nomorMesin
+      nomorBpkb
+      asalUsul
+      harga
+      keterangan
+      tahun
+      noSp2d
+      tglPembukuan
+      kdAset1
+      kdAset2
+      kdAset3
+      kdAset4
+      kdAset5
+      nmAset5
+      kondisi
+      uraian
+      createdAt
+      updatedAt
+    }
+    total
+    limit
+    page
+    filter
+  }
+}
+    `;
+
+/**
+ * __useIntegrasiSimdasQuery__
+ *
+ * To run a query within a React component, call `useIntegrasiSimdasQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIntegrasiSimdasQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIntegrasiSimdasQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useIntegrasiSimdasQuery(baseOptions: Apollo.QueryHookOptions<IntegrasiSimdasQuery, IntegrasiSimdasQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IntegrasiSimdasQuery, IntegrasiSimdasQueryVariables>(IntegrasiSimdasDocument, options);
+      }
+export function useIntegrasiSimdasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IntegrasiSimdasQuery, IntegrasiSimdasQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IntegrasiSimdasQuery, IntegrasiSimdasQueryVariables>(IntegrasiSimdasDocument, options);
+        }
+export type IntegrasiSimdasQueryHookResult = ReturnType<typeof useIntegrasiSimdasQuery>;
+export type IntegrasiSimdasLazyQueryHookResult = ReturnType<typeof useIntegrasiSimdasLazyQuery>;
+export type IntegrasiSimdasQueryResult = Apollo.QueryResult<IntegrasiSimdasQuery, IntegrasiSimdasQueryVariables>;
 export const KendaraanDocument = gql`
     query Kendaraan($id: Int!) {
   kendaraan(id: $id) {
