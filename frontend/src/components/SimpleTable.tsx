@@ -45,6 +45,9 @@ interface Data {
   limit: number;
   page: number;
   total: number;
+  filter: {
+    all: string;
+  };
 }
 
 interface SimpleTableProps {
@@ -53,6 +56,7 @@ interface SimpleTableProps {
   tableCaption: string;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setLimit: React.Dispatch<React.SetStateAction<number>>;
+  setFilterAll: React.Dispatch<React.SetStateAction<String>>;
 }
 
 export const SimpleTable: React.FC<SimpleTableProps> = ({
@@ -61,6 +65,7 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
   tableCaption,
   setPage,
   setLimit,
+  setFilterAll,
 }) => {
   const [isSm] = useMediaQuery("(max-width: 500px)");
   const [isMd] = useMediaQuery("(max-width: 780px)");
@@ -118,9 +123,15 @@ export const SimpleTable: React.FC<SimpleTableProps> = ({
 
   return (
     <Box my={4} overflow="hidden">
-      {/* <Flex align="center" mb={4}>
-        <Input placeholder="Filter" />
-      </Flex> */}
+      <Flex align="center" mb={4}>
+        <Input
+          placeholder="Cari"
+          value={data.filter.all}
+          onChange={(event) => {
+            setFilterAll(event.currentTarget.value);
+          }}
+        />
+      </Flex>
       <Flex align="center" mb={4}>
         <Text fontSize="xs">
           Page {data.page} dari {totalPage}

@@ -7,7 +7,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
-import { Simda } from "./../entities/Simda";
+import { Simda, simdaColumns } from "./../entities/Simda";
 import { isAuth } from "./../middlewares/isAuth";
 import { SimdaPaginate } from "./inputs/SimdaPaginate";
 import { SimdaPaginated } from "./responses/SimdaPaginated";
@@ -22,8 +22,7 @@ const importDataSimda = () => {
     .pipe(csv.parse({ delimiter: ";", headers: false }))
     .on("error", (error) => console.error(error))
     .on("data", async (row) => {
-      console.log(row[12] as string);
-      const simda = await Simda.create({
+      await Simda.create({
         kdBidang: row[0] as string,
         kdUnit: row[1] as string,
         kdSubunit: row[2] as string,
@@ -73,17 +72,50 @@ export class SimdaResolver {
 
     let whereColumns = [];
     let whereColumnQuery = "";
-    if (options.filter) {
-      if (options.filter.columns) {
-        whereColumns = options.filter.columns.map((column) => {
-          if (column.operation === "LIKE") {
-            params.push(`%${column.value}%`);
-          } else if (column.operation === "=") {
-            params.push(column.value);
-          }
-          return `"${column.name}" ${column.operation} $${params.length}`;
-        });
-        whereColumnQuery = whereColumns.join(" AND ");
+    if (options.filter?.columns) {
+      whereColumns = options.filter.columns.map((column) => {
+        if (column.operation === "LIKE") {
+          params.push(`%${column.value}%`);
+        } else if (column.operation === "=") {
+          params.push(column.value);
+        }
+        return `simda."${column.name}" ${column.operation} $${params.length}`;
+      });
+      whereColumnQuery = whereColumns.join(" AND ");
+    }
+
+    let whereAlls = [];
+    let whereAllQuery = "";
+    if (options.filter?.all) {
+      whereAlls = simdaColumns.map((column) => {
+        params.push(`%${options.filter?.all}%`);
+        return `simda."${column}" LIKE $${params.length}`;
+      });
+      whereAllQuery = whereAlls.join(" OR ");
+    }
+
+    let query = "";
+    if (whereColumnQuery || whereAllQuery) {
+      query = " WHERE ";
+
+      if (whereColumnQuery && whereAllQuery) {
+        query += `(`;
+      }
+
+      if (whereColumnQuery) {
+        query += `(${whereColumnQuery})`;
+      }
+
+      if (whereColumnQuery && whereAllQuery) {
+        query += `) AND (`;
+      }
+
+      if (whereAllQuery) {
+        query += whereAllQuery;
+      }
+
+      if (whereColumnQuery && whereAllQuery) {
+        query += `)`;
       }
     }
 
@@ -91,7 +123,7 @@ export class SimdaResolver {
       `
       SELECT *
       FROM simda
-      ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
+      ${query ? query : ``}
       LIMIT $1
       OFFSET $2
       `,

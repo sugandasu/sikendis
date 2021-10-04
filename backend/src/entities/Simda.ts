@@ -8,6 +8,38 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
+export const simdaColumns = [
+  "kdBidang",
+  "kdUnit",
+  "kdSubunit",
+  "kdUpb",
+  "nmUpb",
+  "noRegister",
+  "merk",
+  "type",
+  "cc",
+  "bahan",
+  "tglPerolehan",
+  "nomorPabrik",
+  "nomorRangka",
+  "nomorMesin",
+  "nomorBpkb",
+  "asalUsul",
+  "harga",
+  "keterangan",
+  "tahun",
+  "noSp2d",
+  "tglPembukuan",
+  "kdAset1",
+  "kdAset2",
+  "kdAset3",
+  "kdAset4",
+  "kdAset5",
+  "nmAset5",
+  "kondisi",
+  "uraian",
+];
+
 @ObjectType()
 @Entity()
 export class Simda extends BaseEntity {
