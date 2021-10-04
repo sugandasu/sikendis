@@ -17,7 +17,7 @@ import { SimpleTable } from "../../../components/SimpleTable";
 import { useIntegrasiPajaksQuery } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 
-const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
+const DashboardIntegrasiPajakKendaraanIndex: React.FC<{}> = ({}) => {
   useIsAuth();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
@@ -142,7 +142,7 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={2}>
-              <Text fontSize="l">Pajak Kendaraan</Text>
+              <Text fontSize="l">Integrasi Pajak Kendaraan</Text>
             </Flex>
             <Box>
               {loading ? (
@@ -151,7 +151,7 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
                 <SimpleTable
                   headers={headers}
                   data={data.kendaraans}
-                  tableCaption="Kendaraan"
+                  tableCaption="Integrasi Pajak Kendaraan"
                 ></SimpleTable>
               )}
             </Box>
@@ -162,4 +162,4 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
   );
 };
 
-export default DashboardKendaraanRutinIndex;
+export default DashboardIntegrasiPajakKendaraanIndex;
