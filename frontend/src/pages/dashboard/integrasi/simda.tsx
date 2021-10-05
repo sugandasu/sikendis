@@ -13,6 +13,9 @@ import React, { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { SimpleTable } from "../../../components/SimpleTable";
+import { SimpleTableFilter } from "../../../components/SimpleTableFilter";
+import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
+import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import { Simda, useIntegrasiSimdasQuery } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import { getFormattedDate } from "../../../utils/getFormattedDate";
@@ -104,7 +107,7 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
     {
       label: "Aksi",
       key: "id",
-      render: (row: any, showView: boolean, setViewRow: any, onOpen: any) => {
+      render: (row: Simda, setViewRow: any, onOpen: any) => {
         return (
           <Menu>
             <MenuButton as={Button}>
@@ -134,18 +137,24 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
               <Text fontSize="l">Integrasi Simda</Text>
             </Flex>
             <Box>
-              {loading ? (
-                "Loading..."
-              ) : (
-                <SimpleTable
-                  headers={headers}
-                  data={data.simdas}
-                  tableCaption="Integrasi Simda"
-                  setPage={setPage}
-                  setLimit={setLimit}
-                  setFilterAll={setFilterAll}
-                ></SimpleTable>
-              )}
+              <SimpleTableLimit
+                page={data?.simdas?.page}
+                total={data?.simdas?.total}
+                limit={data?.simdas?.limit}
+                setLimit={setLimit}
+              />
+              <SimpleTableFilter setFilterAll={setFilterAll} />
+              <SimpleTable
+                headers={headers}
+                data={data?.simdas}
+                tableCaption="Integrasi Simda"
+              ></SimpleTable>
+              <SimpleTablePagination
+                page={data?.simdas.page}
+                total={data?.simdas.total}
+                limit={data?.simdas.limit}
+                setPage={setPage}
+              />
             </Box>
           </Box>
         </Box>
