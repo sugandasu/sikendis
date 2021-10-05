@@ -1,10 +1,12 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import { css, Global } from "@emotion/react";
-import { AppProps } from "next/app";
-import theme from "../theme";
-import "focus-visible/dist/focus-visible";
 import createUploadLink from "apollo-upload-client/public/createUploadLink.js";
+import "focus-visible/dist/focus-visible";
+import { AppProps } from "next/app";
+import Head from "next/head";
+import React from "react";
+import theme from "../theme";
 
 const GlobalStyles = css`
   /*
@@ -29,6 +31,10 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
+      <Head>
+        <link rel="shortcut icon" href="/sikendis.ico" />
+        <title>Sikendis</title>
+      </Head>
       <ChakraProvider resetCSS theme={theme}>
         <Global styles={GlobalStyles} />
         <Component {...pageProps} />
