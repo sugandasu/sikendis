@@ -149,7 +149,7 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
           </Box>
           {lessThan640 ? (
             <Box
-              height="100vh"
+              height="100%"
               width="100%"
               bgColor="gray"
               opacity="25%"
