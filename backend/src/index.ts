@@ -120,6 +120,10 @@ const main = async () => {
     app.set("trust proxy", 1);
   }
 
+  app.get("/", function (req, res) {
+    res.send("It works!");
+  });
+
   app.listen(parseInt(process.env.PORT), () => {
     console.log(
       `backend is listening on port ${process.env.DOMAIN_NAME}:${process.env.PORT}`
