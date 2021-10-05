@@ -1,17 +1,7 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Spacer,
-  Text,
-  Wrap,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
-import { Container } from "../components/Container";
 import { InputField } from "../components/InputField";
 import { useLoginMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
@@ -53,7 +43,7 @@ const Index: React.FC<{}> = ({}) => {
             <Image width="100%" src={"/datapoint.png"} alt="data point" />
           </Box>
         </Box>
-        <Box px={8} my="auto" align="center" width={{ md: "100%", sm: "100%" }}>
+        <Box px={8} my="auto" align="center" width={{ md: "60%", sm: "100%" }}>
           <Heading textAlign="center">Login</Heading>
           <Box>
             <Formik
