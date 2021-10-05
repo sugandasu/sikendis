@@ -120,8 +120,8 @@ const main = async () => {
     app.set("trust proxy", 1);
   }
 
-  app.get("/", function (_, res) {
-    res.send("It works!");
+  app.get("/", (_, res) => {
+    res.send("It Works!");
   });
 
   app.listen(parseInt(process.env.PORT), () => {
