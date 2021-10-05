@@ -117,7 +117,7 @@ const main = async () => {
   app.use("/static", express.static(dir));
 
   if (__prod__) {
-    app.set("proxy", 1);
+    app.set("trust proxy", 1);
   }
 
   app.listen(parseInt(process.env.PORT), () => {
