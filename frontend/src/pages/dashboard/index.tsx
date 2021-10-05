@@ -32,7 +32,9 @@ const dashboardIndex: React.FC<{}> = ({}) => {
                 Kendaran Rutin
               </Text>
               <Text fontSize="xl">
-                {!loading ? data.dashboardCard.kendaraanRutin : null}
+                {!loading && data?.dashboardCard
+                  ? data.dashboardCard.kendaraanRutin
+                  : null}
               </Text>
             </Box>
           </Flex>
@@ -54,7 +56,9 @@ const dashboardIndex: React.FC<{}> = ({}) => {
                 Kendaran Operasional
               </Text>
               <Text fontSize="xl">
-                {!loading ? data.dashboardCard.kendaraanOperasional : null}
+                {!loading && data?.dashboardCard
+                  ? data.dashboardCard.kendaraanOperasional
+                  : null}
               </Text>
             </Box>
           </Flex>
@@ -76,7 +80,9 @@ const dashboardIndex: React.FC<{}> = ({}) => {
                 Kendaraan Operasional Bebas
               </Text>
               <Text fontSize="xl">
-                {!loading ? data.dashboardCard.kendaraanOperasionalBebas : null}
+                {!loading && data?.dashboardCard
+                  ? data.dashboardCard.kendaraanOperasionalBebas
+                  : null}
               </Text>
             </Box>
           </Flex>
@@ -98,7 +104,9 @@ const dashboardIndex: React.FC<{}> = ({}) => {
                 Pengguna
               </Text>
               <Text fontSize="xl">
-                {!loading ? data.dashboardCard.pengguna : null}
+                {!loading && data?.dashboardCard
+                  ? data.dashboardCard.pengguna
+                  : null}
               </Text>
             </Box>
           </Flex>
@@ -120,7 +128,9 @@ const dashboardIndex: React.FC<{}> = ({}) => {
                 Peminjaman Kendaraan
               </Text>
               <Text fontSize="xl">
-                {!loading ? data.dashboardCard.peminjamanKendaraan : null}
+                {!loading && data?.dashboardCard
+                  ? data.dashboardCard.peminjamanKendaraan
+                  : null}
               </Text>
             </Box>
           </Flex>
