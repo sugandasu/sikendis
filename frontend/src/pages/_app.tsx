@@ -24,7 +24,6 @@ const client = new ApolloClient({
     uri: process.env.NEXT_PUBLIC_API_URL as string,
     credentials: "include",
   }),
-  credentials: "include",
   cache: new InMemoryCache(),
 });
 
