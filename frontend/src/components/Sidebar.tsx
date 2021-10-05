@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Heading,
+  Image,
   Link,
   useColorMode,
   useMediaQuery,
@@ -53,6 +54,13 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                     borderRadius={0}
                     fontSize="2xl"
                   >
+                    <Image
+                      maxHeight={12}
+                      bgColor="transparent"
+                      name="Sikendis"
+                      src="/sikendis-logo.png"
+                      mr={4}
+                    />
                     <Heading fontSize="l">SIKENDIS</Heading>
                   </Button>
                 </Link>

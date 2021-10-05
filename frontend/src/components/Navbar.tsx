@@ -65,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   cache.evict({ fieldName: "me" });
                 },
               });
-              router.push("/login");
+              router.push("/");
             }}
           >
             Logout
