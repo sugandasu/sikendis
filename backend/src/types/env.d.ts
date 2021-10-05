@@ -8,5 +8,6 @@ declare namespace NodeJS {
     BACKEND_URL: string;
     DOMAIN_NAME: string;
     COOKIE_NAME: string;
+    NODE_ENV: string;
   }
 }
