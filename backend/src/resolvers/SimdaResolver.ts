@@ -1,3 +1,4 @@
+import { MAX_TABLE_LIMIT } from "./../constants";
 import { Arg, Query, Resolver, UseMiddleware } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Simda, simdaColumns } from "./../entities/Simda";
@@ -12,7 +13,7 @@ export class SimdaResolver {
   async simdas(
     @Arg("options") options: SimdaPaginate
   ): Promise<SimdaPaginated> {
-    const realLimit = Math.min(50, options.limit);
+    const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
 

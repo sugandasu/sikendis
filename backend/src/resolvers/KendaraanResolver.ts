@@ -12,6 +12,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
+import { MAX_TABLE_LIMIT } from "../constants";
 import { PeminjamanOperasional } from "../entities/PeminjamanOperasional";
 import { isOperator } from "../middlewares/isOperator";
 import { Kendaraan, TipeKendaraan } from "./../entities/Kendaraan";
@@ -153,7 +154,7 @@ export class KendaraanResolver {
   async kendaraans(
     @Arg("options") options: KendaraanPaginateInput
   ): Promise<KendaraanPaginated> {
-    const realLimit = Math.min(10, options.limit);
+    const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
     params.push(realLimit);

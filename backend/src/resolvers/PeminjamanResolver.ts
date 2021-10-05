@@ -11,6 +11,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
+import { MAX_TABLE_LIMIT } from "../constants";
 import { Kendaraan } from "../entities/Kendaraan";
 import { Peminjaman } from "../entities/Peminjaman";
 import { Pengguna } from "../entities/Pengguna";
@@ -137,7 +138,7 @@ export class PeminjamanResolver {
   async peminjamans(
     @Arg("options") options: PaginatedInput
   ): Promise<PeminjamanPaginated> {
-    const realLimit = Math.min(10, options.limit);
+    const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
     params.push(realLimit);

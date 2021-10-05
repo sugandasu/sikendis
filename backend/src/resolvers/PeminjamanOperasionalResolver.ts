@@ -11,6 +11,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
+import { MAX_TABLE_LIMIT } from "../constants";
 import { Kendaraan } from "../entities/Kendaraan";
 import { PeminjamanOperasional } from "../entities/PeminjamanOperasional";
 import { isAuth } from "../middlewares/isAuth";
@@ -121,7 +122,7 @@ export class PeminjamanOperasionalResolver {
   async peminjamanOperasionals(
     @Arg("options") options: PeminjamanOperasionalPaginate
   ): Promise<PeminjamanOperasionalPaginated> {
-    const realLimit = Math.min(50, options.limit);
+    const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
 
     let params = [];

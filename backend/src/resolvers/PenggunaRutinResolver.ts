@@ -13,9 +13,10 @@ import {
 import { getConnection } from "typeorm";
 import { isAuth } from "../middlewares/isAuth";
 import { isOperator } from "../middlewares/isOperator";
+import { MAX_TABLE_LIMIT } from "./../constants";
 import { Kendaraan } from "./../entities/Kendaraan";
-import { PenggunaRutin } from "./../entities/PenggunaRutin";
 import { Pengguna } from "./../entities/Pengguna";
+import { PenggunaRutin } from "./../entities/PenggunaRutin";
 import { uploadFile } from "./../utils/UploadFile";
 import { PenggunaRutinInput } from "./inputs/PenggunaRutinInput";
 import { PenggunaRutinPaginate } from "./inputs/PenggunaRutinPaginate";
@@ -88,7 +89,7 @@ export class PenggunaRutinResolver {
   async penggunaRutins(
     @Arg("options") options: PenggunaRutinPaginate
   ): Promise<PenggunaRutinPaginated> {
-    const realLimit = Math.min(50, options.limit);
+    const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
     params.push(realLimit);

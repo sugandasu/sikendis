@@ -13,6 +13,7 @@ import {
 import { getConnection } from "typeorm";
 import { Pengguna } from "../entities/Pengguna";
 import { uploadFile } from "../utils/UploadFile";
+import { MAX_TABLE_LIMIT } from "./../constants";
 import { isAuth } from "./../middlewares/isAuth";
 import { isOperator } from "./../middlewares/isOperator";
 import { PenggunaInput } from "./inputs/PenggunaInput";
@@ -68,7 +69,7 @@ export class PenggunaResolver {
   async penggunas(
     @Arg("options") options: PenggunaPaginateInput
   ): Promise<PenggunaPaginated> {
-    const realLimit = Math.min(10, options.limit);
+    const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
     params.push(realLimit);
