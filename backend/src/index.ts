@@ -116,9 +116,7 @@ const main = async () => {
   const dir = path.join(__dirname, "./../uploads");
   app.use("/static", express.static(dir));
 
-  if (__prod__) {
-    app.set("trust proxy", 1);
-  }
+  app.set("trust proxy", 1);
 
   app.get("/", (_, res) => {
     res.send("It Works!");
