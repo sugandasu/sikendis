@@ -78,7 +78,6 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
 
-  app.set("trust proxy", 1);
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
   app.use(
     cors({
@@ -86,6 +85,9 @@ const main = async () => {
       credentials: true,
     })
   );
+  if (__prod__) {
+    app.set("trust proxy", 1);
+  }
   app.use(
     session({
       name: process.env.COOKIE_NAME,
@@ -98,7 +100,7 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax",
         secure: __prod__,
-        domain: __prod__ ? ".sikendis.xyz" : undefined,
+        domain: __prod__ ? process.env.DOMAIN_NAME : "localhost",
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
