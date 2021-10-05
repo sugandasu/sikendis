@@ -144,11 +144,13 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
                 setLimit={setLimit}
               />
               <SimpleTableFilter setFilterAll={setFilterAll} />
-              <SimpleTable
-                headers={headers}
-                data={data?.simdas}
-                tableCaption="Integrasi Simda"
-              ></SimpleTable>
+              {data?.simdas ? (
+                <SimpleTable
+                  headers={headers}
+                  data={data?.simdas}
+                  tableCaption="Integrasi Simda"
+                ></SimpleTable>
+              ) : null}
               <SimpleTablePagination
                 page={data?.simdas.page}
                 total={data?.simdas.total}

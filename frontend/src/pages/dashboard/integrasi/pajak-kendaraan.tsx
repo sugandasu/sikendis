@@ -155,11 +155,13 @@ const DashboardIntegrasiPajakKendaraanIndex: React.FC<{}> = ({}) => {
                 limit={data?.kendaraans.limit}
                 setLimit={setLimit}
               />
-              <SimpleTable
-                headers={headers}
-                data={data?.kendaraans}
-                tableCaption="Integrasi Pajak Kendaraan"
-              ></SimpleTable>
+              {data?.kendaraans ? (
+                <SimpleTable
+                  headers={headers}
+                  data={data?.kendaraans}
+                  tableCaption="Integrasi Pajak Kendaraan"
+                ></SimpleTable>
+              ) : null}
               <SimpleTablePagination
                 page={data?.kendaraans.page}
                 total={data?.kendaraans.total}

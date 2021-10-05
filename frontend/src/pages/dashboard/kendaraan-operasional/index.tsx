@@ -201,11 +201,13 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
                 limit={data?.kendaraans.limit}
                 setLimit={setLimit}
               />
-              <SimpleTable
-                headers={headers}
-                data={data?.kendaraans}
-                tableCaption="Kendaraan"
-              ></SimpleTable>
+              {data?.kendaraans ? (
+                <SimpleTable
+                  headers={headers}
+                  data={data?.kendaraans}
+                  tableCaption="Kendaraan"
+                ></SimpleTable>
+              ) : null}
               <SimpleTablePagination
                 page={data?.kendaraans.page}
                 total={data?.kendaraans.total}

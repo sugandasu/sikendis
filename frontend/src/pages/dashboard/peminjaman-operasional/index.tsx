@@ -173,11 +173,13 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
                 limit={data?.peminjamanOperasionals.limit}
                 setLimit={setLimit}
               />
-              <SimpleTable
-                headers={headers}
-                data={data?.peminjamanOperasionals}
-                tableCaption="Peminjaman Operasional"
-              ></SimpleTable>
+              {data?.peminjamanOperasionals ? (
+                <SimpleTable
+                  headers={headers}
+                  data={data?.peminjamanOperasionals}
+                  tableCaption="Peminjaman Operasional"
+                ></SimpleTable>
+              ) : null}
               <SimpleTablePagination
                 page={data?.peminjamanOperasionals.page}
                 total={data?.peminjamanOperasionals.total}

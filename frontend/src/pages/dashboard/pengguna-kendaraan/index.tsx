@@ -145,11 +145,13 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
                 limit={data?.penggunas.limit}
                 setLimit={setLimit}
               />
-              <SimpleTable
-                headers={headers}
-                data={data?.penggunas}
-                tableCaption="Pengguna Kendaraan"
-              ></SimpleTable>
+              {data?.penggunas ? (
+                <SimpleTable
+                  headers={headers}
+                  data={data?.penggunas}
+                  tableCaption="Pengguna Kendaraan"
+                ></SimpleTable>
+              ) : null}
               <SimpleTablePagination
                 page={data?.penggunas.page}
                 total={data?.penggunas.total}
