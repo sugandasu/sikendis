@@ -79,19 +79,21 @@ export const SimpleTablePagination: React.FC<SimpleTablePaginationProps> = ({
   return (
     <Flex my={4}>
       <Flex ml="auto">
-        {buttons.map((button, b) => (
-          <Button
-            key={b}
-            mr={1}
-            disabled={button === page ? true : null}
-            fontSize="sm"
-            onClick={() => {
-              setPage(button);
-            }}
-          >
-            {button}
-          </Button>
-        ))}
+        {page
+          ? buttons.map((button) => (
+              <Button
+                key={button}
+                mr={1}
+                disabled={button === page ? true : null}
+                fontSize="sm"
+                onClick={() => {
+                  setPage(parseInt(button));
+                }}
+              >
+                {button}
+              </Button>
+            ))
+          : null}
         {onlyOnePage ? null : (
           <Popover>
             <PopoverTrigger>
