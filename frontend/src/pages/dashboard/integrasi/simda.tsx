@@ -29,7 +29,7 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [filterAll, setFilterAll] = useState("");
-  const { data, loading } = useIntegrasiSimdasQuery({
+  const { data } = useIntegrasiSimdasQuery({
     variables: {
       options: {
         limit: limit,
@@ -133,14 +133,14 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
       <Stack>
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
-            <Flex align="center" justifyContent="space-between" mb={2}>
+            <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Integrasi Simda</Text>
             </Flex>
-            <Box>
+            <Box my={4}>
               <SimpleTableLimit
-                page={data?.simdas?.page}
-                total={data?.simdas?.total}
-                limit={data?.simdas?.limit}
+                page={data?.simdas.page}
+                total={data?.simdas.total}
+                limit={data?.simdas.limit}
                 setLimit={setLimit}
               />
               <SimpleTableFilter setFilterAll={setFilterAll} />

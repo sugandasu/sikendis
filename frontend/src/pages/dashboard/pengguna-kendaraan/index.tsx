@@ -1,7 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import {
   Avatar,
-  AvatarBadge,
   Box,
   Flex,
   Link,
@@ -18,6 +17,8 @@ import { FaEllipsisV } from "react-icons/fa";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
+import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
+import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import {
   Pengguna,
   useDeletePenggunaMutation,
@@ -31,11 +32,13 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Pengguna Kendaraan", link: "#", isCurrentPage: true },
   ];
-  const { data, loading } = usePenggunasQuery({
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { data } = usePenggunasQuery({
     variables: {
       options: {
-        limit: 10,
-        page: 1,
+        limit,
+        page,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -62,7 +65,7 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
       label: "#",
       key: "fotoProfil",
       hideSm: true,
-      render: (row) => {
+      render: (row: Pengguna) => {
         return row.fotoProfilUrl ? (
           <Avatar size="sm" src={row.fotoProfilUrl}></Avatar>
         ) : (
@@ -82,7 +85,7 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
     {
       label: "Aksi",
       key: "id",
-      render: (row: any, showView: boolean, setViewRow: any, onOpen: any) => {
+      render: (row: Pengguna, setViewRow: any, onOpen: any) => {
         return (
           <Menu>
             <MenuButton as={Button}>
@@ -125,7 +128,7 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
       <Stack>
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
-            <Flex align="center" justifyContent="space-between" mb={2}>
+            <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Pengguna Kendaraan</Text>
               <NextLink href="/dashboard/pengguna-kendaraan/tambah">
                 <Link>
@@ -136,15 +139,23 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              {loading ? (
-                "Loading..."
-              ) : (
-                <SimpleTable
-                  headers={headers}
-                  data={data.penggunas}
-                  tableCaption="Pengguna Kendaraan"
-                ></SimpleTable>
-              )}
+              <SimpleTableLimit
+                page={data?.penggunas.page}
+                total={data?.penggunas.total}
+                limit={data?.penggunas.limit}
+                setLimit={setLimit}
+              />
+              <SimpleTable
+                headers={headers}
+                data={data?.penggunas}
+                tableCaption="Pengguna Kendaraan"
+              ></SimpleTable>
+              <SimpleTablePagination
+                page={data?.penggunas.page}
+                total={data?.penggunas.total}
+                limit={data?.penggunas.limit}
+                setPage={setPage}
+              />
             </Box>
           </Box>
         </Box>

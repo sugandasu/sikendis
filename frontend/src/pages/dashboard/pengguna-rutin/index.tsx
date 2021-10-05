@@ -16,6 +16,8 @@ import { FaEllipsisV } from "react-icons/fa";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
+import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
+import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import {
   PenggunaRutin,
   useDeletePenggunaRutinMutation,
@@ -30,11 +32,13 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Pengguna Rutin", link: "#", isCurrentPage: true },
   ];
-  const { data, loading } = usePenggunaRutinsQuery({
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { data } = usePenggunaRutinsQuery({
     variables: {
       options: {
-        limit: 10,
-        page: 1,
+        limit,
+        page,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -60,7 +64,7 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
     {
       label: "Kendaraan",
       key: "kendaraan",
-      render: (row) => {
+      render: (row: PenggunaRutin) => {
         return row?.kendaraan?.nomorPolisi;
       },
     },
@@ -68,7 +72,7 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
       label: "Pengguna",
       key: "pengguna",
       hideSm: true,
-      render: (row) => {
+      render: (row: PenggunaRutin) => {
         return row?.pengguna?.nama;
       },
     },
@@ -85,7 +89,7 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
     {
       label: "Aksi",
       key: "id",
-      render: (row: any, showView: boolean, setViewRow: any, onOpen: any) => {
+      render: (row: PenggunaRutin, setViewRow: any, onOpen: any) => {
         return (
           <Menu>
             <MenuButton as={Button}>
@@ -131,7 +135,7 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
       <Stack>
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
-            <Flex align="center" justifyContent="space-between" mb={2}>
+            <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Pengguna Rutin</Text>
               <NextLink href="/dashboard/pengguna-rutin/tambah">
                 <Link>
@@ -142,15 +146,23 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              {loading ? (
-                "Loading..."
-              ) : (
-                <SimpleTable
-                  headers={headers}
-                  data={data.penggunaRutins}
-                  tableCaption="Pengguna Rutin"
-                ></SimpleTable>
-              )}
+              <SimpleTableLimit
+                page={data?.penggunaRutins.page}
+                total={data?.penggunaRutins.total}
+                limit={data?.penggunaRutins.limit}
+                setLimit={setLimit}
+              />
+              <SimpleTable
+                headers={headers}
+                data={data.penggunaRutins}
+                tableCaption="Pengguna Rutin"
+              ></SimpleTable>
+              <SimpleTablePagination
+                page={data?.penggunaRutins.page}
+                total={data?.penggunaRutins.total}
+                limit={data?.penggunaRutins.limit}
+                setPage={setPage}
+              />
             </Box>
           </Box>
         </Box>

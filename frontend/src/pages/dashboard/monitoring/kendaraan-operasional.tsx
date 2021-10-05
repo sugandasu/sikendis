@@ -10,10 +10,12 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { SimpleTable } from "../../../components/SimpleTable";
+import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
+import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import {
   Kendaraan,
   TipeStatusKendaraan,
@@ -28,11 +30,13 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Monitoring Kendaraan", link: "#", isCurrentPage: true },
   ];
-  const { data, loading } = useMonitoringKendaraanOperasionalsQuery({
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { data } = useMonitoringKendaraanOperasionalsQuery({
     variables: {
       options: {
-        limit: 10,
-        page: 1,
+        limit,
+        page,
         filter: {
           columns: [
             {
@@ -100,7 +104,7 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
       label: "Foto",
       key: "fotoUrl",
       hide: true,
-      render: (row: any) => {
+      render: (row: Kendaraan) => {
         if (row.fotoUrl) {
           return <Image src={row.fotoUrl} alt={row.nomorPolisi} />;
         }
@@ -129,7 +133,7 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
     {
       label: "Aksi",
       key: "id",
-      render: (row: any, showView: boolean, setViewRow: any, onOpen: any) => {
+      render: (row: Kendaraan, setViewRow: any, onOpen: any) => {
         return (
           <Menu>
             <MenuButton as={Button}>
@@ -155,19 +159,27 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
       <Stack>
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
-            <Flex align="center" justifyContent="space-between" mb={2}>
+            <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Monitoring Kendaraan Operasional</Text>
             </Flex>
             <Box>
-              {loading ? (
-                "Loading..."
-              ) : (
-                <SimpleTable
-                  headers={headers}
-                  data={data.kendaraans}
-                  tableCaption="Kendaraan Operasional"
-                ></SimpleTable>
-              )}
+              <SimpleTableLimit
+                page={data?.kendaraans.page}
+                total={data?.kendaraans.total}
+                limit={data?.kendaraans.limit}
+                setLimit={setLimit}
+              />
+              <SimpleTable
+                headers={headers}
+                data={data?.kendaraans}
+                tableCaption="Kendaraan Operasional"
+              ></SimpleTable>
+              <SimpleTablePagination
+                page={data?.kendaraans.page}
+                total={data?.kendaraans.total}
+                limit={data?.kendaraans.limit}
+                setPage={setPage}
+              />
             </Box>
           </Box>
         </Box>

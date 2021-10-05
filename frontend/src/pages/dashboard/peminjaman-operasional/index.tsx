@@ -16,6 +16,8 @@ import { FaEllipsisV } from "react-icons/fa";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
+import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
+import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import {
   PeminjamanOperasional,
   useDeletePeminjamanOperasionalMutation,
@@ -30,11 +32,13 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Kendaraan Operational", link: "#", isCurrentPage: true },
   ];
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const { data, loading } = usePeminjamanOperasionalsQuery({
     variables: {
       options: {
-        limit: 10,
-        page: 1,
+        limit,
+        page,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -99,12 +103,7 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
     {
       label: "Aksi",
       key: "id",
-      render: (
-        row: PeminjamanOperasional,
-        showView: boolean,
-        setViewRow: any,
-        onOpen: any
-      ) => {
+      render: (row: PeminjamanOperasional, setViewRow: any, onOpen: any) => {
         return (
           <Menu>
             <MenuButton as={Button}>
@@ -157,7 +156,7 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
       <Stack>
         <Box rounded="md" boxShadow="md" bg="white">
           <Box p={8}>
-            <Flex align="center" justifyContent="space-between" mb={2}>
+            <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Peminjaman Operasional</Text>
               <NextLink href="/dashboard/peminjaman-operasional/tambah">
                 <Link>
@@ -168,15 +167,23 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              {loading ? (
-                "Loading..."
-              ) : (
-                <SimpleTable
-                  headers={headers}
-                  data={data.peminjamanOperasionals}
-                  tableCaption="Peminjaman Operasional"
-                ></SimpleTable>
-              )}
+              <SimpleTableLimit
+                page={data?.peminjamanOperasionals.page}
+                total={data?.peminjamanOperasionals.total}
+                limit={data?.peminjamanOperasionals.limit}
+                setLimit={setLimit}
+              />
+              <SimpleTable
+                headers={headers}
+                data={data?.peminjamanOperasionals}
+                tableCaption="Peminjaman Operasional"
+              ></SimpleTable>
+              <SimpleTablePagination
+                page={data?.peminjamanOperasionals.page}
+                total={data?.peminjamanOperasionals.total}
+                limit={data?.peminjamanOperasionals.limit}
+                setPage={setPage}
+              />
             </Box>
           </Box>
         </Box>
