@@ -36,28 +36,34 @@ export class PenggunaResolver {
   async createPengguna(
     @Arg("payload") payload: PenggunaInput,
     @Arg("fotoProfil", () => GraphQLUpload, { nullable: true })
-    { createReadStream, filename }: FileUpload
+    fotoProfil: FileUpload
   ): Promise<PenggunaResponse> {
     const errors = await penggunaValidation(payload);
     if (errors) {
       return { errors };
     }
 
-    if (filename) {
-      const upload = await uploadFile({
-        createReadStream,
-        filename: payload.fotoProfil,
-      });
+    if (fotoProfil) {
+      const { createReadStream, filename } = fotoProfil;
+      if (filename) {
+        const upload = await uploadFile({
+          createReadStream,
+          filename: payload.fotoProfil,
+        });
 
-      if (!upload) {
-        return {
-          errors: [
-            { field: "fotoProfil", message: "Foto profil tidak boleh kosong" },
-          ],
-        };
+        if (!upload) {
+          return {
+            errors: [
+              {
+                field: "fotoProfil",
+                message: "Foto profil gagal diupload",
+              },
+            ],
+          };
+        }
+      } else {
+        payload.fotoProfil = null;
       }
-    } else {
-      payload.fotoProfil = null;
     }
 
     const pengguna = await Pengguna.create({ ...payload }).save();

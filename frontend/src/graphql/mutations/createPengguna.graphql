@@ -1,4 +1,4 @@
-mutation CreatePengguna($payload: PenggunaInput!, $fotoProfil: Upload!) {
+mutation CreatePengguna($payload: PenggunaInput!, $fotoProfil: Upload) {
   createPengguna(payload: $payload, fotoProfil: $fotoProfil) {
     errors {
       field

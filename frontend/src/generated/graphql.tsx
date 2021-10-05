@@ -623,7 +623,7 @@ export type CreatePeminjamanOperasionalMutation = { __typename?: 'Mutation', cre
 
 export type CreatePenggunaMutationVariables = Exact<{
   payload: PenggunaInput;
-  fotoProfil: Scalars['Upload'];
+  fotoProfil?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -976,7 +976,7 @@ export type CreatePeminjamanOperasionalMutationHookResult = ReturnType<typeof us
 export type CreatePeminjamanOperasionalMutationResult = Apollo.MutationResult<CreatePeminjamanOperasionalMutation>;
 export type CreatePeminjamanOperasionalMutationOptions = Apollo.BaseMutationOptions<CreatePeminjamanOperasionalMutation, CreatePeminjamanOperasionalMutationVariables>;
 export const CreatePenggunaDocument = gql`
-    mutation CreatePengguna($payload: PenggunaInput!, $fotoProfil: Upload!) {
+    mutation CreatePengguna($payload: PenggunaInput!, $fotoProfil: Upload) {
   createPengguna(payload: $payload, fotoProfil: $fotoProfil) {
     errors {
       field
