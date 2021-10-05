@@ -78,21 +78,19 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
 
+  app.set("trust proxy", 1);
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
-
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
-
   app.use(
     session({
       name: process.env.COOKIE_NAME,
       store: new RedisStore({
         client: redis,
-        disableTTL: true,
         disableTouch: true,
       }),
       cookie: {
@@ -116,15 +114,13 @@ const main = async () => {
   const dir = path.join(__dirname, "./../uploads");
   app.use("/static", express.static(dir));
 
-  app.set("trust proxy", 1);
-
   app.get("/", (_, res) => {
     res.send("It Works!");
   });
 
   app.listen(parseInt(process.env.PORT), () => {
     console.log(
-      `backend is listening on port ${process.env.DOMAIN_NAME}:${process.env.PORT}`
+      `backend is listening on port ${process.env.BACKEND_URL}:${process.env.PORT}`
     );
   });
 };
