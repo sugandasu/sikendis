@@ -8,7 +8,7 @@ export const useIsOperator = () => {
   useEffect(() => {
     if (!loading) {
       if (!data?.me || data?.me?.role !== "operator") {
-        router.back();
+        // router.back();
       }
     }
   }, [loading, data, router]);

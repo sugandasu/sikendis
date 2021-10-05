@@ -9,7 +9,7 @@ import { useIsAuth } from "../../middlewares/useIsAuth";
 import { useDashboardCardQuery } from "../../generated/graphql";
 
 const dashboardIndex: React.FC<{}> = ({}) => {
-  // useIsAuth();
+  useIsAuth();
   const breadCrumbs = [{ text: "Dashboard", link: "#", isCurrentPage: true }];
   const { data, loading } = useDashboardCardQuery();
   return (
