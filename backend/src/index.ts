@@ -98,7 +98,7 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax",
         secure: __prod__,
-        domain: __prod__ ? process.env.DOMAIN_NAME : undefined,
+        domain: __prod__ ? ".sikendis.xyz" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
