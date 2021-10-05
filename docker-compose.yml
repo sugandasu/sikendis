@@ -4,23 +4,43 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
     volumes:
       - ./.postgres_infrax:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "${DATABASE_PORT}:5432"
+    networks:
+      - backend
   redis:
     image: redis
     restart: always
     volumes:
       - ./.redis_infrax:/var/lib/redis
     ports:
-      - 6379:6379
+      - "${REDIS_PORT}:6379"
+    networks:
+      - backend
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - "${ADMINER_PORT}:8080"
+    networks:
+      - backend
+  backend:
+    image: sikendisbackend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${BACKEND_PORT}:4000"
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/usr/src/app
 networks:
-  default:
+  backend:
     driver: bridge

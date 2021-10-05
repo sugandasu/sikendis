@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16.4.2
 
 WORKDIR /usr/src/app
 
@@ -8,11 +8,9 @@ COPY yarn.lock ./
 RUN yarn
 
 COPY . .
-COPY .env.production .env
+COPY .env.example .env
 
 RUN yarn build
-
-ENV NODE_ENV production
 
 EXPOSE 4000
 
