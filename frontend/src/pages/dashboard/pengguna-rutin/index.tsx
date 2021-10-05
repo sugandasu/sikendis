@@ -154,7 +154,7 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
               />
               <SimpleTable
                 headers={headers}
-                data={data.penggunaRutins}
+                data={data?.penggunaRutins}
                 tableCaption="Pengguna Rutin"
               ></SimpleTable>
               <SimpleTablePagination

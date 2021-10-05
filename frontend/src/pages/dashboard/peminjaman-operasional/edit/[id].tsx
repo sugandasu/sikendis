@@ -76,7 +76,7 @@ const DashboardPeminjamanOperasionalEdit: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              {!loading || data?.peminjamanOperasional ? (
+              {!loading && data?.peminjamanOperasional ? (
                 <Formik
                   initialValues={{
                     kendaraanId: data.peminjamanOperasional.kendaraan.id,
@@ -124,7 +124,7 @@ const DashboardPeminjamanOperasionalEdit: React.FC<{}> = ({}) => {
                     }
                   }}
                 >
-                  {({ isSubmitting, setFieldValue, values }) => (
+                  {({ isSubmitting, setFieldValue }) => (
                     <Form>
                       <AutoCompleteField
                         name="kendaraanId"
@@ -137,7 +137,7 @@ const DashboardPeminjamanOperasionalEdit: React.FC<{}> = ({}) => {
                             : []
                         }
                         initialValue={
-                          data.peminjamanOperasional.kendaraan.nomorPolisi
+                          data?.peminjamanOperasional.kendaraan.nomorPolisi
                         }
                         setSearch={setSearchKendaraan}
                         fieldName="nomorPolisi"

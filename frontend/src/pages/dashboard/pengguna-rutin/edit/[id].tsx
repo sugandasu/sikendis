@@ -91,7 +91,7 @@ const DashboardPenggunaRutinEdit: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              {!loading && data.penggunaRutin ? (
+              {!loading && data?.penggunaRutin ? (
                 <Formik
                   initialValues={{
                     kendaraanId: data.penggunaRutin.kendaraan.id,
