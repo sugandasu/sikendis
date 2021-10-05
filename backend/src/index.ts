@@ -120,7 +120,7 @@ const main = async () => {
     app.set("trust proxy", 1);
   }
 
-  app.get("/", function (req, res) {
+  app.get("/", function (_, res) {
     res.send("It works!");
   });
 
