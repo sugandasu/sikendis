@@ -68,7 +68,7 @@ const dashboardIndex: React.FC<{}> = ({}) => {
           boxShadow="md"
           p={8}
           bg="white"
-          width="25%"
+          minWidth="25%"
           flexGrow={1}
         >
           <Flex align="center">
