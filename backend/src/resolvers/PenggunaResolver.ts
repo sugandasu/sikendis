@@ -44,25 +44,36 @@ export class PenggunaResolver {
     }
 
     if (fotoProfil) {
-      const { createReadStream, filename } = fotoProfil;
-      if (filename) {
-        const upload = await uploadFile({
-          createReadStream,
-          filename: payload.fotoProfil,
-        });
+      try {
+        const { createReadStream, filename } = fotoProfil;
+        if (filename) {
+          const upload = await uploadFile({
+            createReadStream,
+            filename: payload.fotoProfil,
+          });
 
-        if (!upload) {
-          return {
-            errors: [
-              {
-                field: "fotoProfil",
-                message: "Foto profil gagal diupload",
-              },
-            ],
-          };
+          if (!upload) {
+            return {
+              errors: [
+                {
+                  field: "fotoProfil",
+                  message: "Foto profil gagal diupload",
+                },
+              ],
+            };
+          }
+        } else {
+          payload.fotoProfil = null;
         }
-      } else {
-        payload.fotoProfil = null;
+      } catch (error) {
+        return {
+          errors: [
+            {
+              field: "fotoProfil",
+              message: "Foto profil gagal diupload",
+            },
+          ],
+        };
       }
     }
 
