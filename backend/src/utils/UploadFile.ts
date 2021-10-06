@@ -10,14 +10,18 @@ export const uploadFile = ({
   createReadStream,
   filename,
 }: FileUpload): Promise<Boolean> => {
-  return new Promise((resolve, reject) =>
+  return new Promise((resolve, reject) => {
+    const pathName = `${__dirname}/../../uploads/${filename}`;
     createReadStream()
       .pipe(
-        createWriteStream(`${__dirname}/../../uploads/${filename}`, {
+        createWriteStream(pathName, {
           autoClose: true,
         })
       )
       .on("finish", () => resolve(true))
-      .on("error", () => reject(false))
-  );
+      .on("error", (err) => {
+        console.log(err);
+        reject(false);
+      });
+  });
 };
