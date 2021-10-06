@@ -19,11 +19,13 @@ const GlobalStyles = css`
   }
 `;
 
+const link = createUploadLink({
+  uri: process.env.NEXT_PUBLIC_API_URL as string,
+  credentials: "include",
+});
+
 const client = new ApolloClient({
-  link: createUploadLink({
-    uri: process.env.NEXT_PUBLIC_API_URL as string,
-    credentials: "include",
-  }),
+  link,
   cache: new InMemoryCache(),
 });
 

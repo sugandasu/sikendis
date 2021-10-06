@@ -8,9 +8,11 @@ COPY yarn.lock ./
 RUN yarn
 
 COPY . .
-COPY .env.example .env
+COPY .env.production .env
 
 RUN yarn build
+
+ENV NODE_ENV production
 
 EXPOSE 4000
 

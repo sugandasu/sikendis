@@ -30,8 +30,8 @@ import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
 
 const main = async () => {
-  // const conection = await createConnection({
-  await createConnection({
+  const conection = await createConnection({
+    // await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
@@ -48,7 +48,7 @@ const main = async () => {
     ],
   });
 
-  // await conection.runMigrations();
+  await conection.runMigrations();
 
   const apolloServer = new ApolloServer({
     uploads: false,
@@ -100,7 +100,6 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax",
         secure: __prod__,
-        domain: __prod__ ? process.env.DOMAIN_NAME : "localhost",
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
@@ -117,7 +116,7 @@ const main = async () => {
   app.use("/static", express.static(dir));
 
   app.get("/", (_, res) => {
-    res.send("It Works!");
+    res.send(`It Works in ${__prod__}`);
   });
 
   app.listen(parseInt(process.env.PORT), () => {
