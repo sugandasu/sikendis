@@ -11,7 +11,7 @@ export const isOperator: MiddlewareFn<MyContext> = async (
   }
   const user = await User.findOne({ id: context.req.session.userId });
   if (!user || user.role !== "operator") {
-    // throw new Error("Not authorized");
+    throw new Error("Not authorized");
   }
   return next();
 };
