@@ -60,6 +60,7 @@ const DashboardKendaraanOperasionalImport: React.FC<{}> = ({}) => {
                     variables: { payload: values, fileImport },
                     update: (cache) => {
                       cache.evict({ fieldName: "kendaraans" });
+                      cache.gc();
                     },
                   });
                   if (response.data?.importKendaraan.errors) {
