@@ -1,3 +1,4 @@
+import { nullTransformer } from "./../utils/nullTransformer";
 import { Field, ObjectType } from "type-graphql";
 import {
   BaseEntity,
@@ -56,7 +57,7 @@ export class Kendaraan extends BaseEntity {
   nama!: string;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
+  @Column({ type: "varchar", nullable: true, transformer: nullTransformer })
   nomorRegister?: string;
 
   @Field()
@@ -64,11 +65,11 @@ export class Kendaraan extends BaseEntity {
   merek!: string;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
+  @Column({ type: "varchar", nullable: true, transformer: nullTransformer })
   ukuranCc?: string;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
+  @Column({ type: "varchar", nullable: true, transformer: nullTransformer })
   bahan?: string;
 
   @Field()
@@ -84,11 +85,21 @@ export class Kendaraan extends BaseEntity {
   nomorMesin!: string;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", unique: true, nullable: true })
+  @Column({
+    type: "varchar",
+    unique: true,
+    nullable: true,
+    transformer: nullTransformer,
+  })
   nomorPolisi?: string;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", unique: true, nullable: true })
+  @Column({
+    type: "varchar",
+    unique: true,
+    nullable: true,
+    transformer: nullTransformer,
+  })
   nomorBpkb?: string;
 
   @Field(() => String, { nullable: true })
@@ -96,11 +107,16 @@ export class Kendaraan extends BaseEntity {
     type: "enum",
     enum: TipeAsalUsul,
     nullable: true,
+    transformer: nullTransformer,
   })
   asalUsul?: TipeAsalUsul;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
+  @Column({
+    type: "varchar",
+    nullable: true,
+    transformer: nullTransformer,
+  })
   warna?: string;
 
   @Field(() => String, { nullable: true })
@@ -108,19 +124,32 @@ export class Kendaraan extends BaseEntity {
     type: "enum",
     enum: TipeBahanBakar,
     nullable: true,
+    transformer: nullTransformer,
   })
   bahanBakar?: TipeBahanBakar;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
+  @Column({
+    type: "varchar",
+    nullable: true,
+    transformer: nullTransformer,
+  })
   harga?: string;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "varchar", nullable: true })
+  @Column({
+    type: "varchar",
+    nullable: true,
+    transformer: nullTransformer,
+  })
   foto?: string;
 
   @Field(() => String, { nullable: true })
-  @Column({ type: "text", nullable: true })
+  @Column({
+    type: "text",
+    nullable: true,
+    transformer: nullTransformer,
+  })
   keterangan?: string;
 
   @Field()

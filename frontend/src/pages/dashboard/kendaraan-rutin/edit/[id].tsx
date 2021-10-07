@@ -85,6 +85,7 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
                     keterangan: data.kendaraan.keterangan,
                   }}
                   onSubmit={async (values, { setErrors }) => {
+                    console.log(values);
                     const response = await updateKendaraan({
                       variables: { id: intId, payload: values, foto: foto },
                       update: (cache) => {
