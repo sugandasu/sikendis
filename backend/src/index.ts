@@ -31,7 +31,6 @@ import { MyContext } from "./types/myContext";
 
 const main = async () => {
   const conection = await createConnection({
-    // await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
@@ -48,7 +47,9 @@ const main = async () => {
     ],
   });
 
-  await conection.runMigrations();
+  if (__prod__) {
+    await conection.runMigrations();
+  }
 
   const apolloServer = new ApolloServer({
     uploads: false,
