@@ -1,4 +1,5 @@
 import { Button } from "@chakra-ui/button";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -130,13 +131,28 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Pengguna Kendaraan</Text>
-              <NextLink href="/dashboard/pengguna-kendaraan/tambah">
-                <Link>
-                  <Button bg="blue.500" color="white">
-                    Tambah
-                  </Button>
-                </Link>
-              </NextLink>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  bg="blue.500"
+                  color="white"
+                  rightIcon={<ChevronDownIcon />}
+                >
+                  Aksi
+                </MenuButton>
+                <MenuList>
+                  <NextLink href="/dashboard/pengguna-kendaraan/tambah">
+                    <Link>
+                      <MenuItem>Tambah</MenuItem>
+                    </Link>
+                  </NextLink>
+                  <NextLink href="/dashboard/pengguna-kendaraan/import">
+                    <Link>
+                      <MenuItem>Import</MenuItem>
+                    </Link>
+                  </NextLink>
+                </MenuList>
+              </Menu>
             </Flex>
             <Box>
               <SimpleTableLimit
