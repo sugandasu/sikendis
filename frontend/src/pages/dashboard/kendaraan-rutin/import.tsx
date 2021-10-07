@@ -59,7 +59,10 @@ const DashboardKendaraanRutinImport: React.FC<{}> = ({}) => {
                   const response = await importKendaraan({
                     variables: { payload: values, fileImport },
                     update: (cache) => {
-                      cache.evict({ fieldName: "kendaraans" });
+                      cache.evict({
+                        id: "ROOT_QUERY",
+                        fieldName: "kendaraans",
+                      });
                       cache.gc();
                     },
                   });

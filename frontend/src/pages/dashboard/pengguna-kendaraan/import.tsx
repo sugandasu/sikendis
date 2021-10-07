@@ -55,7 +55,6 @@ const DashboardPenggunaKendaraanImport: React.FC<{}> = ({}) => {
                       cache.evict({
                         id: "ROOT_QUERY",
                         fieldName: "penggunas",
-                        broadcast: false,
                       });
                       cache.gc();
                     },
