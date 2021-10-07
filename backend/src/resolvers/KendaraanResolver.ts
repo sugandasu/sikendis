@@ -309,15 +309,16 @@ export class KendaraanResolver {
               }
             }
 
-            const errors = await kendaraanValidation(newRow);
-
-            console.log(newRow as KendaraanInput);
-
-            if (!errors) {
-              await Kendaraan.create({
-                ...(newRow as KendaraanInput),
-              }).save();
-              rowCountEnd += 1;
+            try {
+              const errors = await kendaraanValidation(newRow);
+              if (!errors) {
+                await Kendaraan.create({
+                  ...(newRow as KendaraanInput),
+                }).save();
+                rowCountEnd += 1;
+              }
+            } catch (error) {
+              console.log(error);
             }
           });
       }
