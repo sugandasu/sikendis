@@ -742,6 +742,6 @@ Sarmin, SE.M.Si
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`TRUNCATE simda CASCADE`);
+    await queryRunner.query(`TRUNCATE TABLE "simda" CASCADE`);
   }
 }
