@@ -139,6 +139,7 @@ export type Mutation = {
   deletePengguna: Scalars['Boolean'];
   deletePenggunaRutin: Scalars['Boolean'];
   importKendaraan: KendaraanImportResponse;
+  importPengguna: PenggunaImportResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
@@ -210,6 +211,11 @@ export type MutationDeletePenggunaRutinArgs = {
 export type MutationImportKendaraanArgs = {
   fileImport?: Maybe<Scalars['Upload']>;
   payload: KendaraanImport;
+};
+
+
+export type MutationImportPenggunaArgs = {
+  fileImport?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -377,6 +383,12 @@ export type Pengguna = {
   penggunaRutin: Array<PenggunaRutin>;
   subBagian: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type PenggunaImportResponse = {
+  __typename?: 'PenggunaImportResponse';
+  errors?: Maybe<Array<FieldError>>;
+  rowCount?: Maybe<Scalars['Int']>;
 };
 
 export type PenggunaInput = {
@@ -691,6 +703,13 @@ export type ImportKendaraanMutationVariables = Exact<{
 
 
 export type ImportKendaraanMutation = { __typename?: 'Mutation', importKendaraan: { __typename?: 'KendaraanImportResponse', rowCount?: Maybe<number>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
+
+export type ImportPenggunaMutationVariables = Exact<{
+  fileImport: Scalars['Upload'];
+}>;
+
+
+export type ImportPenggunaMutation = { __typename?: 'Mutation', importPengguna: { __typename?: 'PenggunaImportResponse', rowCount?: Maybe<number>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -1244,6 +1263,43 @@ export function useImportKendaraanMutation(baseOptions?: Apollo.MutationHookOpti
 export type ImportKendaraanMutationHookResult = ReturnType<typeof useImportKendaraanMutation>;
 export type ImportKendaraanMutationResult = Apollo.MutationResult<ImportKendaraanMutation>;
 export type ImportKendaraanMutationOptions = Apollo.BaseMutationOptions<ImportKendaraanMutation, ImportKendaraanMutationVariables>;
+export const ImportPenggunaDocument = gql`
+    mutation ImportPengguna($fileImport: Upload!) {
+  importPengguna(fileImport: $fileImport) {
+    errors {
+      field
+      message
+    }
+    rowCount
+  }
+}
+    `;
+export type ImportPenggunaMutationFn = Apollo.MutationFunction<ImportPenggunaMutation, ImportPenggunaMutationVariables>;
+
+/**
+ * __useImportPenggunaMutation__
+ *
+ * To run a mutation, you first call `useImportPenggunaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportPenggunaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importPenggunaMutation, { data, loading, error }] = useImportPenggunaMutation({
+ *   variables: {
+ *      fileImport: // value for 'fileImport'
+ *   },
+ * });
+ */
+export function useImportPenggunaMutation(baseOptions?: Apollo.MutationHookOptions<ImportPenggunaMutation, ImportPenggunaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ImportPenggunaMutation, ImportPenggunaMutationVariables>(ImportPenggunaDocument, options);
+      }
+export type ImportPenggunaMutationHookResult = ReturnType<typeof useImportPenggunaMutation>;
+export type ImportPenggunaMutationResult = Apollo.MutationResult<ImportPenggunaMutation>;
+export type ImportPenggunaMutationOptions = Apollo.BaseMutationOptions<ImportPenggunaMutation, ImportPenggunaMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(payload: {usernameOrEmail: $usernameOrEmail, password: $password}) {

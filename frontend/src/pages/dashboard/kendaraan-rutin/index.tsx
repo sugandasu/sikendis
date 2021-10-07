@@ -1,16 +1,16 @@
 import { Button } from "@chakra-ui/button";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Box, Link } from "@chakra-ui/layout";
 import {
   Flex,
+  Image,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Stack,
   Text,
-  Image,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import React, { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";

@@ -1,3 +1,4 @@
+import * as csv from "fast-csv";
 import { unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
@@ -18,6 +19,7 @@ import { isAuth } from "./../middlewares/isAuth";
 import { isOperator } from "./../middlewares/isOperator";
 import { PenggunaInput } from "./inputs/PenggunaInput";
 import { PenggunaPaginateInput } from "./inputs/PenggunaPaginateInput";
+import { PenggunaImportResponse } from "./responses/PenggunaImportResponse";
 import { PenggunaPaginated } from "./responses/PenggunaPaginated";
 import { PenggunaResponse } from "./responses/PenggunaResponse";
 import { penggunaValidation } from "./validations/penggunaValidation";
@@ -49,7 +51,7 @@ export class PenggunaResolver {
         if (filename) {
           const upload = await uploadFile({
             createReadStream,
-            filename: payload.fotoProfil,
+            filename: payload.fotoProfil ? payload.fotoProfil : null,
           });
 
           if (!upload) {
@@ -164,7 +166,7 @@ export class PenggunaResolver {
       if (filename) {
         const upload = await uploadFile({
           createReadStream,
-          filename: payload.fotoProfil,
+          filename: payload.fotoProfil ? payload.fotoProfil : null,
         });
 
         if (upload) {
@@ -208,5 +210,46 @@ export class PenggunaResolver {
     } catch (error) {
       return false;
     }
+  }
+
+  @Mutation(() => PenggunaImportResponse)
+  @UseMiddleware(isOperator)
+  async importPengguna(
+    @Arg("fileImport", () => GraphQLUpload, { nullable: true })
+    fileImport: FileUpload
+  ): Promise<PenggunaImportResponse> {
+    let rowCountEnd = 0;
+    if (fileImport) {
+      const { createReadStream, filename } = fileImport;
+
+      if (filename) {
+        createReadStream()
+          .pipe(csv.parse({ delimiter: ";", headers: true }))
+          .on("error", (error: any) => console.error(error))
+          .on("data", async (row: any) => {
+            const newRow = {} as any;
+            for (const column in row) {
+              newRow[column] = null;
+              if (row[column].trim().length > 0) {
+                newRow[column] = row[column];
+              }
+            }
+
+            try {
+              const errors = await penggunaValidation(newRow);
+              console.log(errors);
+              if (!errors) {
+                await Pengguna.create({
+                  ...(newRow as PenggunaInput),
+                }).save();
+                rowCountEnd += 1;
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          });
+      }
+    }
+    return { rowCount: rowCountEnd };
   }
 }

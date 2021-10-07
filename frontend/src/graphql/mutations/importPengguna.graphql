@@ -1,0 +1,9 @@
+mutation ImportPengguna($fileImport: Upload!) {
+  importPengguna(fileImport: $fileImport) {
+    errors {
+      field
+      message
+    }
+    rowCount
+  }
+}

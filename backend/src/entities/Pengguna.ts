@@ -52,11 +52,7 @@ export class Pengguna extends BaseEntity {
 
   @Field(() => String, { nullable: true })
   @Column({ type: "varchar", nullable: true })
-  fotoProfil: string | null;
-
-  @Field(() => [PenggunaRutin])
-  @OneToMany(() => PenggunaRutin, (penggunaRutin) => penggunaRutin.pengguna)
-  penggunaRutin: PenggunaRutin[];
+  fotoProfil?: string | null;
 
   @Field()
   @CreateDateColumn()
@@ -65,4 +61,9 @@ export class Pengguna extends BaseEntity {
   @Field()
   @UpdateDateColumn()
   updatedAt: Date;
+
+  // RELATIONS
+  @Field(() => [PenggunaRutin])
+  @OneToMany(() => PenggunaRutin, (penggunaRutin) => penggunaRutin.pengguna)
+  penggunaRutin: PenggunaRutin[];
 }
