@@ -73,10 +73,9 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
     {
       label: "Penanggungjawab",
       key: "penanggungJawab",
-      hideSm: true,
-      hideMd: true,
+      hide: true,
     },
-    { label: "Nomor Telepon", key: "nomorTelepon", hideSm: true, hideMd: true },
+    { label: "Nomor Telepon", key: "nomorTelepon", hide: true },
     { label: "Nomor Surat Disposisi", key: "nomorSuratDisposisi", hide: true },
     {
       label: "Nomor Surat Permohonan",
