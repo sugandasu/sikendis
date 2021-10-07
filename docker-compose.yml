@@ -31,7 +31,7 @@ services:
     image: sikendisbackend
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.development
     ports:
       - "${BACKEND_PORT}:4000"
     networks:
