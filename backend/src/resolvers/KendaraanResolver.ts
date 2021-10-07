@@ -35,6 +35,56 @@ import { kendaraanValidation } from "./validations/kendaraanValidation";
 @Resolver(Kendaraan)
 export class KendaraanResolver {
   @FieldResolver(() => String, { nullable: true })
+  nomorRegister(@Root() root: Kendaraan) {
+    return root.nomorRegister ? root.nomorRegister : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  ukuranCc(@Root() root: Kendaraan) {
+    return root.ukuranCc ? root.ukuranCc : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  bahan(@Root() root: Kendaraan) {
+    return root.bahan ? root.bahan : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  nomorPolisi(@Root() root: Kendaraan) {
+    return root.nomorPolisi ? root.nomorPolisi : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  nomorBpkb(@Root() root: Kendaraan) {
+    return root.nomorBpkb ? root.nomorBpkb : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  asalUsul(@Root() root: Kendaraan) {
+    return root.asalUsul ? root.asalUsul : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  warna(@Root() root: Kendaraan) {
+    return root.warna ? root.warna : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  bahanBakar(@Root() root: Kendaraan) {
+    return root.bahanBakar ? root.bahanBakar : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  harga(@Root() root: Kendaraan) {
+    return root.harga ? root.harga : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  keterangan(@Root() root: Kendaraan) {
+    return root.keterangan ? root.keterangan : "";
+  }
+
+  @FieldResolver(() => String, { nullable: true })
   fotoUrl(@Root() root: Kendaraan) {
     return root.foto ? process.env.BACKEND_URL + "/static/" + root.foto : null;
   }
