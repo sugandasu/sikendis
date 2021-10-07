@@ -86,6 +86,12 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                 icon={MdDirectionsCar}
               />
             </SidebarMenuLevel>
+            <SidebarMenu
+              link="/dashboard/pengguna-kendaraan"
+              text="Pengguna"
+              color="green.500"
+              icon={FaUsers}
+            />
             <SidebarMenuLevel
               text="Penggunaan"
               color="yellow.500"
@@ -104,12 +110,6 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                 icon={GiCarKey}
               />
             </SidebarMenuLevel>
-            <SidebarMenu
-              link="/dashboard/pengguna-kendaraan"
-              text="Pengguna"
-              color="gray.700"
-              icon={FaUsers}
-            />
             <SidebarMenuLevel
               text="Monitoring"
               color="blue.600"
