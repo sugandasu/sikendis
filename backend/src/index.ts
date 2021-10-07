@@ -116,13 +116,11 @@ const main = async () => {
   app.use("/static", express.static(dir));
 
   app.get("/", (_, res) => {
-    res.send(`It Works in ${__prod__}`);
+    res.send(`It Works in ${process.env.NODE_ENV}`);
   });
 
   app.listen(parseInt(process.env.PORT), () => {
-    console.log(
-      `backend is listening on port ${process.env.BACKEND_URL}:${process.env.PORT}`
-    );
+    console.log(`backend is listening on port ${process.env.BACKEND_URL}`);
   });
 };
 
