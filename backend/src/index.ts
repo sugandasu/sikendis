@@ -12,7 +12,6 @@ import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { __prod__ } from "./constants";
 import { Kendaraan } from "./entities/Kendaraan";
-import { Peminjaman } from "./entities/Peminjaman";
 import { PeminjamanOperasional } from "./entities/PeminjamanOperasional";
 import { Pengguna } from "./entities/Pengguna";
 import { PenggunaRutin } from "./entities/PenggunaRutin";
@@ -22,7 +21,6 @@ import { DashboardResolver } from "./resolvers/DashboardResolver";
 import { HelloResolver } from "./resolvers/HelloResolver";
 import { KendaraanResolver } from "./resolvers/KendaraanResolver";
 import { PeminjamanOperasionalResolver } from "./resolvers/PeminjamanOperasionalResolver";
-import { PeminjamanResolver } from "./resolvers/PeminjamanResolver";
 import { PenggunaResolver } from "./resolvers/PenggunaResolver";
 import { PenggunaRutinResolver } from "./resolvers/PenggunaRutinResolver";
 import { SimdaResolver } from "./resolvers/SimdaResolver";
@@ -40,7 +38,6 @@ const main = async () => {
       Kendaraan,
       Pengguna,
       User,
-      Peminjaman,
       PeminjamanOperasional,
       PenggunaRutin,
       Simda,
@@ -60,7 +57,6 @@ const main = async () => {
         PenggunaResolver,
         KendaraanResolver,
         PeminjamanOperasionalResolver,
-        PeminjamanResolver,
         PenggunaRutinResolver,
         DashboardResolver,
         SimdaResolver,
