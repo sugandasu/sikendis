@@ -62,7 +62,7 @@ export const SimpleTablePagination: React.FC<SimpleTablePaginationProps> = ({
 
     if (!isSm) {
       const midTop = Math.ceil((page + totalPage) / 2);
-      if (buttons.indexOf(midTop)) {
+      if (buttons.indexOf(midTop) === -1) {
         buttons = buttons.concat(midTop);
       }
     }

@@ -18,7 +18,7 @@ export const SimpleTableLimit: React.FC<SimpleTableLimitProps> = ({
   return (
     <Flex align="center" mb={4}>
       <Text fontSize="xs">
-        Page {page} dari {totalPage}
+        Page {page} dari {totalPage ? totalPage : 1}
       </Text>
       <Spacer></Spacer>
       <Flex align="center" mr={1}>
