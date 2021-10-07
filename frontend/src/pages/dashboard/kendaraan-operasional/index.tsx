@@ -1,4 +1,5 @@
 import { Button } from "@chakra-ui/button";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Box, Link } from "@chakra-ui/layout";
 import {
   Flex,
@@ -186,13 +187,28 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Kendaraan Operasional</Text>
-              <NextLink href="/dashboard/kendaraan-operasional/tambah">
-                <Link>
-                  <Button bg="blue.500" color="white">
-                    Tambah
-                  </Button>
-                </Link>
-              </NextLink>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  bg="blue.500"
+                  color="white"
+                  rightIcon={<ChevronDownIcon />}
+                >
+                  Aksi
+                </MenuButton>
+                <MenuList>
+                  <NextLink href="/dashboard/kendaraan-operasional/tambah">
+                    <Link>
+                      <MenuItem>Tambah</MenuItem>
+                    </Link>
+                  </NextLink>
+                  <NextLink href="/dashboard/kendaraan-operasional/import">
+                    <Link>
+                      <MenuItem>Import</MenuItem>
+                    </Link>
+                  </NextLink>
+                </MenuList>
+              </Menu>
             </Flex>
             <Box>
               <SimpleTableLimit
