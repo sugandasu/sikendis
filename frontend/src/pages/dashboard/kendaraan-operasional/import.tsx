@@ -94,7 +94,7 @@ const DashboardKendaraanOperasionalImport: React.FC<{}> = ({}) => {
                       isLoading={isSubmitting}
                       colorScheme="teal"
                     >
-                      Tambah Kendaraan
+                      Import Kendaraan
                     </Button>
                   </Form>
                 )}
