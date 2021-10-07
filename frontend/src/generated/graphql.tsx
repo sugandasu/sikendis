@@ -37,13 +37,13 @@ export type FieldError = {
 
 export type Kendaraan = {
   __typename?: 'Kendaraan';
-  asalUsul: Scalars['String'];
-  bahan: Scalars['String'];
-  bahanBakar: Scalars['String'];
+  asalUsul?: Maybe<Scalars['String']>;
+  bahan?: Maybe<Scalars['String']>;
+  bahanBakar?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   foto?: Maybe<Scalars['String']>;
   fotoUrl?: Maybe<Scalars['String']>;
-  harga: Scalars['String'];
+  harga?: Maybe<Scalars['String']>;
   id: Scalars['Float'];
   keterangan?: Maybe<Scalars['String']>;
   kode: Scalars['String'];
@@ -51,7 +51,7 @@ export type Kendaraan = {
   nama: Scalars['String'];
   nomorBpkb?: Maybe<Scalars['String']>;
   nomorMesin: Scalars['String'];
-  nomorPolisi: Scalars['String'];
+  nomorPolisi?: Maybe<Scalars['String']>;
   nomorRangka: Scalars['String'];
   nomorRegister?: Maybe<Scalars['String']>;
   peminjamanOperasional: Array<PeminjamanOperasional>;
@@ -61,31 +61,43 @@ export type Kendaraan = {
   tahunPembelian: Scalars['String'];
   tipeKendaraan: Scalars['String'];
   tipeRoda: Scalars['String'];
-  ukuranCc: Scalars['String'];
+  ukuranCc?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
-  warna: Scalars['String'];
+  warna?: Maybe<Scalars['String']>;
+};
+
+export type KendaraanImport = {
+  fileImport: Scalars['String'];
+  tipeKendaraan: Scalars['String'];
+  tipeRoda: Scalars['String'];
+};
+
+export type KendaraanImportResponse = {
+  __typename?: 'KendaraanImportResponse';
+  errors?: Maybe<Array<FieldError>>;
+  rowCount?: Maybe<Scalars['Int']>;
 };
 
 export type KendaraanInput = {
-  asalUsul: Scalars['String'];
-  bahan: Scalars['String'];
-  bahanBakar: Scalars['String'];
+  asalUsul?: Maybe<Scalars['String']>;
+  bahan?: Maybe<Scalars['String']>;
+  bahanBakar?: Maybe<Scalars['String']>;
   foto?: Maybe<Scalars['String']>;
-  harga: Scalars['String'];
+  harga?: Maybe<Scalars['String']>;
   keterangan?: Maybe<Scalars['String']>;
   kode: Scalars['String'];
   merek: Scalars['String'];
   nama: Scalars['String'];
   nomorBpkb?: Maybe<Scalars['String']>;
   nomorMesin: Scalars['String'];
-  nomorPolisi: Scalars['String'];
+  nomorPolisi?: Maybe<Scalars['String']>;
   nomorRangka: Scalars['String'];
   nomorRegister?: Maybe<Scalars['String']>;
   tahunPembelian: Scalars['String'];
   tipeKendaraan: Scalars['String'];
   tipeRoda: Scalars['String'];
-  ukuranCc: Scalars['String'];
-  warna: Scalars['String'];
+  ukuranCc?: Maybe<Scalars['String']>;
+  warna?: Maybe<Scalars['String']>;
 };
 
 export type KendaraanPaginateInput = {
@@ -126,6 +138,7 @@ export type Mutation = {
   deletePeminjamanOperasional: Scalars['Boolean'];
   deletePengguna: Scalars['Boolean'];
   deletePenggunaRutin: Scalars['Boolean'];
+  importKendaraan: KendaraanImportResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
@@ -191,6 +204,12 @@ export type MutationDeletePenggunaArgs = {
 
 export type MutationDeletePenggunaRutinArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationImportKendaraanArgs = {
+  fileImport?: Maybe<Scalars['Upload']>;
+  payload: KendaraanImport;
 };
 
 
@@ -596,13 +615,13 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
-export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> };
+export type RegularKendaraanFragment = { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> };
 
-export type RegularPeminjamanOperasionalFragment = { __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } };
+export type RegularPeminjamanOperasionalFragment = { __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } };
 
 export type RegularPenggunaFragment = { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> };
 
-export type RegularPenggunaRutinFragment = { __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } };
+export type RegularPenggunaRutinFragment = { __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } };
 
 export type CreateKendaraanMutationVariables = Exact<{
   payload: KendaraanInput;
@@ -610,7 +629,7 @@ export type CreateKendaraanMutationVariables = Exact<{
 }>;
 
 
-export type CreateKendaraanMutation = { __typename?: 'Mutation', createKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
+export type CreateKendaraanMutation = { __typename?: 'Mutation', createKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
 
 export type CreatePeminjamanOperasionalMutationVariables = Exact<{
   payload: PeminjamanOperasionalInput;
@@ -619,7 +638,7 @@ export type CreatePeminjamanOperasionalMutationVariables = Exact<{
 }>;
 
 
-export type CreatePeminjamanOperasionalMutation = { __typename?: 'Mutation', createPeminjamanOperasional: { __typename?: 'PeminjamanOperasionalResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjamanOperasional?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> } };
+export type CreatePeminjamanOperasionalMutation = { __typename?: 'Mutation', createPeminjamanOperasional: { __typename?: 'PeminjamanOperasionalResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjamanOperasional?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> } };
 
 export type CreatePenggunaMutationVariables = Exact<{
   payload: PenggunaInput;
@@ -635,7 +654,7 @@ export type CreatePenggunaRutinMutationVariables = Exact<{
 }>;
 
 
-export type CreatePenggunaRutinMutation = { __typename?: 'Mutation', createPenggunaRutin: { __typename?: 'PenggunaRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
+export type CreatePenggunaRutinMutation = { __typename?: 'Mutation', createPenggunaRutin: { __typename?: 'PenggunaRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type DeleteKendaraanMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -664,6 +683,14 @@ export type DeletePenggunaRutinMutationVariables = Exact<{
 
 
 export type DeletePenggunaRutinMutation = { __typename?: 'Mutation', deletePenggunaRutin: boolean };
+
+export type ImportKendaraanMutationVariables = Exact<{
+  payload: KendaraanImport;
+  fileImport: Scalars['Upload'];
+}>;
+
+
+export type ImportKendaraanMutation = { __typename?: 'Mutation', importKendaraan: { __typename?: 'KendaraanImportResponse', rowCount?: Maybe<number>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -694,7 +721,7 @@ export type UpdateKendaraanMutationVariables = Exact<{
 }>;
 
 
-export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
+export type UpdateKendaraanMutation = { __typename?: 'Mutation', updateKendaraan: { __typename?: 'KendaraanResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
 
 export type UpdatePeminjamanOperasionalMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -704,7 +731,7 @@ export type UpdatePeminjamanOperasionalMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePeminjamanOperasionalMutation = { __typename?: 'Mutation', updatePeminjamanOperasional: { __typename?: 'PeminjamanOperasionalResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjamanOperasional?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> } };
+export type UpdatePeminjamanOperasionalMutation = { __typename?: 'Mutation', updatePeminjamanOperasional: { __typename?: 'PeminjamanOperasionalResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, peminjamanOperasional?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> } };
 
 export type UpdatePenggunaMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -722,7 +749,7 @@ export type UpdatePenggunaRutinMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePenggunaRutinMutation = { __typename?: 'Mutation', updatePenggunaRutin: { __typename?: 'PenggunaRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
+export type UpdatePenggunaRutinMutation = { __typename?: 'Mutation', updatePenggunaRutin: { __typename?: 'PenggunaRutinResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type DashboardCardQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -734,7 +761,7 @@ export type IntegrasiPajaksQueryVariables = Exact<{
 }>;
 
 
-export type IntegrasiPajaksQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', statusPajak?: Maybe<string>, id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
+export type IntegrasiPajaksQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', statusPajak?: Maybe<string>, id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
 
 export type IntegrasiSimdasQueryVariables = Exact<{
   options: SimdaPaginate;
@@ -748,14 +775,14 @@ export type KendaraanQueryVariables = Exact<{
 }>;
 
 
-export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> };
+export type KendaraanQuery = { __typename?: 'Query', kendaraan?: Maybe<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> };
 
 export type KendaraansQueryVariables = Exact<{
   options: KendaraanPaginateInput;
 }>;
 
 
-export type KendaraansQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
+export type KendaraansQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }> } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -767,28 +794,28 @@ export type MonitoringKendaraanOperasionalsQueryVariables = Exact<{
 }>;
 
 
-export type MonitoringKendaraanOperasionalsQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string>, statusPenggunaan?: Maybe<{ __typename?: 'StatusKendaraanField', status: TipeStatusKendaraan, peminjamanOperasionalLast?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> }> }> } };
+export type MonitoringKendaraanOperasionalsQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string>, statusPenggunaan?: Maybe<{ __typename?: 'StatusKendaraanField', status: TipeStatusKendaraan, peminjamanOperasionalLast?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> }> }> } };
 
 export type MonitoringKendaraanRutinsQueryVariables = Exact<{
   options: KendaraanPaginateInput;
 }>;
 
 
-export type MonitoringKendaraanRutinsQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string>, statusPenggunaan?: Maybe<{ __typename?: 'StatusKendaraanField', status: TipeStatusKendaraan, penggunaRutinLast?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> }> }> } };
+export type MonitoringKendaraanRutinsQuery = { __typename?: 'Query', kendaraans: { __typename?: 'KendaraanPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string>, statusPenggunaan?: Maybe<{ __typename?: 'StatusKendaraanField', status: TipeStatusKendaraan, penggunaRutinLast?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> }> }> } };
 
 export type PeminjamanOperasionalQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PeminjamanOperasionalQuery = { __typename?: 'Query', peminjamanOperasional?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> };
+export type PeminjamanOperasionalQuery = { __typename?: 'Query', peminjamanOperasional?: Maybe<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> };
 
 export type PeminjamanOperasionalsQueryVariables = Exact<{
   options: PeminjamanOperasionalPaginate;
 }>;
 
 
-export type PeminjamanOperasionalsQuery = { __typename?: 'Query', peminjamanOperasionals: { __typename?: 'PeminjamanOperasionalPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> } };
+export type PeminjamanOperasionalsQuery = { __typename?: 'Query', peminjamanOperasionals: { __typename?: 'PeminjamanOperasionalPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'PeminjamanOperasional', id: number, instansi: string, penanggungJawab: string, nomorSuratDisposisi?: Maybe<string>, fileSuratDisposisi?: Maybe<string>, fileSuratDisposisiUrl: string, nomorSuratPermohonan?: Maybe<string>, fileSuratPermohonan?: Maybe<string>, fileSuratPermohonanUrl: string, tanggalMulai: any, tanggalSelesai: any, nomorTelepon: string, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> } }> } };
 
 export type PenggunaQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -802,14 +829,14 @@ export type PenggunaRutinQueryVariables = Exact<{
 }>;
 
 
-export type PenggunaRutinQuery = { __typename?: 'Query', penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> };
+export type PenggunaRutinQuery = { __typename?: 'Query', penggunaRutin?: Maybe<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> };
 
 export type PenggunaRutinsQueryVariables = Exact<{
   options: PenggunaRutinPaginate;
 }>;
 
 
-export type PenggunaRutinsQuery = { __typename?: 'Query', penggunaRutins: { __typename?: 'PenggunaRutinPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc: string, bahan: string, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi: string, nomorBpkb?: Maybe<string>, asalUsul: string, warna: string, bahanBakar: string, harga: string, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
+export type PenggunaRutinsQuery = { __typename?: 'Query', penggunaRutins: { __typename?: 'PenggunaRutinPaginated', total: number, limit: number, page: number, filter?: Maybe<any>, data: Array<{ __typename?: 'PenggunaRutin', id: number, nomorBap: string, fileBap: string, fileBapUrl: string, tanggalBap: any, kendaraan: { __typename?: 'Kendaraan', id: number, tipeKendaraan: string, tipeRoda: string, kode: string, nama: string, nomorRegister?: Maybe<string>, merek: string, ukuranCc?: Maybe<string>, bahan?: Maybe<string>, tahunPembelian: string, nomorRangka: string, nomorMesin: string, nomorPolisi?: Maybe<string>, nomorBpkb?: Maybe<string>, asalUsul?: Maybe<string>, warna?: Maybe<string>, bahanBakar?: Maybe<string>, harga?: Maybe<string>, foto?: Maybe<string>, fotoUrl?: Maybe<string>, keterangan?: Maybe<string> }, pengguna: { __typename?: 'Pengguna', id: number, nip: string, nama: string, jabatan: string, instansi: string, subBagian: string, fotoProfil?: Maybe<string>, fotoProfilUrl?: Maybe<string> } }> } };
 
 export type PenggunasQueryVariables = Exact<{
   options: PenggunaPaginateInput;
@@ -1179,6 +1206,44 @@ export function useDeletePenggunaRutinMutation(baseOptions?: Apollo.MutationHook
 export type DeletePenggunaRutinMutationHookResult = ReturnType<typeof useDeletePenggunaRutinMutation>;
 export type DeletePenggunaRutinMutationResult = Apollo.MutationResult<DeletePenggunaRutinMutation>;
 export type DeletePenggunaRutinMutationOptions = Apollo.BaseMutationOptions<DeletePenggunaRutinMutation, DeletePenggunaRutinMutationVariables>;
+export const ImportKendaraanDocument = gql`
+    mutation ImportKendaraan($payload: KendaraanImport!, $fileImport: Upload!) {
+  importKendaraan(payload: $payload, fileImport: $fileImport) {
+    errors {
+      field
+      message
+    }
+    rowCount
+  }
+}
+    `;
+export type ImportKendaraanMutationFn = Apollo.MutationFunction<ImportKendaraanMutation, ImportKendaraanMutationVariables>;
+
+/**
+ * __useImportKendaraanMutation__
+ *
+ * To run a mutation, you first call `useImportKendaraanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportKendaraanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importKendaraanMutation, { data, loading, error }] = useImportKendaraanMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *      fileImport: // value for 'fileImport'
+ *   },
+ * });
+ */
+export function useImportKendaraanMutation(baseOptions?: Apollo.MutationHookOptions<ImportKendaraanMutation, ImportKendaraanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ImportKendaraanMutation, ImportKendaraanMutationVariables>(ImportKendaraanDocument, options);
+      }
+export type ImportKendaraanMutationHookResult = ReturnType<typeof useImportKendaraanMutation>;
+export type ImportKendaraanMutationResult = Apollo.MutationResult<ImportKendaraanMutation>;
+export type ImportKendaraanMutationOptions = Apollo.BaseMutationOptions<ImportKendaraanMutation, ImportKendaraanMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(payload: {usernameOrEmail: $usernameOrEmail, password: $password}) {

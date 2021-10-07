@@ -1,12 +1,6 @@
-import {
-  Kendaraan,
-  TipeAsalUsul,
-  TipeBahanBakar,
-  TipeKendaraan,
-  TipeRoda,
-} from "./../../entities/Kendaraan";
-import { KendaraanInput } from "../inputs/KendaraanInput";
 import { getConnection } from "typeorm";
+import { KendaraanInput } from "../inputs/KendaraanInput";
+import { Kendaraan, TipeKendaraan, TipeRoda } from "./../../entities/Kendaraan";
 
 export const kendaraanValidation = async (
   payload: KendaraanInput,
@@ -30,14 +24,6 @@ export const kendaraanValidation = async (
 
   if (payload.merek.trim().length === 0) {
     return [{ field: "merek", message: "Merek kendaraan tidak boleh kosong" }];
-  }
-
-  if (payload.ukuranCc.trim().length === 0) {
-    return [{ field: "ukuranCc", message: "Ukuran CC tidak boleh kosong" }];
-  }
-
-  if (payload.bahan.trim().length === 0) {
-    return [{ field: "bahan", message: "Bahan tidak boleh kosong" }];
   }
 
   if (payload.tahunPembelian.trim().length === 0) {
@@ -113,37 +99,33 @@ export const kendaraanValidation = async (
     ];
   }
 
-  if (payload.nomorPolisi.trim().length === 0) {
-    return [
-      { field: "nomorPolisi", message: "Nomor polisi tidak boleh kosong" },
-    ];
-  }
+  if (payload.nomorPolisi) {
+    const nomorPolisi = await getConnection()
+      .getRepository(Kendaraan)
+      .createQueryBuilder("kendaraan")
+      .where(
+        `kendaraan."nomorPolisi" = :nomorPolisi ${
+          skipId ? "AND kendaraan.id != :id" : ""
+        }`,
+        skipId
+          ? {
+              nomorPolisi: payload.nomorPolisi,
+              id: skipId,
+            }
+          : {
+              nomorPolisi: payload.nomorPolisi,
+            }
+      )
+      .getOne();
 
-  const nomorPolisi = await getConnection()
-    .getRepository(Kendaraan)
-    .createQueryBuilder("kendaraan")
-    .where(
-      `kendaraan."nomorPolisi" = :nomorPolisi ${
-        skipId ? "AND kendaraan.id != :id" : ""
-      }`,
-      skipId
-        ? {
-            nomorPolisi: payload.nomorPolisi,
-            id: skipId,
-          }
-        : {
-            nomorPolisi: payload.nomorPolisi,
-          }
-    )
-    .getOne();
-
-  if (nomorPolisi) {
-    return [
-      {
-        field: "nomorPolisi",
-        message: "Nomor polisi telah terdaftar",
-      },
-    ];
+    if (nomorPolisi) {
+      return [
+        {
+          field: "nomorPolisi",
+          message: "Nomor polisi telah terdaftar",
+        },
+      ];
+    }
   }
 
   if (payload.nomorBpkb) {
@@ -173,22 +155,6 @@ export const kendaraanValidation = async (
         },
       ];
     }
-  }
-
-  if (!(<any>Object).values(TipeAsalUsul).includes(payload.asalUsul)) {
-    return [{ field: "asalUsul", message: "Asal usul tidak valid" }];
-  }
-
-  if (payload.warna.trim().length === 0) {
-    return [{ field: "warna", message: "Warna tidak boleh kosong" }];
-  }
-
-  if (!(<any>Object).values(TipeBahanBakar).includes(payload.bahanBakar)) {
-    return [{ field: "bahanBakar", message: "Bahan bakar tidak valid" }];
-  }
-
-  if (payload.harga.trim().length === 0) {
-    return [{ field: "harga", message: "Harga tidak boleh kosong" }];
   }
 
   return null;

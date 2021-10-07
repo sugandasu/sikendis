@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as csv from "fast-csv";
 import { unlinkSync } from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import {
@@ -15,12 +16,14 @@ import { getConnection } from "typeorm";
 import { MAX_TABLE_LIMIT } from "../constants";
 import { PeminjamanOperasional } from "../entities/PeminjamanOperasional";
 import { isOperator } from "../middlewares/isOperator";
-import { Kendaraan, TipeKendaraan } from "./../entities/Kendaraan";
+import { Kendaraan, TipeKendaraan, TipeRoda } from "./../entities/Kendaraan";
 import { PenggunaRutin } from "./../entities/PenggunaRutin";
 import { isAuth } from "./../middlewares/isAuth";
 import { uploadFile } from "./../utils/UploadFile";
+import { KendaraanImport } from "./inputs/KendaraanImport";
 import { KendaraanInput } from "./inputs/KendaraanInput";
 import { KendaraanPaginateInput } from "./inputs/KendaraanPaginateInput";
+import { KendaraanImportResponse } from "./responses/KendaraanImportResponse";
 import { KendaraanPaginated } from "./responses/KendaraanPaginated";
 import { KendaraanResponse } from "./responses/KendaraanResponse";
 import {
@@ -134,7 +137,7 @@ export class KendaraanResolver {
       if (filename) {
         const upload = await uploadFile({
           createReadStream,
-          filename: payload.foto,
+          filename: payload.foto ? payload.foto : null,
         });
 
         if (!upload) {
@@ -157,8 +160,6 @@ export class KendaraanResolver {
     const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
     let params = [];
-    params.push(realLimit);
-    params.push(offset);
 
     let whereColumns = [];
     let whereColumnQuery = "";
@@ -176,24 +177,30 @@ export class KendaraanResolver {
       }
     }
 
+    params.push(realLimit);
+    params.push(offset);
+
     const data = await getConnection().query(
       `
       SELECT *
       FROM kendaraan
       ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
-      LIMIT $1
-      OFFSET $2
+      LIMIT $${params.length - 1}
+      OFFSET $${params.length}
       `,
       params
     );
 
-    const { total } = await getConnection()
-      .getRepository(Kendaraan)
-      .createQueryBuilder()
-      .select("COUNT(id)", "total")
-      .getRawOne();
+    const total = await getConnection().query(
+      `
+      SELECT COUNT(kendaraan.id) as total
+      FROM kendaraan
+      ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
+      `,
+      params.slice(0, params.length - 2)
+    );
 
-    return { data, total, ...options };
+    return { data, total: total[0].total, ...options };
   }
 
   @Query(() => Kendaraan, { nullable: true })
@@ -231,7 +238,7 @@ export class KendaraanResolver {
       if (filename) {
         const upload = await uploadFile({
           createReadStream,
-          filename: payload.foto,
+          filename: payload.foto ? payload.foto : null,
         });
 
         if (!upload) {
@@ -261,12 +268,60 @@ export class KendaraanResolver {
     try {
       const kendaraan = await Kendaraan.findOne({ id });
       await Kendaraan.delete({ id });
-      if (kendaraan?.foto) {
+      if (kendaraan?.foto)
         unlinkSync(`${__dirname}/../../uploads/${kendaraan.foto}`);
-      }
       return true;
     } catch (error) {
       return false;
     }
+  }
+
+  @Mutation(() => KendaraanImportResponse)
+  @UseMiddleware(isOperator)
+  async importKendaraan(
+    @Arg("payload") payload: KendaraanImport,
+    @Arg("fileImport", () => GraphQLUpload, { nullable: true })
+    fileImport: FileUpload
+  ): Promise<KendaraanImportResponse> {
+    if (!(<any>Object).values(TipeRoda).includes(payload.tipeRoda)) {
+      return {
+        errors: [{ field: "tipeRoda", message: "Tipe roda tidak valid" }],
+      };
+    }
+
+    let rowCountEnd = 0;
+    if (fileImport) {
+      const { createReadStream, filename } = fileImport;
+
+      if (filename) {
+        createReadStream()
+          .pipe(csv.parse({ delimiter: ";", headers: true }))
+          .on("error", (error: any) => console.error(error))
+          .on("data", async (row: any) => {
+            const newRow = {
+              tipeKendaraan: payload.tipeKendaraan,
+              tipeRoda: payload.tipeRoda,
+            } as any;
+            for (const column in row) {
+              newRow[column] = null;
+              if (row[column].trim().length > 0) {
+                newRow[column] = row[column];
+              }
+            }
+
+            const errors = await kendaraanValidation(newRow);
+
+            console.log(newRow as KendaraanInput);
+
+            if (!errors) {
+              await Kendaraan.create({
+                ...(newRow as KendaraanInput),
+              }).save();
+              rowCountEnd += 1;
+            }
+          });
+      }
+    }
+    return { rowCount: rowCountEnd };
   }
 }

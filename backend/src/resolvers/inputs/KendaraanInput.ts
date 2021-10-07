@@ -21,16 +21,16 @@ export class KendaraanInput {
   nama: string;
 
   @Field(() => String, { nullable: true })
-  nomorRegister: string | null;
+  nomorRegister?: string;
 
   @Field()
   merek: string;
 
-  @Field()
-  ukuranCc: string;
+  @Field(() => String, { nullable: true })
+  ukuranCc?: string;
 
-  @Field()
-  bahan: string;
+  @Field(() => String, { nullable: true })
+  bahan?: string;
 
   @Field()
   tahunPembelian: string;
@@ -41,27 +41,27 @@ export class KendaraanInput {
   @Field()
   nomorMesin: string;
 
-  @Field()
-  nomorPolisi: string;
+  @Field(() => String, { nullable: true })
+  nomorPolisi?: string;
 
   @Field(() => String, { nullable: true })
-  nomorBpkb: string | null;
-
-  @Field()
-  asalUsul: TipeAsalUsul;
-
-  @Field()
-  warna: string;
-
-  @Field()
-  bahanBakar: TipeBahanBakar;
-
-  @Field()
-  harga: string;
+  nomorBpkb?: string;
 
   @Field(() => String, { nullable: true })
-  foto: string | null;
+  asalUsul?: TipeAsalUsul;
 
   @Field(() => String, { nullable: true })
-  keterangan: string | null;
+  warna?: string;
+
+  @Field(() => String, { nullable: true })
+  bahanBakar?: TipeBahanBakar;
+
+  @Field(() => String, { nullable: true })
+  harga?: string;
+
+  @Field(() => String, { nullable: true })
+  foto?: string;
+
+  @Field(() => String, { nullable: true })
+  keterangan?: string;
 }

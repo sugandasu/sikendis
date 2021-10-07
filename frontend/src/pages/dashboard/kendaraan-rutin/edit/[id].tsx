@@ -138,13 +138,11 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
                         name="ukuranCc"
                         label="Ukuran CC"
                         placeholder="Ukuran cc"
-                        required={true}
                       />
                       <InputField
                         name="bahan"
                         label="Bahan"
                         placeholder="Bahan"
-                        required={true}
                       />
                       <InputField
                         name="tahunPembelian"
@@ -168,7 +166,6 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
                         name="nomorPolisi"
                         label="Nomor Polisi"
                         placeholder="Nomor polisi"
-                        required={true}
                       />
                       <InputField
                         name="nomorBpkb"
@@ -182,13 +179,11 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
                         options={asalUsulOptions}
                         textField="value"
                         valueField="value"
-                        required={true}
                       ></SelectionField>
                       <InputField
                         name="warna"
                         label="Warna kendaraan"
                         placeholder="Warna kendaraan"
-                        required={true}
                       />
                       <SelectionField
                         name="bahanBakar"
@@ -197,13 +192,11 @@ const DashboardKendaraanRutinEdit: React.FC<{}> = ({}) => {
                         options={bahanBakarOptions}
                         textField="value"
                         valueField="value"
-                        required={true}
                       ></SelectionField>
                       <InputField
                         name="harga"
                         label="Harga"
                         placeholder="Harga"
-                        required={true}
                       />
                       <FileField
                         name="foto"

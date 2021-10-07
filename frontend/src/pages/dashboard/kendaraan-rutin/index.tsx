@@ -10,6 +10,7 @@ import {
   Text,
   Image,
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import React, { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
@@ -182,13 +183,28 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Kendaraan Rutin</Text>
-              <NextLink href="/dashboard/kendaraan-rutin/tambah">
-                <Link>
-                  <Button bg="blue.500" color="white">
-                    Tambah
-                  </Button>
-                </Link>
-              </NextLink>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  bg="blue.500"
+                  color="white"
+                  rightIcon={<ChevronDownIcon />}
+                >
+                  Aksi
+                </MenuButton>
+                <MenuList>
+                  <NextLink href="/dashboard/kendaraan-rutin/tambah">
+                    <Link>
+                      <MenuItem>Tambah</MenuItem>
+                    </Link>
+                  </NextLink>
+                  <NextLink href="/dashboard/kendaraan-rutin/import">
+                    <Link>
+                      <MenuItem>Import</MenuItem>
+                    </Link>
+                  </NextLink>
+                </MenuList>
+              </Menu>
             </Flex>
             <Box>
               <SimpleTableLimit

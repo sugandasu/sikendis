@@ -1,0 +1,9 @@
+mutation ImportKendaraan($payload: KendaraanImport!, $fileImport: Upload!) {
+  importKendaraan(payload: $payload, fileImport: $fileImport) {
+    errors {
+      field
+      message
+    }
+    rowCount
+  }
+}

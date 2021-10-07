@@ -57,19 +57,19 @@ export class Kendaraan extends BaseEntity {
 
   @Field(() => String, { nullable: true })
   @Column({ type: "varchar", nullable: true })
-  nomorRegister: string | null;
+  nomorRegister?: string;
 
   @Field()
   @Column()
   merek!: string;
 
-  @Field()
-  @Column()
-  ukuranCc!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  ukuranCc?: string;
 
-  @Field()
-  @Column()
-  bahan!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  bahan?: string;
 
   @Field()
   @Column()
@@ -83,42 +83,55 @@ export class Kendaraan extends BaseEntity {
   @Column({ unique: true })
   nomorMesin!: string;
 
-  @Field()
-  @Column({ unique: true })
-  nomorPolisi!: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", unique: true, nullable: true })
+  nomorPolisi?: string;
 
   @Field(() => String, { nullable: true })
   @Column({ type: "varchar", unique: true, nullable: true })
-  nomorBpkb: string | null;
+  nomorBpkb?: string;
 
-  @Field()
-  @Column({ type: "enum", enum: TipeAsalUsul, default: TipeAsalUsul.PEMBELIAN })
-  asalUsul!: TipeAsalUsul;
-
-  @Field()
-  @Column()
-  warna!: string;
-
-  @Field()
+  @Field(() => String, { nullable: true })
   @Column({
     type: "enum",
-    enum: TipeBahanBakar,
-    default: TipeBahanBakar.BENSIN,
+    enum: TipeAsalUsul,
+    nullable: true,
   })
-  bahanBakar!: TipeBahanBakar;
-
-  @Field()
-  @Column()
-  harga!: string;
+  asalUsul?: TipeAsalUsul;
 
   @Field(() => String, { nullable: true })
   @Column({ type: "varchar", nullable: true })
-  foto: string | null;
+  warna?: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({
+    type: "enum",
+    enum: TipeBahanBakar,
+    nullable: true,
+  })
+  bahanBakar?: TipeBahanBakar;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  harga?: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  foto?: string;
 
   @Field(() => String, { nullable: true })
   @Column({ type: "text", nullable: true })
-  keterangan: string | null;
+  keterangan?: string;
 
+  @Field()
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @Field()
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  // RELATIONS
   @Field(() => [PenggunaRutin])
   @OneToMany(() => PenggunaRutin, (penggunaRutin) => penggunaRutin.kendaraan)
   penggunaRutin: PenggunaRutin[];
@@ -129,12 +142,4 @@ export class Kendaraan extends BaseEntity {
     (peminjamanOperasional) => peminjamanOperasional.kendaraan
   )
   peminjamanOperasional: PeminjamanOperasional[];
-
-  @Field()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Field()
-  @UpdateDateColumn()
-  updatedAt: Date;
 }
