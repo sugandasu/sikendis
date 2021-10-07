@@ -90,7 +90,7 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
     },
     { label: "Bahan", key: "bahan", hide: true },
     {
-      label: "Tahun Pembelian",
+      label: "Tahun",
       key: "tahunPembelian",
       hideSm: true,
       hideMd: true,
