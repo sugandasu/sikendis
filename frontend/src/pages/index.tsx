@@ -4,9 +4,11 @@ import { useRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { useLoginMutation } from "../generated/graphql";
+import { useIsGuest } from "../middlewares/useIsGuest";
 import { toErrorMap } from "../utils/toErrorMap";
 
 const Index: React.FC<{}> = ({}) => {
+  useIsGuest();
   const router = useRouter();
   const [login] = useLoginMutation();
   return (
