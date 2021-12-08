@@ -1,21 +1,9 @@
-import { Button } from "@chakra-ui/button";
 import { Box } from "@chakra-ui/layout";
-import {
-  Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import { Flex, Stack, Text } from "@chakra-ui/react";
+import React, { useMemo } from "react";
+import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableFilter } from "../../../components/SimpleTableFilter";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
+import { TableClient } from "../../../components/TableClient";
 import { Simda, useIntegrasiSimdasQuery } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import { getFormattedDate } from "../../../utils/getFormattedDate";
@@ -26,108 +14,110 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Integrasi Simda", link: "#", isCurrentPage: true },
   ];
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [filterAll, setFilterAll] = useState("");
-  const { data } = useIntegrasiSimdasQuery({
+
+  const { data, loading } = useIntegrasiSimdasQuery({
     variables: {
       options: {
-        limit: limit,
-        page: page,
-        filter: {
-          all: filterAll,
-        },
+        limit: 0,
+        page: 0,
       },
     },
     notifyOnNetworkStatusChange: true,
   });
 
-  const headers = [
-    {
-      label: "Nomor Rangka",
-      key: "nomorRangka",
-    },
-    {
-      label: "Nomor Mesin",
-      key: "nomorMesin",
-      hideSm: true,
-      hideMd: true,
-    },
-    {
-      label: "Nama Aset",
-      key: "nmAset",
-      hide: true,
-    },
-    { label: "Merek", key: "merk", hide: true },
-    { label: "Tipe", key: "type", hide: true },
-    { label: "CC", key: "cc", hide: true },
-    { label: "Bahan", key: "bahan", hide: true },
-    {
-      label: "Tanggal Perolehan",
-      key: "tglPerolehan",
-      hide: true,
-      render: (row: Simda) => {
-        if (row.tglPerolehan) {
-          return getFormattedDate(row.tglPerolehan);
-        }
-        return "";
+  const columns = useMemo<Column<{}>[]>(
+    () => [
+      {
+        Header: "Nomor Rangka",
+        accessor: "nomorRangka",
       },
-    },
-    { label: "Nomor Pabrik", key: "nomorPabrik", hide: true },
-    { label: "Nomor Bpkb", key: "nomorBpkb", hide: true },
-    { label: "Asal Usul", key: "asalUsul", hide: true },
-    { label: "Harga", key: "harga", hide: true },
-    { label: "Tahun", key: "tahun", hide: true },
-    { label: "Nomor SP2D", key: "noSp2d", hide: true },
-    {
-      label: "Tanggal Pembukuan",
-      key: "tglPembukuan",
-      hide: true,
-      render: (row: Simda) => {
-        if (row.tglPembukuan) {
-          return getFormattedDate(row.tglPembukuan);
-        }
-        return "";
+      {
+        Header: "Nomor Mesin",
+        accessor: "nomorMesin",
+        hidden: true,
       },
-    },
-    {
-      label: "Kondisi",
-      key: "kondisi",
-      hide: true,
-    },
-    {
-      label: "Uraian",
-      key: "uraian",
-    },
-    {
-      label: "Keterangan",
-      key: "keterangan",
-      hide: true,
-    },
-    {
-      label: "Aksi",
-      key: "id",
-      render: (row: Simda, setViewRow: any, onOpen: any) => {
-        return (
-          <Menu>
-            <MenuButton as={Button}>
-              <FaEllipsisV></FaEllipsisV>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setViewRow(row);
-                  onOpen();
-                }}
-              >
-                <Text>View</Text>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        );
+      {
+        Header: "Nama Aset",
+        accessor: "nmAset",
+        hidden: true,
       },
-    },
-  ];
+      {
+        Header: "Merek",
+        accessor: "merk",
+        hidden: true,
+      },
+      {
+        Header: "Tipe",
+        accessor: "type",
+        hidden: true,
+      },
+      {
+        Header: "CC",
+        accessor: "cc",
+        hidden: true,
+      },
+      {
+        Header: "Tanggal Perolehan",
+        accessor: "tglPerolehan",
+        hidden: true,
+      },
+      {
+        Header: "Nomor Pabrik",
+        accessor: "nomorPabrik",
+        hidden: true,
+      },
+      {
+        Header: "Nomor BPKB",
+        accessor: "nomorBpkb",
+      },
+      {
+        Header: "Asal Usul",
+        accessor: "asalUsul",
+        hidden: true,
+      },
+      {
+        Header: "Harga",
+        accessor: "harga",
+        hidden: true,
+      },
+      {
+        Header: "Tahun",
+        accessor: "tahun",
+        hidden: true,
+      },
+      {
+        Header: "Nomor SP2D",
+        accessor: "noSp2d",
+        hidden: true,
+      },
+      {
+        Header: "Tanggal Pembukuan",
+        id: "tglPembukuan",
+        accessor: (row: Simda) => {
+          if (row.tglPembukuan) {
+            return getFormattedDate(row.tglPembukuan);
+          }
+          return "";
+        },
+        hidden: true,
+      },
+      {
+        Header: "Kondisi",
+        accessor: "kondisi",
+        hidden: true,
+      },
+      {
+        Header: "Uraian",
+        accessor: "uraian",
+      },
+      {
+        Header: "Keterangan",
+        accessor: "keterangan",
+      },
+    ],
+    []
+  );
+
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
@@ -137,26 +127,14 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
               <Text fontSize="l">Integrasi Simda</Text>
             </Flex>
             <Box my={4}>
-              <SimpleTableLimit
-                page={data?.simdas.page}
-                total={data?.simdas.total}
-                limit={data?.simdas.limit}
-                setLimit={setLimit}
-              />
-              <SimpleTableFilter setFilterAll={setFilterAll} />
-              {data?.simdas ? (
-                <SimpleTable
-                  headers={headers}
-                  data={data?.simdas}
+              {!loading && data?.simdas.data ? (
+                <TableClient
+                  columns={columns}
+                  data={data.simdas.data}
                   tableCaption="Integrasi Simda"
-                ></SimpleTable>
+                  sortBy={[{ id: "nomorRangka", desc: false }]}
+                ></TableClient>
               ) : null}
-              <SimpleTablePagination
-                page={data?.simdas.page}
-                total={data?.simdas.total}
-                limit={data?.simdas.limit}
-                setPage={setPage}
-              />
             </Box>
           </Box>
         </Box>
