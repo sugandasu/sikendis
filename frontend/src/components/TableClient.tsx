@@ -106,7 +106,7 @@ export const TableClient: React.FC<TableClientProps> = ({
           pageIndex: 0,
           sortBy,
           hiddenColumns: columns.map((column) => {
-            if (column.hidden === true) return column.accessor || column.id;
+            if (column.hidden === true) return column.id || column.accessor;
           }),
         },
       },
