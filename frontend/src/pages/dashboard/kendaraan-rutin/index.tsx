@@ -1,9 +1,9 @@
 import { Button } from "@chakra-ui/button";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Box, Link } from "@chakra-ui/layout";
+import { Box, HStack, Link } from "@chakra-ui/layout";
 import {
   Flex,
-  Image,
+  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -12,13 +12,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React, { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import React, { useMemo, useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
+import { TableClient } from "../../../components/TableClient";
 import {
   Kendaraan,
   useDeleteKendaraanMutation,
@@ -32,13 +31,12 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Kendaraan Rutin", link: "#", isCurrentPage: true },
   ];
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
+
   const { data, loading } = useKendaraansQuery({
     variables: {
       options: {
-        limit,
-        page,
+        limit: 0,
+        page: 0,
         filter: {
           columns: [
             { name: "tipeKendaraan", value: "Kendaraan Rutin", operation: "=" },
@@ -65,117 +63,120 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
   const deleteDialogCancel = React.useRef();
   const dialogKey = "nomorPolisi";
 
-  const headers = [
-    {
-      label: "Jenis",
-      key: "tipeRoda",
-      hideSm: true,
-    },
-    {
-      label: "Nomor Polisi",
-      key: "nomorPolisi",
-    },
-    { label: "Kode", key: "kode", hide: true },
-    { label: "Nama", key: "nama", hide: true },
-    {
-      label: "Nomor Register",
-      key: "nomorRegister",
-      hide: true,
-    },
-    { label: "Merek", key: "merek", hideSm: true, hideMd: true },
-    {
-      label: "Ukuran CC",
-      key: "ukuranCc",
-      hide: true,
-    },
-    { label: "Bahan", key: "bahan", hide: true },
-    {
-      label: "Tahun",
-      key: "tahunPembelian",
-      hideSm: true,
-      hideMd: true,
-    },
-    {
-      label: "Nomor Rangka",
-      key: "nomorRangka",
-      hide: true,
-    },
-    {
-      label: "Nomor Mesin",
-      key: "nomorMesin",
-      hide: true,
-    },
-    {
-      label: "Nomor Bpkb",
-      key: "nomorBpkb",
-      hide: true,
-    },
-    {
-      label: "Asal Usul",
-      key: "asalUsul",
-      hide: true,
-    },
-    {
-      label: "Harga",
-      key: "harga",
-      hide: true,
-    },
-    {
-      label: "Foto",
-      key: "fotoUrl",
-      hide: true,
-      render: (row: any) => {
-        if (row.fotoUrl) {
-          return <Image src={row.fotoUrl} alt={row.nomorPolisi} />;
-        }
-        return "";
+  const columns = useMemo<Column<Kendaraan>[]>(
+    () => [
+      {
+        Header: "Jenis",
+        accessor: "tipeRoda",
+        hidden: true,
       },
-    },
-    {
-      label: "Keterangan",
-      key: "keterangan",
-      hide: true,
-    },
-    {
-      label: "Aksi",
-      key: "id",
-      render: (row: Kendaraan, setViewRow: any, onOpen: any) => {
-        return (
-          <Menu>
-            <MenuButton as={Button}>
-              <FaEllipsisV></FaEllipsisV>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setViewRow(row);
-                  onOpen();
-                }}
-              >
-                <Text>View</Text>
-              </MenuItem>
+      {
+        Header: "Nomor Polisi",
+        accessor: "nomorPolisi",
+      },
+      {
+        Header: "Kode",
+        accessor: "kode",
+        hidden: true,
+      },
+      {
+        Header: "Nama",
+        accessor: "nama",
+        hidden: true,
+      },
+      {
+        Header: "Nomor Register",
+        accessor: "nomorRegister",
+        hidden: true,
+      },
+      {
+        Header: "Merek",
+        accessor: "merek",
+        hidden: true,
+      },
+      {
+        Header: "Ukuran CC",
+        accessor: "ukuranCc",
+        hidden: true,
+      },
+      {
+        Header: "Tahun",
+        accessor: "tahunPembelian",
+      },
+      {
+        Header: "Nomor Rangka",
+        accessor: "nomorRangka",
+      },
+      {
+        Header: "Nomor Mesin",
+        accessor: "nomorMesin",
+        hidden: true,
+      },
+      {
+        Header: "Nomor BPKP",
+        accessor: "nomorBpkb",
+        hidden: true,
+      },
+      {
+        Header: "Asal Usul",
+        accessor: "asalUsul",
+        hidden: true,
+      },
+      {
+        Header: "Harga",
+        accessor: "harga",
+        hidden: true,
+      },
+      {
+        Header: "Foto",
+        accessor: "fotoUrl",
+        hidden: true,
+      },
+      {
+        Header: "Keterangan",
+        accessor: "keterangan",
+        hidden: true,
+      },
+      {
+        Header: "Aksi",
+        accessor: "id",
+        Cell: (cellObj) => {
+          return (
+            <HStack spacing={1}>
               <NextLink
-                href="/dashboard/kendaraan-rutin/edit/[id]"
-                as={`/dashboard/kendaraan-rutin/edit/${row.id}`}
+                href={`/dashboard/kendaraan-rutin/edit/${cellObj.row.values.id}`}
               >
                 <Link>
-                  <MenuItem>Edit</MenuItem>
+                  <IconButton
+                    aria-label="Ubah"
+                    size="sm"
+                    bgColor="transparent"
+                    color="blue.500"
+                    icon={<FaEdit />}
+                  ></IconButton>
                 </Link>
               </NextLink>
-              <MenuItem
+              <IconButton
+                size="sm"
+                aria-label="Hapus"
+                bgColor="transparent"
+                color="red.500"
+                icon={<FaTrash />}
                 onClick={() => {
-                  setCurrentRow(row);
+                  setCurrentRow(cellObj.row.values as Kendaraan);
                   setDeleteDialogOpen(true);
                 }}
-              >
-                Delete
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        );
+              ></IconButton>
+            </HStack>
+          );
+        },
+        disableSortBy: true,
+        disableGlobalFilter: true,
       },
-    },
-  ];
+    ],
+    []
+  );
+
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
@@ -207,25 +208,14 @@ const DashboardKendaraanRutinIndex: React.FC<{}> = ({}) => {
               </Menu>
             </Flex>
             <Box>
-              <SimpleTableLimit
-                page={data?.kendaraans.page}
-                total={data?.kendaraans.total}
-                limit={data?.kendaraans.limit}
-                setLimit={setLimit}
-              />
-              {data?.kendaraans ? (
-                <SimpleTable
-                  headers={headers}
-                  data={data?.kendaraans}
-                  tableCaption="Kendaraan"
-                ></SimpleTable>
+              {!loading && data?.kendaraans.data ? (
+                <TableClient
+                  columns={columns}
+                  data={data.kendaraans.data}
+                  tableCaption="Kendaraan Rutin"
+                  sortBy={[{ id: "nomorPolisi", desc: false }]}
+                ></TableClient>
               ) : null}
-              <SimpleTablePagination
-                page={data?.kendaraans.page}
-                total={data?.kendaraans.total}
-                limit={data?.kendaraans.limit}
-                setPage={setPage}
-              />
             </Box>
           </Box>
         </Box>
