@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/layout";
-import { Flex, Stack, Text } from "@chakra-ui/react";
+import { Flex, Stack, Text, VStack } from "@chakra-ui/react";
 import React, { useMemo } from "react";
 import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
@@ -71,6 +71,7 @@ const DashboardMonitoringKendaraanRutinIndex: React.FC<{}> = ({}) => {
       {
         Header: "Tahun",
         accessor: "tahunPembelian",
+        hidden: true,
       },
       {
         Header: "Nomor Rangka",
@@ -112,7 +113,7 @@ const DashboardMonitoringKendaraanRutinIndex: React.FC<{}> = ({}) => {
         accessor: (row) => {
           let statusPenggunaan = `${row.statusPenggunaan.status}`;
           if (row.statusPenggunaan.penggunaRutinLast) {
-            statusPenggunaan += ` oleh ${row.statusPenggunaan.penggunaRutinLast.pengguna.nama}`;
+            statusPenggunaan += ` - ${row.statusPenggunaan.penggunaRutinLast.pengguna.nama}`;
           }
           return statusPenggunaan;
         },
