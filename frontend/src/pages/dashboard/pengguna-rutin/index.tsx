@@ -7,6 +7,7 @@ import {
   Link,
   Stack,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useMemo, useState } from "react";
@@ -98,15 +99,17 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
           console.log(cellObj);
           return (
             <HStack spacing={1}>
-              <Link href={cellObj.row.original.fileBapUrl} isExternal>
-                <IconButton
-                  size="sm"
-                  aria-label="Download File Bap"
-                  bgColor="transparent"
-                  color="green.500"
-                  icon={<FaFileDownload />}
-                ></IconButton>
-              </Link>
+              <Tooltip label="Download File BAP" aria-label="Download File BAP">
+                <Link href={cellObj.row.original.fileBapUrl} isExternal>
+                  <IconButton
+                    size="sm"
+                    aria-label="Download File Bap"
+                    bgColor="transparent"
+                    color="green.500"
+                    icon={<FaFileDownload />}
+                  ></IconButton>
+                </Link>
+              </Tooltip>
               <NextLink
                 href={`/dashboard/pengguna-rutin/edit/${cellObj.row.values.id}`}
               >

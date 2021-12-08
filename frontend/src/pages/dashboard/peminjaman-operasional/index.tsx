@@ -5,26 +5,19 @@ import {
   HStack,
   IconButton,
   Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Stack,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useMemo, useState } from "react";
-import { FaEdit, FaEllipsisV, FaFileDownload, FaTrash } from "react-icons/fa";
+import { FaEdit, FaFileDownload, FaTrash } from "react-icons/fa";
 import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import { TableClient } from "../../../components/TableClient";
 import {
   PeminjamanOperasional,
-  PenggunaRutin,
   useDeletePeminjamanOperasionalMutation,
   usePeminjamanOperasionalsQuery,
 } from "../../../generated/graphql";
@@ -122,33 +115,43 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
           return (
             <HStack spacing={1}>
               {cellObj.row.original.fileSuratDisposisiUrl ? (
-                <Link
-                  href={cellObj.row.original.fileSuratDisposisiUrl}
-                  isExternal
+                <Tooltip
+                  label="Download File Surat Disposisi"
+                  aria-label="Download File Surat Disposisi"
                 >
-                  <IconButton
-                    size="sm"
-                    aria-label="Download File Surat Disposisi"
-                    bgColor="transparent"
-                    color="green.500"
-                    icon={<FaFileDownload />}
-                  ></IconButton>
-                </Link>
+                  <Link
+                    href={cellObj.row.original.fileSuratDisposisiUrl}
+                    isExternal
+                  >
+                    <IconButton
+                      size="sm"
+                      aria-label="Download File Surat Disposisi"
+                      bgColor="transparent"
+                      color="green.500"
+                      icon={<FaFileDownload />}
+                    ></IconButton>
+                  </Link>
+                </Tooltip>
               ) : null}
 
               {cellObj.row.original.fileSuratPermohonanUrl ? (
-                <Link
-                  href={cellObj.row.original.fileSuratPermohonanUrl}
-                  isExternal
+                <Tooltip
+                  label="Download File Surat Permohonan"
+                  aria-label="Download File Surat Permohonan"
                 >
-                  <IconButton
-                    size="sm"
-                    aria-label="Download File Surat Permohonan"
-                    bgColor="transparent"
-                    color="yellow.500"
-                    icon={<FaFileDownload />}
-                  ></IconButton>
-                </Link>
+                  <Link
+                    href={cellObj.row.original.fileSuratPermohonanUrl}
+                    isExternal
+                  >
+                    <IconButton
+                      size="sm"
+                      aria-label="Download File Surat Permohonan"
+                      bgColor="transparent"
+                      color="yellow.500"
+                      icon={<FaFileDownload />}
+                    ></IconButton>
+                  </Link>
+                </Tooltip>
               ) : null}
               <NextLink
                 href={`/dashboard/peminjaman-operasional/edit/${cellObj.row.values.id}`}
