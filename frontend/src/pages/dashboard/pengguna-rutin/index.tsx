@@ -2,29 +2,25 @@ import { Button } from "@chakra-ui/button";
 import {
   Box,
   Flex,
+  HStack,
+  IconButton,
   Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React, { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import React, { useMemo, useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
+import { TableClient } from "../../../components/TableClient";
 import {
   PenggunaRutin,
   useDeletePenggunaRutinMutation,
   usePenggunaRutinsQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
-import { getFormattedDate } from "../../../utils/getFormattedDate";
 
 const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
   useIsAuth();
@@ -32,13 +28,12 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Pengguna Rutin", link: "#", isCurrentPage: true },
   ];
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const { data } = usePenggunaRutinsQuery({
+
+  const { data, loading } = usePenggunaRutinsQuery({
     variables: {
       options: {
-        limit,
-        page,
+        limit: 0,
+        page: 0,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -60,75 +55,76 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
   const deleteDialogCancel = React.useRef();
   const dialogKey = "nomorBap";
 
-  const headers = [
-    {
-      label: "Kendaraan",
-      key: "kendaraan",
-      render: (row: PenggunaRutin) => {
-        return row?.kendaraan?.nomorPolisi;
+  const columns = useMemo<Column<PenggunaRutin>[]>(
+    () => [
+      {
+        Header: "Kendaraan",
+        id: "kendaraan",
+        accessor: (row) => {
+          return row.kendaraan.nomorPolisi;
+        },
       },
-    },
-    {
-      label: "Pengguna",
-      key: "pengguna",
-      hideSm: true,
-      render: (row: PenggunaRutin) => {
-        return row?.pengguna?.nama;
+      {
+        Header: "Pengguna",
+        id: "pengguna",
+        accessor: (row) => {
+          return row.pengguna.nama;
+        },
       },
-    },
-    { label: "Nomor BAP", key: "nomorBap", hideSm: true },
-    {
-      label: "Tanggal BAP",
-      key: "tanggalBap",
-      hideSm: true,
-      hideMd: true,
-      render: (row: any) => {
-        return getFormattedDate(row.tanggalBap);
+      {
+        Header: "Nomor BAP",
+        id: "nomorBap",
+        hidden: true,
       },
-    },
-    {
-      label: "Aksi",
-      key: "id",
-      render: (row: PenggunaRutin, setViewRow: any, onOpen: any) => {
-        return (
-          <Menu>
-            <MenuButton as={Button}>
-              <FaEllipsisV></FaEllipsisV>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setViewRow(row);
-                  onOpen();
-                }}
-              >
-                <Text>View</Text>
-              </MenuItem>
-              <Link href={row.fileBapUrl} isExternal>
-                <MenuItem>Download File Bap</MenuItem>
-              </Link>
+      {
+        Header: "Instansi",
+        id: "instansi",
+        hidden: true,
+      },
+      {
+        Header: "Sub Bagian",
+        id: "subBagian",
+        hidden: true,
+      },
+      {
+        Header: "Aksi",
+        id: "id",
+        Cell: (cellObj) => {
+          return (
+            <HStack spacing={1}>
               <NextLink
-                href="/dashboard/pengguna-rutin/edit/[id]"
-                as={`/dashboard/pengguna-rutin/edit/${row.id}`}
+                href={`/dashboard/pengguna-rutin/edit/${cellObj.row.values.id}`}
               >
                 <Link>
-                  <MenuItem>Edit</MenuItem>
+                  <IconButton
+                    aria-label="Ubah"
+                    size="sm"
+                    bgColor="transparent"
+                    color="blue.500"
+                    icon={<FaEdit />}
+                  ></IconButton>
                 </Link>
               </NextLink>
-              <MenuItem
+              <IconButton
+                size="sm"
+                aria-label="Hapus"
+                bgColor="transparent"
+                color="red.500"
+                icon={<FaTrash />}
                 onClick={() => {
-                  setCurrentRow(row);
+                  setCurrentRow(cellObj.row.values as PenggunaRutin);
                   setDeleteDialogOpen(true);
                 }}
-              >
-                Delete
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        );
+              ></IconButton>
+            </HStack>
+          );
+        },
+        disableSortBy: true,
+        disableGlobalFilter: true,
       },
-    },
-  ];
+    ],
+    []
+  );
 
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
@@ -146,25 +142,14 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              <SimpleTableLimit
-                page={data?.penggunaRutins.page}
-                total={data?.penggunaRutins.total}
-                limit={data?.penggunaRutins.limit}
-                setLimit={setLimit}
-              />
-              {data?.penggunaRutins ? (
-                <SimpleTable
-                  headers={headers}
-                  data={data?.penggunaRutins}
-                  tableCaption="Pengguna Rutin"
-                ></SimpleTable>
+              {!loading && data?.penggunaRutins.data ? (
+                <TableClient
+                  columns={columns}
+                  data={data.penggunaRutins.data}
+                  tableCaption="Pengguna Rutin Kendaraan"
+                  sortBy={[{ id: "nama", desc: false }]}
+                ></TableClient>
               ) : null}
-              <SimpleTablePagination
-                page={data?.penggunaRutins.page}
-                total={data?.penggunaRutins.total}
-                limit={data?.penggunaRutins.limit}
-                setPage={setPage}
-              />
             </Box>
           </Box>
         </Box>
