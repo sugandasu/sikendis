@@ -5,11 +5,12 @@ import { FaUsers } from "react-icons/fa";
 import { GiCarKey } from "react-icons/gi";
 import { MdDirectionsCar } from "react-icons/md";
 import { DashboardLayout } from "../../components/DashboardLayout";
-import { useIsAuth } from "../../middlewares/useIsAuth";
 import { useDashboardCardQuery } from "../../generated/graphql";
+import { useIsAuth } from "../../middlewares/useIsAuth";
 
 const dashboardIndex: React.FC<{}> = ({}) => {
   useIsAuth();
+
   const breadCrumbs = [{ text: "Dashboard", link: "#", isCurrentPage: true }];
   const { data, loading } = useDashboardCardQuery();
   return (

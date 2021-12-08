@@ -12,7 +12,7 @@ const Index: React.FC<{}> = ({}) => {
   const router = useRouter();
   const [login] = useLoginMutation();
   return (
-    <Flex height="100vh" align="center">
+    <Flex minHeight="100vh" align="center">
       <Flex
         width="100%"
         mx="auto"
@@ -45,7 +45,13 @@ const Index: React.FC<{}> = ({}) => {
             <Image width="100%" src={"/datapoint.png"} alt="data point" />
           </Box>
         </Box>
-        <Box px={8} my="auto" align="center" width={{ md: "60%", sm: "100%" }}>
+        <Box
+          px={8}
+          py={8}
+          my="auto"
+          align="center"
+          width={{ md: "60%", sm: "100%" }}
+        >
           <Heading textAlign="center">Login</Heading>
           <Box>
             <Formik
@@ -54,11 +60,13 @@ const Index: React.FC<{}> = ({}) => {
                 const response = await login({ variables: values });
                 if (response.data?.login.errors) {
                   setErrors(toErrorMap(response.data.login.errors));
-                } else if (response.data?.login.user) {
+                  return;
+                }
+                if (response.data?.login.user) {
                   if (typeof router.query.next === "string") {
-                    router.push(router.query.next);
+                    router.replace(router.query.next);
                   } else {
-                    router.push("/dashboard");
+                    router.replace("/dashboard");
                   }
                 }
               }}
