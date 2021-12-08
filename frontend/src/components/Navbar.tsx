@@ -9,7 +9,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import React from "react";
 import { useLogoutMutation } from "../generated/graphql";
 
@@ -24,8 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setMenuIsOpen,
   setMenuIsClose,
 }) => {
-  const router = useRouter();
-  const [logout] = useLogoutMutation();
+  const [logout, { client }] = useLogoutMutation();
 
   return (
     <Flex width="100%" py={3} px={5} bg="gray.600" align="center">
@@ -59,13 +58,14 @@ export const Navbar: React.FC<NavbarProps> = ({
         <MenuList>
           <MenuItem>Akun</MenuItem>
           <MenuItem
-            onClick={() => {
-              logout({
+            onClick={async () => {
+              await logout({
                 update: (cache) => {
                   cache.evict({ fieldName: "me" });
                 },
               });
-              router.push("/");
+              await client?.resetStore();
+              Router.replace("/");
             }}
           >
             Logout
