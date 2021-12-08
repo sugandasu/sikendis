@@ -1,21 +1,9 @@
-import { Button } from "@chakra-ui/button";
 import { Box } from "@chakra-ui/layout";
-import {
-  Flex,
-  Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import { Flex, Stack, Text } from "@chakra-ui/react";
+import React, { useMemo } from "react";
+import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
+import { TableClient } from "../../../components/TableClient";
 import {
   Kendaraan,
   useMonitoringKendaraanRutinsQuery,
@@ -28,13 +16,12 @@ const DashboardMonitoringKendaraanRutinIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Monitoring Kendaraan", link: "#", isCurrentPage: true },
   ];
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const { data } = useMonitoringKendaraanRutinsQuery({
+
+  const { data, loading } = useMonitoringKendaraanRutinsQuery({
     variables: {
       options: {
-        limit,
-        page,
+        limit: 0,
+        page: 0,
         filter: {
           columns: [
             { name: "tipeKendaraan", value: "Kendaraan Rutin", operation: "=" },
@@ -45,106 +32,95 @@ const DashboardMonitoringKendaraanRutinIndex: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const headers = [
-    {
-      label: "Nomor Polisi",
-      key: "nomorPolisi",
-    },
-    { label: "Kode", key: "kode", hide: true },
-    { label: "Nama", key: "nama", hide: true },
-    {
-      label: "Nomor Register",
-      key: "nomorRegister",
-      hide: true,
-    },
-    { label: "Merek", key: "merek", hide: true },
-    {
-      label: "Ukuran CC",
-      key: "ukuranCc",
-      hide: true,
-    },
-    { label: "Bahan", key: "bahan", hide: true },
-    {
-      label: "Tahun Pembelian",
-      key: "tahunPembelian",
-      hide: true,
-    },
-    {
-      label: "Nomor Rangka",
-      key: "nomorRangka",
-      hide: true,
-    },
-    {
-      label: "Nomor Mesin",
-      key: "nomorMesin",
-      hide: true,
-    },
-    {
-      label: "Nomor Bpkb",
-      key: "nomorBpkb",
-      hide: true,
-    },
-    {
-      label: "Asal Usul",
-      key: "asalUsul",
-      hide: true,
-    },
-    {
-      label: "Harga",
-      key: "harga",
-      hide: true,
-    },
-    {
-      label: "Foto",
-      key: "fotoUrl",
-      hide: true,
-      render: (row: Kendaraan) => {
-        if (row.fotoUrl) {
-          return <Image src={row.fotoUrl} alt={row.nomorPolisi} />;
-        }
-        return "";
+  const columns = useMemo<Column<Kendaraan>[]>(
+    () => [
+      {
+        Header: "Jenis",
+        accessor: "tipeRoda",
+        hidden: true,
       },
-    },
-    {
-      label: "Keterangan",
-      key: "keterangan",
-      hide: true,
-    },
-    {
-      label: "Keterangan",
-      key: "statusPenggunaan",
-      render: (row: Kendaraan) => {
-        let statusPenggunaan = `${row.statusPenggunaan.status}`;
-        if (row.statusPenggunaan.penggunaRutinLast) {
-          statusPenggunaan += ` oleh ${row.statusPenggunaan.penggunaRutinLast.pengguna.nama}`;
-        }
-        return statusPenggunaan;
+      {
+        Header: "Nomor Polisi",
+        accessor: "nomorPolisi",
       },
-    },
-    {
-      label: "Aksi",
-      key: "id",
-      render: (row: Kendaraan, setViewRow: any, onOpen: any) => {
-        return (
-          <Menu>
-            <MenuButton as={Button}>
-              <FaEllipsisV></FaEllipsisV>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setViewRow(row);
-                  onOpen();
-                }}
-              >
-                <Text>View</Text>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        );
+      {
+        Header: "Kode",
+        accessor: "kode",
+        hidden: true,
       },
-    },
-  ];
+      {
+        Header: "Nama",
+        accessor: "nama",
+        hidden: true,
+      },
+      {
+        Header: "Nomor Register",
+        accessor: "nomorRegister",
+        hidden: true,
+      },
+      {
+        Header: "Merek",
+        accessor: "merek",
+        hidden: true,
+      },
+      {
+        Header: "Ukuran CC",
+        accessor: "ukuranCc",
+        hidden: true,
+      },
+      {
+        Header: "Tahun",
+        accessor: "tahunPembelian",
+      },
+      {
+        Header: "Nomor Rangka",
+        accessor: "nomorRangka",
+      },
+      {
+        Header: "Nomor Mesin",
+        accessor: "nomorMesin",
+        hidden: true,
+      },
+      {
+        Header: "Nomor BPKP",
+        accessor: "nomorBpkb",
+        hidden: true,
+      },
+      {
+        Header: "Asal Usul",
+        accessor: "asalUsul",
+        hidden: true,
+      },
+      {
+        Header: "Harga",
+        accessor: "harga",
+        hidden: true,
+      },
+      {
+        Header: "Foto",
+        accessor: "fotoUrl",
+        hidden: true,
+      },
+      {
+        Header: "Keterangan",
+        accessor: "keterangan",
+        hidden: true,
+      },
+      {
+        Header: "Status",
+        id: "statusPenggunaan",
+        accessor: (row) => {
+          let statusPenggunaan = `${row.statusPenggunaan.status}`;
+          if (row.statusPenggunaan.penggunaRutinLast) {
+            statusPenggunaan += ` oleh ${row.statusPenggunaan.penggunaRutinLast.pengguna.nama}`;
+          }
+          return statusPenggunaan;
+        },
+      },
+    ],
+    []
+  );
+
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
@@ -154,25 +130,14 @@ const DashboardMonitoringKendaraanRutinIndex: React.FC<{}> = ({}) => {
               <Text fontSize="l">Monitoring Kendaraan Rutin</Text>
             </Flex>
             <Box>
-              <SimpleTableLimit
-                page={data?.kendaraans.page}
-                total={data?.kendaraans.total}
-                limit={data?.kendaraans.limit}
-                setLimit={setLimit}
-              />
-              {data?.kendaraans ? (
-                <SimpleTable
-                  headers={headers}
-                  data={data?.kendaraans}
+              {!loading && data?.kendaraans.data ? (
+                <TableClient
+                  columns={columns}
+                  data={data.kendaraans.data}
                   tableCaption="Kendaraan Rutin"
-                />
+                  sortBy={[{ id: "nomorPolisi", desc: false }]}
+                ></TableClient>
               ) : null}
-              <SimpleTablePagination
-                page={data?.kendaraans.page}
-                total={data?.kendaraans.total}
-                limit={data?.kendaraans.limit}
-                setPage={setPage}
-              />
             </Box>
           </Box>
         </Box>
