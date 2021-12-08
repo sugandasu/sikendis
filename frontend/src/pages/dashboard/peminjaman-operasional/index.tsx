@@ -121,30 +121,35 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
           console.log(cellObj);
           return (
             <HStack spacing={1}>
-              <Link
-                href={cellObj.row.original.fileSuratDisposisiUrl}
-                isExternal
-              >
-                <IconButton
-                  size="sm"
-                  aria-label="Download File Surat Disposisi"
-                  bgColor="transparent"
-                  color="green.500"
-                  icon={<FaFileDownload />}
-                ></IconButton>
-              </Link>
-              <Link
-                href={cellObj.row.original.fileSuratPermohonanUrl}
-                isExternal
-              >
-                <IconButton
-                  size="sm"
-                  aria-label="Download File Surat Permohonan"
-                  bgColor="transparent"
-                  color="yellow.500"
-                  icon={<FaFileDownload />}
-                ></IconButton>
-              </Link>
+              {cellObj.row.original.fileSuratDisposisiUrl ? (
+                <Link
+                  href={cellObj.row.original.fileSuratDisposisiUrl}
+                  isExternal
+                >
+                  <IconButton
+                    size="sm"
+                    aria-label="Download File Surat Disposisi"
+                    bgColor="transparent"
+                    color="green.500"
+                    icon={<FaFileDownload />}
+                  ></IconButton>
+                </Link>
+              ) : null}
+
+              {cellObj.row.original.fileSuratPermohonanUrl ? (
+                <Link
+                  href={cellObj.row.original.fileSuratPermohonanUrl}
+                  isExternal
+                >
+                  <IconButton
+                    size="sm"
+                    aria-label="Download File Surat Permohonan"
+                    bgColor="transparent"
+                    color="yellow.500"
+                    icon={<FaFileDownload />}
+                  ></IconButton>
+                </Link>
+              ) : null}
               <NextLink
                 href={`/dashboard/peminjaman-operasional/edit/${cellObj.row.values.id}`}
               >
