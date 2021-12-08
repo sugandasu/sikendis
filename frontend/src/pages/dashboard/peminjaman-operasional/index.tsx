@@ -2,6 +2,8 @@ import { Button } from "@chakra-ui/button";
 import {
   Box,
   Flex,
+  HStack,
+  IconButton,
   Link,
   Menu,
   MenuButton,
@@ -11,15 +13,18 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React, { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import React, { useMemo, useState } from "react";
+import { FaEdit, FaEllipsisV, FaFileDownload, FaTrash } from "react-icons/fa";
+import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 import { SimpleTable } from "../../../components/SimpleTable";
 import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
 import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
+import { TableClient } from "../../../components/TableClient";
 import {
   PeminjamanOperasional,
+  PenggunaRutin,
   useDeletePeminjamanOperasionalMutation,
   usePeminjamanOperasionalsQuery,
 } from "../../../generated/graphql";
@@ -32,13 +37,12 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Kendaraan Operational", link: "#", isCurrentPage: true },
   ];
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+
   const { data, loading } = usePeminjamanOperasionalsQuery({
     variables: {
       options: {
-        limit,
-        page,
+        limit: 0,
+        page: 0,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -61,94 +65,119 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
   const deleteDialogCancel = React.useRef();
   const dialogKey = "instansi";
 
-  const headers = [
-    {
-      label: "Kendaraan",
-      key: "kendaraan",
-      render: (row: PeminjamanOperasional) => {
-        return row.kendaraan.nomorPolisi;
+  const columns = useMemo<Column<PeminjamanOperasional>[]>(
+    () => [
+      {
+        Header: "Kendaraan",
+        id: "kendaraan",
+        accessor: (row) => {
+          return row.kendaraan.nomorPolisi;
+        },
       },
-    },
-    { label: "Instansi", key: "instansi" },
-    {
-      label: "Penanggungjawab",
-      key: "penanggungJawab",
-      hide: true,
-    },
-    { label: "Nomor Telepon", key: "nomorTelepon", hide: true },
-    { label: "Nomor Surat Disposisi", key: "nomorSuratDisposisi", hide: true },
-    {
-      label: "Nomor Surat Permohonan",
-      key: "nomorSuratPermohonan",
-      hide: true,
-    },
-    {
-      label: "Tanggal Mulai",
-      key: "tanggalMulai",
-      hideSm: true,
-      hideMd: true,
-      render: (row: PeminjamanOperasional) => {
-        return getFormattedDate(row.tanggalMulai);
+      {
+        Header: "Instansi",
+        accessor: "instansi",
       },
-    },
-    {
-      label: "Tanggal Selesai",
-      key: "tanggalSelesai",
-      hideSm: true,
-      render: (row: PeminjamanOperasional) => {
-        return getFormattedDate(row.tanggalSelesai);
+      {
+        Header: "Penanggungjawab",
+        accessor: "penanggungJawab",
+        hidden: true,
       },
-    },
-    {
-      label: "Aksi",
-      key: "id",
-      render: (row: PeminjamanOperasional, setViewRow: any, onOpen: any) => {
-        return (
-          <Menu>
-            <MenuButton as={Button}>
-              <FaEllipsisV></FaEllipsisV>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setViewRow(row);
-                  onOpen();
-                }}
+      {
+        Header: "Nomor Telepon",
+        accessor: "nomorTelepon",
+        hidden: true,
+      },
+      {
+        Header: "Nomor Surat Disposisi",
+        accessor: "nomorSuratDisposisi",
+        hidden: true,
+      },
+      {
+        Header: "Nomor Surat Permohonan",
+        accessor: "nomorSuratPermohonan",
+        hidden: true,
+      },
+      {
+        Header: "Tanggal Mulai",
+        id: "tanggalMulai",
+        accessor: (row) => {
+          return getFormattedDate(row.tanggalMulai);
+        },
+        hidden: true,
+      },
+      {
+        Header: "Tanggal Selesai",
+        id: "tanggalSelesai",
+        accessor: (row) => {
+          return getFormattedDate(row.tanggalSelesai);
+        },
+        hidden: true,
+      },
+      {
+        Header: "Aksi",
+        accessor: "id",
+        Cell: (cellObj) => {
+          console.log(cellObj);
+          return (
+            <HStack spacing={1}>
+              <Link
+                href={cellObj.row.original.fileSuratDisposisiUrl}
+                isExternal
               >
-                <Text>View</Text>
-              </MenuItem>
-              {row.fileSuratDisposisi ? (
-                <Link href={row.fileSuratDisposisiUrl} isExternal>
-                  <MenuItem>Download Surat Disposisi</MenuItem>
-                </Link>
-              ) : null}
-              {row.fileSuratPermohonan ? (
-                <Link href={row.fileSuratPermohonanUrl} isExternal>
-                  <MenuItem>Download Surat Permohonan</MenuItem>
-                </Link>
-              ) : null}
+                <IconButton
+                  size="sm"
+                  aria-label="Download File Surat Disposisi"
+                  bgColor="transparent"
+                  color="green.500"
+                  icon={<FaFileDownload />}
+                ></IconButton>
+              </Link>
+              <Link
+                href={cellObj.row.original.fileSuratPermohonanUrl}
+                isExternal
+              >
+                <IconButton
+                  size="sm"
+                  aria-label="Download File Surat Permohonan"
+                  bgColor="transparent"
+                  color="yellow.500"
+                  icon={<FaFileDownload />}
+                ></IconButton>
+              </Link>
               <NextLink
-                href="/dashboard/peminjaman-operasional/edit/[id]"
-                as={`/dashboard/peminjaman-operasional/edit/${row.id}`}
+                href={`/dashboard/peminjaman-operasional/edit/${cellObj.row.values.id}`}
               >
                 <Link>
-                  <MenuItem>Edit</MenuItem>
+                  <IconButton
+                    aria-label="Ubah"
+                    size="sm"
+                    bgColor="transparent"
+                    color="blue.500"
+                    icon={<FaEdit />}
+                  ></IconButton>
                 </Link>
               </NextLink>
-              <MenuItem
+              <IconButton
+                size="sm"
+                aria-label="Hapus"
+                bgColor="transparent"
+                color="red.500"
+                icon={<FaTrash />}
                 onClick={() => {
-                  setCurrentRow(row);
+                  setCurrentRow(cellObj.row.values as PeminjamanOperasional);
                   setDeleteDialogOpen(true);
                 }}
-              >
-                Delete
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        );
+              ></IconButton>
+            </HStack>
+          );
+        },
+        disableSortBy: true,
+        disableGlobalFilter: true,
       },
-    },
-  ];
+    ],
+    []
+  );
 
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
@@ -166,25 +195,14 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
               </NextLink>
             </Flex>
             <Box>
-              <SimpleTableLimit
-                page={data?.peminjamanOperasionals.page}
-                total={data?.peminjamanOperasionals.total}
-                limit={data?.peminjamanOperasionals.limit}
-                setLimit={setLimit}
-              />
-              {data?.peminjamanOperasionals ? (
-                <SimpleTable
-                  headers={headers}
-                  data={data?.peminjamanOperasionals}
-                  tableCaption="Peminjaman Operasional"
-                ></SimpleTable>
+              {!loading && data?.peminjamanOperasionals.data ? (
+                <TableClient
+                  columns={columns}
+                  data={data.peminjamanOperasionals.data}
+                  tableCaption="Pengguna Operasional Kendaraan"
+                  sortBy={[{ id: "kendaraan", desc: false }]}
+                ></TableClient>
               ) : null}
-              <SimpleTablePagination
-                page={data?.peminjamanOperasionals.page}
-                total={data?.peminjamanOperasionals.total}
-                limit={data?.peminjamanOperasionals.limit}
-                setPage={setPage}
-              />
             </Box>
           </Box>
         </Box>
