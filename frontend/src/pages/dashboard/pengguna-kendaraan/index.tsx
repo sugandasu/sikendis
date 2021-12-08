@@ -65,7 +65,7 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
     () => [
       {
         Header: "Foto",
-        id: "fotoProfil",
+        accessor: "fotoProfil",
         Cell: (cellObj) => {
           return (
             <Flex justify="center">
@@ -85,30 +85,30 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
       },
       {
         Header: "Nip",
-        id: "nip",
+        accessor: "nip",
       },
       {
         Header: "Nama",
-        id: "nama",
+        accessor: "nama",
       },
       {
         Header: "Jabatan",
-        id: "jabatan",
+        accessor: "jabatan",
         hidden: true,
       },
       {
         Header: "Instansi",
-        id: "instansi",
+        accessor: "instansi",
         hidden: true,
       },
       {
         Header: "Sub Bagian",
-        id: "subBagian",
+        accessor: "subBagian",
         hidden: true,
       },
       {
         Header: "Aksi",
-        id: "id",
+        accessor: "id",
         Cell: (cellObj) => {
           return (
             <HStack spacing={1}>

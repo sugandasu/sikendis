@@ -75,59 +75,59 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
     () => [
       {
         Header: "Jenis",
-        id: "tipeRoda",
+        accessor: "tipeRoda",
         hidden: true,
       },
       {
         Header: "Nomor Polisi",
-        id: "nomorPolisi",
+        accessor: "nomorPolisi",
       },
       {
         Header: "Kode",
-        id: "kode",
+        accessor: "kode",
         hidden: true,
       },
       {
         Header: "Nama",
-        id: "nama",
+        accessor: "nama",
         hidden: true,
       },
       {
         Header: "Nomor Register",
-        id: "nomorRegister",
+        accessor: "nomorRegister",
         hidden: true,
       },
       {
         Header: "Merek",
-        id: "merek",
+        accessor: "merek",
         hidden: true,
       },
       {
         Header: "Ukuran CC",
-        id: "ukuranCc",
+        accessor: "ukuranCc",
         hidden: true,
       },
       {
         Header: "Tahun",
-        id: "tahunPembelian",
+        accessor: "tahunPembelian",
       },
       {
         Header: "Nomor Rangka",
-        id: "nomorRangka",
+        accessor: "nomorRangka",
       },
       {
         Header: "Nomor Mesin",
-        id: "nomorMesin",
+        accessor: "nomorMesin",
         hidden: true,
       },
       {
         Header: "Nomor BPKP",
-        id: "nomorBpkb",
+        accessor: "nomorBpkb",
         hidden: true,
       },
       {
         Header: "Asal Usul",
-        id: "asalUsul",
+        accessor: "asalUsul",
         hidden: true,
       },
       {
@@ -137,17 +137,17 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
       },
       {
         Header: "Foto",
-        id: "fotoUrl",
+        accessor: "fotoUrl",
         hidden: true,
       },
       {
         Header: "Keterangan",
-        id: "keterangan",
+        accessor: "keterangan",
         hidden: true,
       },
       {
         Header: "Aksi",
-        id: "id",
+        accessor: "id",
         Cell: (cellObj) => {
           return (
             <HStack spacing={1}>
