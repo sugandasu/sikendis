@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useMemo, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaFileDownload, FaTrash } from "react-icons/fa";
 import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
@@ -73,25 +73,40 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
       },
       {
         Header: "Nomor BAP",
-        id: "nomorBap",
-        hidden: true,
+        accessor: "nomorBap",
       },
       {
         Header: "Instansi",
         id: "instansi",
+        accessor: (row) => {
+          return row.pengguna.instansi;
+        },
         hidden: true,
       },
       {
         Header: "Sub Bagian",
         id: "subBagian",
+        accessor: (row) => {
+          return row.pengguna.subBagian;
+        },
         hidden: true,
       },
       {
         Header: "Aksi",
-        id: "id",
+        accessor: "id",
         Cell: (cellObj) => {
+          console.log(cellObj);
           return (
             <HStack spacing={1}>
+              <Link href={cellObj.row.original.fileBapUrl} isExternal>
+                <IconButton
+                  size="sm"
+                  aria-label="Download File Bap"
+                  bgColor="transparent"
+                  color="green.500"
+                  icon={<FaFileDownload />}
+                ></IconButton>
+              </Link>
               <NextLink
                 href={`/dashboard/pengguna-rutin/edit/${cellObj.row.values.id}`}
               >
