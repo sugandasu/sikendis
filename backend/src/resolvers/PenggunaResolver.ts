@@ -90,9 +90,7 @@ export class PenggunaResolver {
   ): Promise<PenggunaPaginated> {
     const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
-    let params = [];
-    params.push(realLimit);
-    params.push(offset);
+    let params: any = [];
 
     let whereColumns = [];
     let whereColumnQuery = "";
@@ -110,16 +108,38 @@ export class PenggunaResolver {
       }
     }
 
+    if (realLimit === 0) {
+      const data = await getConnection().query(
+        `
+      SELECT *
+      FROM pengguna
+      ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
+      `,
+        params
+      );
+      const { total } = await getConnection()
+        .getRepository(Pengguna)
+        .createQueryBuilder()
+        .select("COUNT(id)", "total")
+        .getRawOne();
+
+      return { data, total, ...options };
+    }
+
+    params.push(realLimit);
+    params.push(offset);
+
     const data = await getConnection().query(
       `
       SELECT *
       FROM pengguna
       ${options.filter?.columns ? `WHERE ${whereColumnQuery}` : ``}
-      LIMIT $1
-      OFFSET $2
+      LIMIT $${params.length - 1}
+      OFFSET $${params.length}
       `,
       params
     );
+
     const { total } = await getConnection()
       .getRepository(Pengguna)
       .createQueryBuilder()

@@ -4,6 +4,8 @@ import {
   Avatar,
   Box,
   Flex,
+  HStack,
+  IconButton,
   Link,
   Menu,
   MenuButton,
@@ -13,13 +15,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React, { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import React, { useMemo, useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
+import { TableClient } from "../../../components/TableClient";
 import {
   Pengguna,
   useDeletePenggunaMutation,
@@ -33,13 +34,12 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Pengguna Kendaraan", link: "#", isCurrentPage: true },
   ];
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const { data } = usePenggunasQuery({
+
+  const { data, loading } = usePenggunasQuery({
     variables: {
       options: {
-        limit,
-        page,
+        limit: 0,
+        page: 0,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -61,68 +61,90 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
   const deleteDialogCancel = React.useRef();
   const dialogKey = "nama";
 
-  const headers = [
-    {
-      label: "#",
-      key: "fotoProfil",
-      hideSm: true,
-      render: (row: Pengguna) => {
-        return row.fotoProfilUrl ? (
-          <Avatar size="sm" src={row.fotoProfilUrl}></Avatar>
-        ) : (
-          <Avatar size="sm"></Avatar>
-        );
+  const columns = useMemo<Column<Pengguna>[]>(
+    () => [
+      {
+        Header: "Foto",
+        accessor: "fotoProfil",
+        Cell: (cellObj) => {
+          return (
+            <Flex justify="center">
+              {cellObj.row.values.fotoProfilUrl ? (
+                <Avatar
+                  size="sm"
+                  src={cellObj.row.values.fotoProfilUrl}
+                ></Avatar>
+              ) : (
+                <Avatar size="sm"></Avatar>
+              )}
+            </Flex>
+          );
+        },
+        disableSortBy: true,
+        disableGlobalFilter: true,
       },
-    },
-    { label: "Nama", key: "nama" },
-    { label: "Nip", key: "nip", hideSm: true },
-    {
-      label: "Jabatan",
-      key: "jabatan",
-      hide: true,
-    },
-    { label: "Instansi", key: "instansi", hideSm: true, hideMd: true },
-    { label: "Sub Bagian", key: "subBagian", hide: true },
-    {
-      label: "Aksi",
-      key: "id",
-      render: (row: Pengguna, setViewRow: any, onOpen: any) => {
-        return (
-          <Menu>
-            <MenuButton as={Button}>
-              <FaEllipsisV></FaEllipsisV>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setViewRow(row);
-                  onOpen();
-                }}
-              >
-                <Text>View</Text>
-              </MenuItem>
+      {
+        Header: "Nip",
+        accessor: "nip",
+      },
+      {
+        Header: "Nama",
+        accessor: "nama",
+      },
+      {
+        Header: "Jabatan",
+        accessor: "jabatan",
+        hidden: true,
+      },
+      {
+        Header: "Instansi",
+        accessor: "instansi",
+        hidden: true,
+      },
+      {
+        Header: "Sub Bagian",
+        accessor: "subBagian",
+        hidden: true,
+      },
+      {
+        Header: "Aksi",
+        accessor: "id",
+        Cell: (cellObj) => {
+          return (
+            <HStack spacing={1}>
               <NextLink
-                href="/dashboard/pengguna-kendaraan/edit/[id]"
-                as={`/dashboard/pengguna-kendaraan/edit/${row.id}`}
+                href={`/dashboard/pengguna-kendaraan/edit/${cellObj.row.values.id}`}
               >
                 <Link>
-                  <MenuItem>Edit</MenuItem>
+                  <IconButton
+                    aria-label="Ubah"
+                    size="sm"
+                    bgColor="transparent"
+                    color="blue.500"
+                    icon={<FaEdit />}
+                  ></IconButton>
                 </Link>
               </NextLink>
-              <MenuItem
+              <IconButton
+                size="sm"
+                aria-label="Hapus"
+                bgColor="transparent"
+                color="red.500"
+                icon={<FaTrash />}
                 onClick={() => {
-                  setCurrentRow(row);
+                  setCurrentRow(cellObj.row.values as Pengguna);
                   setDeleteDialogOpen(true);
                 }}
-              >
-                Delete
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        );
+              ></IconButton>
+            </HStack>
+          );
+        },
+        disableSortBy: true,
+        disableGlobalFilter: true,
       },
-    },
-  ];
+    ],
+    []
+  );
 
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
@@ -155,25 +177,14 @@ const DashboardPenggunaKendaraanIndex: React.FC<{}> = ({}) => {
               </Menu>
             </Flex>
             <Box>
-              <SimpleTableLimit
-                page={data?.penggunas.page}
-                total={data?.penggunas.total}
-                limit={data?.penggunas.limit}
-                setLimit={setLimit}
-              />
-              {data?.penggunas ? (
-                <SimpleTable
-                  headers={headers}
-                  data={data?.penggunas}
+              {!loading && data?.penggunas.data ? (
+                <TableClient
+                  columns={columns}
+                  data={data.penggunas.data}
                   tableCaption="Pengguna Kendaraan"
-                ></SimpleTable>
+                  sortBy={[{ id: "nama", desc: false }]}
+                ></TableClient>
               ) : null}
-              <SimpleTablePagination
-                page={data?.penggunas.page}
-                total={data?.penggunas.total}
-                limit={data?.penggunas.limit}
-                setPage={setPage}
-              />
             </Box>
           </Box>
         </Box>
