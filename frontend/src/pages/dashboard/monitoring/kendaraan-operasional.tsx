@@ -10,12 +10,14 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
+import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { SimpleTable } from "../../../components/SimpleTable";
 import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
 import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
+import { TableClient } from "../../../components/TableClient";
 import {
   Kendaraan,
   TipeStatusKendaraan,
@@ -30,13 +32,12 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Monitoring Kendaraan", link: "#", isCurrentPage: true },
   ];
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const { data } = useMonitoringKendaraanOperasionalsQuery({
+
+  const { data, loading } = useMonitoringKendaraanOperasionalsQuery({
     variables: {
       options: {
-        limit,
-        page,
+        limit: 0,
+        page: 0,
         filter: {
           columns: [
             {
@@ -51,109 +52,102 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const headers = [
-    {
-      label: "Nomor Polisi",
-      key: "nomorPolisi",
-    },
-    { label: "Kode", key: "kode", hide: true },
-    { label: "Nama", key: "nama", hide: true },
-    {
-      label: "Nomor Register",
-      key: "nomorRegister",
-      hide: true,
-    },
-    { label: "Merek", key: "merek", hide: true },
-    {
-      label: "Ukuran CC",
-      key: "ukuranCc",
-      hide: true,
-    },
-    { label: "Bahan", key: "bahan", hide: true },
-    {
-      label: "Tahun Pembelian",
-      key: "tahunPembelian",
-      hide: true,
-    },
-    {
-      label: "Nomor Rangka",
-      key: "nomorRangka",
-      hide: true,
-    },
-    {
-      label: "Nomor Mesin",
-      key: "nomorMesin",
-      hide: true,
-    },
-    {
-      label: "Nomor Bpkb",
-      key: "nomorBpkb",
-      hide: true,
-    },
-    {
-      label: "Asal Usul",
-      key: "asalUsul",
-      hide: true,
-    },
-    {
-      label: "Harga",
-      key: "harga",
-      hide: true,
-    },
-    {
-      label: "Foto",
-      key: "fotoUrl",
-      hide: true,
-      render: (row: Kendaraan) => {
-        if (row.fotoUrl) {
-          return <Image src={row.fotoUrl} alt={row.nomorPolisi} />;
-        }
-        return "";
+  const columns = useMemo<Column<Kendaraan>[]>(
+    () => [
+      {
+        Header: "Jenis",
+        accessor: "tipeRoda",
+        hidden: true,
       },
-    },
-    {
-      label: "Keterangan",
-      key: "statusPenggunaan",
-      render: (row: Kendaraan) => {
-        let statusPenggunaan = `${row.statusPenggunaan.status}`;
-        if (row.statusPenggunaan.status === TipeStatusKendaraan.Dipakai) {
-          statusPenggunaan += ` oleh instansi ${
-            row.statusPenggunaan.peminjamanOperasionalLast.instansi
-          } dari tanggal ${getFormattedDate(
-            row.statusPenggunaan.peminjamanOperasionalLast.tanggalMulai
-          )} sampai ${getFormattedDate(
-            row.statusPenggunaan.peminjamanOperasionalLast.tanggalSelesai
-          )}, nomor yang bisa dihubungi ${
-            row.statusPenggunaan.peminjamanOperasionalLast.nomorTelepon
-          }`;
-        }
-        return statusPenggunaan;
+      {
+        Header: "Nomor Polisi",
+        accessor: "nomorPolisi",
       },
-    },
-    {
-      label: "Aksi",
-      key: "id",
-      render: (row: Kendaraan, setViewRow: any, onOpen: any) => {
-        return (
-          <Menu>
-            <MenuButton as={Button}>
-              <FaEllipsisV></FaEllipsisV>
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setViewRow(row);
-                  onOpen();
-                }}
-              >
-                <Text>View</Text>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        );
+      {
+        Header: "Kode",
+        accessor: "kode",
+        hidden: true,
       },
-    },
-  ];
+      {
+        Header: "Nama",
+        accessor: "nama",
+        hidden: true,
+      },
+      {
+        Header: "Nomor Register",
+        accessor: "nomorRegister",
+        hidden: true,
+      },
+      {
+        Header: "Merek",
+        accessor: "merek",
+        hidden: true,
+      },
+      {
+        Header: "Ukuran CC",
+        accessor: "ukuranCc",
+        hidden: true,
+      },
+      {
+        Header: "Tahun",
+        accessor: "tahunPembelian",
+        hidden: true,
+      },
+      {
+        Header: "Nomor Rangka",
+        accessor: "nomorRangka",
+      },
+      {
+        Header: "Nomor Mesin",
+        accessor: "nomorMesin",
+        hidden: true,
+      },
+      {
+        Header: "Nomor BPKP",
+        accessor: "nomorBpkb",
+        hidden: true,
+      },
+      {
+        Header: "Asal Usul",
+        accessor: "asalUsul",
+        hidden: true,
+      },
+      {
+        Header: "Harga",
+        accessor: "harga",
+        hidden: true,
+      },
+      {
+        Header: "Foto",
+        accessor: "fotoUrl",
+        hidden: true,
+      },
+      {
+        Header: "Keterangan",
+        accessor: "keterangan",
+        hidden: true,
+      },
+      {
+        Header: "Status",
+        id: "statusPenggunaan",
+        accessor: (row) => {
+          let statusPenggunaan = `${row.statusPenggunaan.status}`;
+          if (row.statusPenggunaan.status === TipeStatusKendaraan.Dipakai) {
+            statusPenggunaan += ` - ${
+              row.statusPenggunaan.peminjamanOperasionalLast.instansi
+            }, ${getFormattedDate(
+              row.statusPenggunaan.peminjamanOperasionalLast.tanggalMulai
+            )} - ${getFormattedDate(
+              row.statusPenggunaan.peminjamanOperasionalLast.tanggalSelesai
+            )}, ${row.statusPenggunaan.peminjamanOperasionalLast.nomorTelepon}`;
+          }
+          return statusPenggunaan;
+        },
+      },
+    ],
+    []
+  );
+
   return (
     <DashboardLayout headerText="Dashboard" breadCrumbs={breadCrumbs}>
       <Stack>
@@ -163,25 +157,14 @@ const DashboardMonitoringKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
               <Text fontSize="l">Monitoring Kendaraan Operasional</Text>
             </Flex>
             <Box>
-              <SimpleTableLimit
-                page={data?.kendaraans.page}
-                total={data?.kendaraans.total}
-                limit={data?.kendaraans.limit}
-                setLimit={setLimit}
-              />
-              {data?.kendaraans ? (
-                <SimpleTable
-                  headers={headers}
-                  data={data?.kendaraans}
+              {!loading && data?.kendaraans.data ? (
+                <TableClient
+                  columns={columns}
+                  data={data.kendaraans.data}
                   tableCaption="Kendaraan Operasional"
-                ></SimpleTable>
+                  sortBy={[{ id: "nomorPolisi", desc: false }]}
+                ></TableClient>
               ) : null}
-              <SimpleTablePagination
-                page={data?.kendaraans.page}
-                total={data?.kendaraans.total}
-                limit={data?.kendaraans.limit}
-                setPage={setPage}
-              />
             </Box>
           </Box>
         </Box>
