@@ -129,12 +129,10 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createKendaraan: KendaraanResponse;
-  createPeminjaman: PeminjamanResponse;
   createPeminjamanOperasional: PeminjamanOperasionalResponse;
   createPengguna: PenggunaResponse;
   createPenggunaRutin: PenggunaRutinResponse;
   deleteKendaraan: Scalars['Boolean'];
-  deletePeminjaman: Scalars['Boolean'];
   deletePeminjamanOperasional: Scalars['Boolean'];
   deletePengguna: Scalars['Boolean'];
   deletePenggunaRutin: Scalars['Boolean'];
@@ -144,7 +142,6 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register: UserResponse;
   updateKendaraan: KendaraanResponse;
-  updatePeminjaman: PeminjamanResponse;
   updatePeminjamanOperasional: PeminjamanOperasionalResponse;
   updatePengguna: PenggunaResponse;
   updatePenggunaRutin: PenggunaRutinResponse;
@@ -154,13 +151,6 @@ export type Mutation = {
 export type MutationCreateKendaraanArgs = {
   foto?: Maybe<Scalars['Upload']>;
   payload: KendaraanInput;
-};
-
-
-export type MutationCreatePeminjamanArgs = {
-  fileDisposisi: Scalars['Upload'];
-  fileSuratPermohonan: Scalars['Upload'];
-  payload: PeminjamanInput;
 };
 
 
@@ -184,11 +174,6 @@ export type MutationCreatePenggunaRutinArgs = {
 
 
 export type MutationDeleteKendaraanArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationDeletePeminjamanArgs = {
   id: Scalars['Int'];
 };
 
@@ -236,14 +221,6 @@ export type MutationUpdateKendaraanArgs = {
 };
 
 
-export type MutationUpdatePeminjamanArgs = {
-  fileDisposisi?: Maybe<Scalars['Upload']>;
-  fileSuratPermohonan?: Maybe<Scalars['Upload']>;
-  id: Scalars['Int'];
-  payload: PeminjamanInput;
-};
-
-
 export type MutationUpdatePeminjamanOperasionalArgs = {
   fileSuratDisposisi?: Maybe<Scalars['Upload']>;
   fileSuratPermohonan?: Maybe<Scalars['Upload']>;
@@ -263,44 +240,6 @@ export type MutationUpdatePenggunaRutinArgs = {
   fileBap?: Maybe<Scalars['Upload']>;
   id: Scalars['Int'];
   payload: PenggunaRutinInput;
-};
-
-export type PaginatedInput = {
-  filter?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
-  page: Scalars['Int'];
-};
-
-export type Peminjaman = {
-  __typename?: 'Peminjaman';
-  fileDisposisi: Scalars['String'];
-  fileDisposisiUrl: Scalars['String'];
-  fileSuratPermohonan: Scalars['String'];
-  fileSuratPermohonanUrl: Scalars['String'];
-  id: Scalars['Float'];
-  kendaraan: Kendaraan;
-  kendaraanId: Scalars['Float'];
-  keterangan?: Maybe<Scalars['String']>;
-  nomorDisposisi: Scalars['String'];
-  nomorHpSupir: Scalars['String'];
-  nomorSuratPermohonan: Scalars['String'];
-  pengguna: Pengguna;
-  penggunaId: Scalars['Float'];
-  tanggalMulai: Scalars['DateTime'];
-  tanggalSelesai: Scalars['DateTime'];
-};
-
-export type PeminjamanInput = {
-  fileDisposisi: Scalars['String'];
-  fileSuratPermohonan: Scalars['String'];
-  kendaraanId: Scalars['Int'];
-  keterangan?: Maybe<Scalars['String']>;
-  nomorDisposisi: Scalars['String'];
-  nomorHpSupir: Scalars['String'];
-  nomorSuratPermohonan: Scalars['String'];
-  penggunaId: Scalars['Int'];
-  tanggalMulai: Scalars['DateTime'];
-  tanggalSelesai: Scalars['DateTime'];
 };
 
 export type PeminjamanOperasional = {
@@ -353,21 +292,6 @@ export type PeminjamanOperasionalResponse = {
   __typename?: 'PeminjamanOperasionalResponse';
   errors?: Maybe<Array<FieldError>>;
   peminjamanOperasional?: Maybe<PeminjamanOperasional>;
-};
-
-export type PeminjamanPaginated = {
-  __typename?: 'PeminjamanPaginated';
-  data: Array<Peminjaman>;
-  filter?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
-  page: Scalars['Int'];
-  total: Scalars['Int'];
-};
-
-export type PeminjamanResponse = {
-  __typename?: 'PeminjamanResponse';
-  errors?: Maybe<Array<FieldError>>;
-  peminjaman?: Maybe<Peminjaman>;
 };
 
 export type Pengguna = {
@@ -473,10 +397,8 @@ export type Query = {
   kendaraan?: Maybe<Kendaraan>;
   kendaraans: KendaraanPaginated;
   me?: Maybe<User>;
-  peminjaman?: Maybe<Peminjaman>;
   peminjamanOperasional?: Maybe<PeminjamanOperasional>;
   peminjamanOperasionals: PeminjamanOperasionalPaginated;
-  peminjamans: PeminjamanPaginated;
   pengguna?: Maybe<Pengguna>;
   penggunaRutin?: Maybe<PenggunaRutin>;
   penggunaRutins: PenggunaRutinPaginated;
@@ -495,11 +417,6 @@ export type QueryKendaraansArgs = {
 };
 
 
-export type QueryPeminjamanArgs = {
-  id: Scalars['Int'];
-};
-
-
 export type QueryPeminjamanOperasionalArgs = {
   id: Scalars['Int'];
 };
@@ -507,11 +424,6 @@ export type QueryPeminjamanOperasionalArgs = {
 
 export type QueryPeminjamanOperasionalsArgs = {
   options: PeminjamanOperasionalPaginate;
-};
-
-
-export type QueryPeminjamansArgs = {
-  options: PaginatedInput;
 };
 
 
