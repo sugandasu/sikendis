@@ -15,7 +15,7 @@ export class SimdaResolver {
   ): Promise<SimdaPaginated> {
     const realLimit = Math.min(MAX_TABLE_LIMIT, options.limit);
     const offset = options.page * options.limit - options.limit;
-    let params = [];
+    let params: any = [];
 
     let whereColumns = [];
     let whereColumnQuery = "";
@@ -29,6 +29,26 @@ export class SimdaResolver {
         return `simda."${column.name}" ${column.operation} $${params.length}`;
       });
       whereColumnQuery = whereColumns.join(" AND ");
+    }
+
+    if (realLimit === 0) {
+      const data = await getConnection().query(
+        `
+      SELECT *
+      FROM simda
+      `,
+        params
+      );
+
+      const total = await getConnection().query(
+        `
+      SELECT COUNT(simda.id) as total
+      FROM simda
+      `,
+        params
+      );
+
+      return { data, total: total[0].total, ...options };
     }
 
     let whereAlls = [];
