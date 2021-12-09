@@ -43,14 +43,7 @@ import {
 } from "react-table";
 
 type TableClientProps = {
-  columns: Column<any>[];
-  data: any[];
-  tableCaption: string;
-  sortBy?: SortingRule<any>[];
-};
-
-type ReactTableProps = {
-  columns: Column<any>[];
+  columns: Array<Column<any> & { hidden?: boolean }>;
   data: any[];
   tableCaption: string;
   sortBy?: SortingRule<any>[];
@@ -76,7 +69,7 @@ export const TableClient: React.FC<TableClientProps> = ({
   tableCaption,
   sortBy,
 }) => {
-  const ReactTable: React.FC<ReactTableProps> = ({
+  const ReactTable: React.FC<TableClientProps> = ({
     columns,
     data,
     tableCaption,
@@ -106,8 +99,9 @@ export const TableClient: React.FC<TableClientProps> = ({
           pageIndex: 0,
           sortBy,
           hiddenColumns: columns.map((column) => {
-            if (column.hidden === true) return column.id || column.accessor;
-          }),
+            if (column?.hidden && column.hidden === true)
+              return column.id || column.accessor;
+          }) as any,
         },
       },
       useGlobalFilter,
