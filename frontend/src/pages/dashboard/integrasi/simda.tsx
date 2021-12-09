@@ -25,7 +25,7 @@ const DashboardIntegrasiSimdaIndex: React.FC<{}> = ({}) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const columns = useMemo<Column<{}>[]>(
+  const columns = useMemo<Column<any>[]>(
     () => [
       {
         Header: "Nomor Rangka",
