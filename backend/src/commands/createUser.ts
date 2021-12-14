@@ -7,11 +7,13 @@ import { __prod__ } from "./../constants";
 type params = {
   username: string;
   password: string;
+  email: string;
   role: "operator" | "observer";
 };
 
 const createUser = async ({
   username,
+  email,
   password = "password",
   role = "observer",
 }: params) => {
@@ -22,9 +24,20 @@ const createUser = async ({
     entities: [User],
   });
 
-  const userExists = await User.findOne({ where: { username } });
-  if (userExists) {
+  const usernameExists = await User.findOne({ where: { username } });
+  if (usernameExists) {
     console.log("Username is already taken. Please choose another username.");
+    return;
+  }
+
+  if (!email.includes("@")) {
+    console.log("Email is not valid");
+    return;
+  }
+
+  const emailExists = await User.findOne({ where: { email } });
+  if (emailExists) {
+    console.log("Email is already taken. Please choose another username.");
     return;
   }
 
@@ -35,6 +48,7 @@ const createUser = async ({
     .into(User)
     .values({
       username,
+      email,
       password: hashedPassword,
       role,
     })
@@ -54,10 +68,10 @@ argv.forEach((arg) => {
   params[key] = value;
 });
 
-if (params.username && params.password && params.role) {
+if (params.username && params.email && params.password && params.role) {
   createUser(params);
 } else {
   console.log(
-    "Parameters must have username=USERNAME, password=PASSWORD, and role=ROLE"
+    "Parameters must have username=USERNAME, email=EMAIL, password=PASSWORD, and role=ROLE"
   );
 }
