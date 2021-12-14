@@ -20,7 +20,7 @@ export class User extends BaseEntity {
   username!: string;
 
   @Field()
-  @Column({ unique: true })
+  @Column({ type: "varchar", nullable: true, unique: true })
   email!: string;
 
   @Column()

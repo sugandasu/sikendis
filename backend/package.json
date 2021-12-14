@@ -43,12 +43,17 @@
     "gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e .",
     "watch": "tsc -w",
     "build": "tsc",
-    "dev": "nodemon dist/index.js"
+    "dev": "nodemon dist/index.js",
+    "create-user": "node dist/commands/createUser.js",
+    "reset-user": "node dist/commands/resetUser.js"
   },
   "keywords": [
     "sikendis",
     "nodejs"
   ],
   "author": "Arif Suganda",
-  "license": "ISC"
+  "license": "ISC",
+  "bin": {
+    "create-user": "dist/commands/createUser.js"
+  }
 }
