@@ -3,8 +3,9 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Icon,
+  Link,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 
 export interface BreadCrumbItem {
@@ -32,9 +33,17 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ breadCrumbs }) => {
           key={breadCrumb.link}
           isCurrentPage={breadCrumb.isCurrentPage}
         >
-          <BreadcrumbLink href={breadCrumb.link} color="gray.50">
-            {breadCrumb.text}
-          </BreadcrumbLink>
+          {breadCrumb.isCurrentPage ? (
+            <BreadcrumbLink href={breadCrumb.link} color="gray.50">
+              {breadCrumb.text}
+            </BreadcrumbLink>
+          ) : (
+            <Link>
+              <BreadcrumbLink href="#" color="gray.50">
+                {breadCrumb.text}
+              </BreadcrumbLink>
+            </Link>
+          )}
         </BreadcrumbItem>
       ))}
     </Breadcrumb>
