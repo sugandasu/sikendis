@@ -5,7 +5,6 @@ import {
   Flex,
   HStack,
   IconButton,
-  Image,
   Menu,
   MenuButton,
   MenuItem,
@@ -15,13 +14,10 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useMemo, useState } from "react";
-import { FaEdit, FaEllipsisV, FaTrash } from "react-icons/fa";
+import { FaEdit, FaPaperPlane, FaTrash } from "react-icons/fa";
 import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import { TableClient } from "../../../components/TableClient";
 import {
   Kendaraan,
@@ -29,9 +25,11 @@ import {
   useKendaraansQuery,
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
+import { useRole } from "../../../utils/useRole";
 
 const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
   useIsAuth();
+  const { isOperator, isObserver } = useRole();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Kendaraan Operasional", link: "#", isCurrentPage: true },
@@ -152,29 +150,46 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
           return (
             <HStack spacing={1}>
               <NextLink
-                href={`/dashboard/kendaraan-operasional/edit/${cellObj.row.values.id}`}
+                href={`/dashboard/kendaraan-operasional/detail/${cellObj.row.values.id}`}
               >
                 <Link>
                   <IconButton
-                    aria-label="Ubah"
+                    aria-label="Detail"
                     size="sm"
                     bgColor="transparent"
-                    color="blue.500"
-                    icon={<FaEdit />}
+                    color="green.500"
+                    icon={<FaPaperPlane />}
                   ></IconButton>
                 </Link>
               </NextLink>
-              <IconButton
-                size="sm"
-                aria-label="Hapus"
-                bgColor="transparent"
-                color="red.500"
-                icon={<FaTrash />}
-                onClick={() => {
-                  setCurrentRow(cellObj.row.values as Kendaraan);
-                  setDeleteDialogOpen(true);
-                }}
-              ></IconButton>
+              {isOperator ? (
+                <NextLink
+                  href={`/dashboard/kendaraan-operasional/edit/${cellObj.row.values.id}`}
+                >
+                  <Link>
+                    <IconButton
+                      aria-label="Ubah"
+                      size="sm"
+                      bgColor="transparent"
+                      color="blue.500"
+                      icon={<FaEdit />}
+                    ></IconButton>
+                  </Link>
+                </NextLink>
+              ) : null}
+              {isOperator ? (
+                <IconButton
+                  size="sm"
+                  aria-label="Hapus"
+                  bgColor="transparent"
+                  color="red.500"
+                  icon={<FaTrash />}
+                  onClick={() => {
+                    setCurrentRow(cellObj.row.values as Kendaraan);
+                    setDeleteDialogOpen(true);
+                  }}
+                ></IconButton>
+              ) : null}
             </HStack>
           );
         },
@@ -192,28 +207,30 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Kendaraan Operasional</Text>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  bg="blue.500"
-                  color="white"
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  Aksi
-                </MenuButton>
-                <MenuList>
-                  <NextLink href="/dashboard/kendaraan-operasional/tambah">
-                    <Link>
-                      <MenuItem>Tambah</MenuItem>
-                    </Link>
-                  </NextLink>
-                  <NextLink href="/dashboard/kendaraan-operasional/import">
-                    <Link>
-                      <MenuItem>Import</MenuItem>
-                    </Link>
-                  </NextLink>
-                </MenuList>
-              </Menu>
+              {isOperator ? (
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    bg="blue.500"
+                    color="white"
+                    rightIcon={<ChevronDownIcon />}
+                  >
+                    Aksi
+                  </MenuButton>
+                  <MenuList>
+                    <NextLink href="/dashboard/kendaraan-operasional/tambah">
+                      <Link>
+                        <MenuItem>Tambah</MenuItem>
+                      </Link>
+                    </NextLink>
+                    <NextLink href="/dashboard/kendaraan-operasional/import">
+                      <Link>
+                        <MenuItem>Import</MenuItem>
+                      </Link>
+                    </NextLink>
+                  </MenuList>
+                </Menu>
+              ) : null}
             </Flex>
             <Box>
               {!loading && data?.kendaraans.data ? (
