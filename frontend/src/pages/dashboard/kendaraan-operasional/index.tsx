@@ -245,14 +245,16 @@ const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
           </Box>
         </Box>
       </Stack>
-      <DeleteDialog
-        deleteDialogOpen={deleteDialogOpen}
-        deleteDialogCancel={deleteDialogCancel}
-        deleteDialogClose={deleteDialogClose}
-        currentRow={currentRow}
-        dialogKey={dialogKey}
-        deleteConfirm={deleteConfirm}
-      ></DeleteDialog>
+      {isOperator ? (
+        <DeleteDialog
+          deleteDialogOpen={deleteDialogOpen}
+          deleteDialogCancel={deleteDialogCancel}
+          deleteDialogClose={deleteDialogClose}
+          currentRow={currentRow}
+          dialogKey={dialogKey}
+          deleteConfirm={deleteConfirm}
+        ></DeleteDialog>
+      ) : null}
     </DashboardLayout>
   );
 };
