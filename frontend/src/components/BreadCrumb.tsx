@@ -1,4 +1,3 @@
-import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,11 +22,7 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ breadCrumbs }) => {
     return null;
   }
   return (
-    <Breadcrumb
-      fontSize="sm"
-      spacing="8px"
-      separator={<ChevronRightIcon color="white" />}
-    >
+    <Breadcrumb fontSize="sm" spacing="8px" color="white">
       {breadCrumbs.map((breadCrumb) => (
         <BreadcrumbItem
           key={breadCrumb.link}
@@ -38,11 +33,9 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ breadCrumbs }) => {
               {breadCrumb.text}
             </BreadcrumbLink>
           ) : (
-            <Link>
-              <BreadcrumbLink href="#" color="gray.50">
-                {breadCrumb.text}
-              </BreadcrumbLink>
-            </Link>
+            <NextLink href={breadCrumb.link}>
+              <Link>{breadCrumb.text}</Link>
+            </NextLink>
           )}
         </BreadcrumbItem>
       ))}
