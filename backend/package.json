@@ -52,8 +52,5 @@
     "nodejs"
   ],
   "author": "Arif Suganda",
-  "license": "ISC",
-  "bin": {
-    "create-user": "dist/commands/createUser.js"
-  }
+  "license": "ISC"
 }
