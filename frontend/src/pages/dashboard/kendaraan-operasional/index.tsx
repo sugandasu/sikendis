@@ -29,7 +29,7 @@ import { useRole } from "../../../utils/useRole";
 
 const DashboardKendaraanOperasionalIndex: React.FC<{}> = ({}) => {
   useIsAuth();
-  const { isOperator, isObserver } = useRole();
+  const { isOperator } = useRole();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Kendaraan Operasional", link: "#", isCurrentPage: true },
