@@ -1,14 +1,16 @@
 import { IconButton } from "@chakra-ui/button";
-import { AddIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { Flex, Spacer } from "@chakra-ui/layout";
 import {
   Avatar,
   AvatarBadge,
+  Link,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import Router from "next/router";
 import React from "react";
 import { useLogoutMutation } from "../generated/graphql";
@@ -56,7 +58,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </Avatar>
         </MenuButton>
         <MenuList>
-          <MenuItem>Akun</MenuItem>
+          <NextLink href="/dashboard/akun">
+            <Link>
+              <MenuItem>Akun</MenuItem>
+            </Link>
+          </NextLink>
           <MenuItem
             onClick={async () => {
               await logout({

@@ -1,0 +1,12 @@
+mutation UpdateAkun($payload: AkunInput!) {
+  updateAkun(payload: $payload) {
+    errors {
+      field
+      message
+    }
+    user {
+      username
+      email
+    }
+  }
+}

@@ -20,6 +20,12 @@ export type Scalars = {
   Upload: any;
 };
 
+export type AkunInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type DashboardCardResponse = {
   __typename?: 'DashboardCardResponse';
   kendaraanOperasional: Scalars['Int'];
@@ -141,6 +147,7 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+  updateAkun: UserResponse;
   updateKendaraan: KendaraanResponse;
   updatePeminjamanOperasional: PeminjamanOperasionalResponse;
   updatePengguna: PenggunaResponse;
@@ -211,6 +218,11 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   payload: UserInput;
+};
+
+
+export type MutationUpdateAkunArgs = {
+  payload: AkunInput;
 };
 
 
@@ -644,6 +656,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
+
+export type UpdateAkunMutationVariables = Exact<{
+  payload: AkunInput;
+}>;
+
+
+export type UpdateAkunMutation = { __typename?: 'Mutation', updateAkun: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', username: string, email: string }> } };
 
 export type UpdateKendaraanMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1325,6 +1344,46 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateAkunDocument = gql`
+    mutation UpdateAkun($payload: AkunInput!) {
+  updateAkun(payload: $payload) {
+    errors {
+      field
+      message
+    }
+    user {
+      username
+      email
+    }
+  }
+}
+    `;
+export type UpdateAkunMutationFn = Apollo.MutationFunction<UpdateAkunMutation, UpdateAkunMutationVariables>;
+
+/**
+ * __useUpdateAkunMutation__
+ *
+ * To run a mutation, you first call `useUpdateAkunMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAkunMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAkunMutation, { data, loading, error }] = useUpdateAkunMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useUpdateAkunMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAkunMutation, UpdateAkunMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAkunMutation, UpdateAkunMutationVariables>(UpdateAkunDocument, options);
+      }
+export type UpdateAkunMutationHookResult = ReturnType<typeof useUpdateAkunMutation>;
+export type UpdateAkunMutationResult = Apollo.MutationResult<UpdateAkunMutation>;
+export type UpdateAkunMutationOptions = Apollo.BaseMutationOptions<UpdateAkunMutation, UpdateAkunMutationVariables>;
 export const UpdateKendaraanDocument = gql`
     mutation UpdateKendaraan($id: Int!, $payload: KendaraanInput!, $foto: Upload) {
   updateKendaraan(id: $id, payload: $payload, foto: $foto) {
