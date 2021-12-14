@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useMemo, useState } from "react";
-import { FaEdit, FaFileDownload, FaTrash } from "react-icons/fa";
+import { FaEdit, FaFileDownload, FaPaperPlane, FaTrash } from "react-icons/fa";
 import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
 import { DeleteDialog } from "../../../components/DeleteDialog";
@@ -23,9 +23,11 @@ import {
 } from "../../../generated/graphql";
 import { useIsAuth } from "../../../middlewares/useIsAuth";
 import { getFormattedDate } from "../../../utils/getFormattedDate";
+import { useRole } from "../../../utils/useRole";
 
 const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
   useIsAuth();
+  const { isOperator } = useRole();
   const breadCrumbs = [
     { text: "Dashboard", link: "/dashboard", isCurrentPage: false },
     { text: "Kendaraan Operational", link: "#", isCurrentPage: true },
@@ -114,6 +116,21 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
           console.log(cellObj);
           return (
             <HStack spacing={1}>
+              {isOperator ? (
+                <NextLink
+                  href={`/dashboard/peminjaman-operasional/detail/${cellObj.row.values.id}`}
+                >
+                  <Link>
+                    <IconButton
+                      aria-label="Detail"
+                      size="sm"
+                      bgColor="transparent"
+                      color="green.500"
+                      icon={<FaPaperPlane />}
+                    ></IconButton>
+                  </Link>
+                </NextLink>
+              ) : null}
               {cellObj.row.original.fileSuratDisposisiUrl ? (
                 <Tooltip
                   label="Download File Surat Disposisi"
@@ -127,7 +144,7 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
                       size="sm"
                       aria-label="Download File Surat Disposisi"
                       bgColor="transparent"
-                      color="green.500"
+                      color="yellow.500"
                       icon={<FaFileDownload />}
                     ></IconButton>
                   </Link>
@@ -147,36 +164,40 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
                       size="sm"
                       aria-label="Download File Surat Permohonan"
                       bgColor="transparent"
-                      color="yellow.500"
+                      color="purple.500"
                       icon={<FaFileDownload />}
                     ></IconButton>
                   </Link>
                 </Tooltip>
               ) : null}
-              <NextLink
-                href={`/dashboard/peminjaman-operasional/edit/${cellObj.row.values.id}`}
-              >
-                <Link>
-                  <IconButton
-                    aria-label="Ubah"
-                    size="sm"
-                    bgColor="transparent"
-                    color="blue.500"
-                    icon={<FaEdit />}
-                  ></IconButton>
-                </Link>
-              </NextLink>
-              <IconButton
-                size="sm"
-                aria-label="Hapus"
-                bgColor="transparent"
-                color="red.500"
-                icon={<FaTrash />}
-                onClick={() => {
-                  setCurrentRow(cellObj.row.values as PeminjamanOperasional);
-                  setDeleteDialogOpen(true);
-                }}
-              ></IconButton>
+              {isOperator ? (
+                <NextLink
+                  href={`/dashboard/peminjaman-operasional/edit/${cellObj.row.values.id}`}
+                >
+                  <Link>
+                    <IconButton
+                      aria-label="Ubah"
+                      size="sm"
+                      bgColor="transparent"
+                      color="blue.500"
+                      icon={<FaEdit />}
+                    ></IconButton>
+                  </Link>
+                </NextLink>
+              ) : null}
+              {isOperator ? (
+                <IconButton
+                  size="sm"
+                  aria-label="Hapus"
+                  bgColor="transparent"
+                  color="red.500"
+                  icon={<FaTrash />}
+                  onClick={() => {
+                    setCurrentRow(cellObj.row.values as PeminjamanOperasional);
+                    setDeleteDialogOpen(true);
+                  }}
+                ></IconButton>
+              ) : null}
             </HStack>
           );
         },
@@ -194,13 +215,15 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={8}>
               <Text fontSize="l">Peminjaman Operasional</Text>
-              <NextLink href="/dashboard/peminjaman-operasional/tambah">
-                <Link>
-                  <Button bg="blue.500" color="white">
-                    Tambah
-                  </Button>
-                </Link>
-              </NextLink>
+              {isOperator ? (
+                <NextLink href="/dashboard/peminjaman-operasional/tambah">
+                  <Link>
+                    <Button bg="blue.500" color="white">
+                      Tambah
+                    </Button>
+                  </Link>
+                </NextLink>
+              ) : null}
             </Flex>
             <Box>
               {!loading && data?.peminjamanOperasionals.data ? (
@@ -215,14 +238,16 @@ const DashboardPeminjamanOperasionalIndex: React.FC<{}> = ({}) => {
           </Box>
         </Box>
       </Stack>
-      <DeleteDialog
-        deleteDialogOpen={deleteDialogOpen}
-        deleteDialogCancel={deleteDialogCancel}
-        deleteDialogClose={deleteDialogClose}
-        currentRow={currentRow}
-        dialogKey={dialogKey}
-        deleteConfirm={deleteConfirm}
-      ></DeleteDialog>
+      {isOperator ? (
+        <DeleteDialog
+          deleteDialogOpen={deleteDialogOpen}
+          deleteDialogCancel={deleteDialogCancel}
+          deleteDialogClose={deleteDialogClose}
+          currentRow={currentRow}
+          dialogKey={dialogKey}
+          deleteConfirm={deleteConfirm}
+        ></DeleteDialog>
+      ) : null}
     </DashboardLayout>
   );
 };
