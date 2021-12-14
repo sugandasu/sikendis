@@ -120,7 +120,7 @@ const DashboardPenggunaRutinIndex: React.FC<{}> = ({}) => {
                     size="sm"
                     aria-label="Download File Bap"
                     bgColor="transparent"
-                    color="green.500"
+                    color="yellow.500"
                     icon={<FaFileDownload />}
                   ></IconButton>
                 </Link>
