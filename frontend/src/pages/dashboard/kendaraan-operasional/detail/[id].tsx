@@ -41,7 +41,7 @@ const DashboardKendaraanOperasionalDetail: React.FC<{}> = ({}) => {
         <Box rounded="md" boxShadow="md" bg="white" mb={5}>
           <Box p={8}>
             <Flex align="center" justifyContent="space-between" mb={5}>
-              <Text fontSize="l">Detail Kendaraan</Text>
+              <Text fontSize="l">Detail Kendaraan Operasional</Text>
               <NextLink href="/dashboard/kendaraan-operasional">
                 <Link>
                   <Button bg="red.500" color="white">
@@ -54,15 +54,15 @@ const DashboardKendaraanOperasionalDetail: React.FC<{}> = ({}) => {
               <VStack align="left" spacing={4}>
                 <Box>
                   <Heading fontSize="l">Tipe Roda</Heading>
-                  <Text>{data.kendaraan.tipeRoda}</Text>
+                  <Text>{data.kendaraan.tipeRoda || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Kode</Heading>
-                  <Text>{data.kendaraan.kode}</Text>
+                  <Text>{data.kendaraan.kode || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Nama</Heading>
-                  <Text>{data.kendaraan.nama}</Text>
+                  <Text>{data.kendaraan.nama || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Nomor Registrasi</Heading>
@@ -70,39 +70,39 @@ const DashboardKendaraanOperasionalDetail: React.FC<{}> = ({}) => {
                 </Box>
                 <Box>
                   <Heading fontSize="l">Merek</Heading>
-                  <Text>{data.kendaraan.merek}</Text>
+                  <Text>{data.kendaraan.merek || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">ukuranCc</Heading>
-                  <Text>{data.kendaraan.ukuranCc}</Text>
+                  <Text>{data.kendaraan.ukuranCc || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">bahan</Heading>
-                  <Text>{data.kendaraan.bahan}</Text>
+                  <Text>{data.kendaraan.bahan || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Tahun Pembelian</Heading>
-                  <Text>{data.kendaraan.tahunPembelian}</Text>
+                  <Text>{data.kendaraan.tahunPembelian || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Nomor Rangka</Heading>
-                  <Text>{data.kendaraan.nomorRangka}</Text>
+                  <Text>{data.kendaraan.nomorRangka || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Nomor Mesin</Heading>
-                  <Text>{data.kendaraan.nomorMesin}</Text>
+                  <Text>{data.kendaraan.nomorMesin || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Nomor Polisi</Heading>
-                  <Text>{data.kendaraan.nomorPolisi}</Text>
+                  <Text>{data.kendaraan.nomorPolisi || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Nomor BPKB</Heading>
-                  <Text>{data.kendaraan.nomorBpkb}</Text>
+                  <Text>{data.kendaraan.nomorBpkb || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Asal Usul</Heading>
-                  <Text>{data.kendaraan.asalUsul}</Text>
+                  <Text>{data.kendaraan.asalUsul || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Warna</Heading>
@@ -114,7 +114,7 @@ const DashboardKendaraanOperasionalDetail: React.FC<{}> = ({}) => {
                 </Box>
                 <Box>
                   <Heading fontSize="l">Harga</Heading>
-                  <Text>{data.kendaraan.harga}</Text>
+                  <Text>{data.kendaraan.harga || "-"}</Text>
                 </Box>
                 <Box>
                   <Heading fontSize="l">Foto</Heading>
