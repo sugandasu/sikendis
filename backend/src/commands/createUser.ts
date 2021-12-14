@@ -2,7 +2,6 @@ import argon2 from "argon2";
 import "dotenv-safe/config";
 import { createConnection, getConnection } from "typeorm";
 import { User } from "../entities/User";
-import { __prod__ } from "./../constants";
 
 type params = {
   username: string;
