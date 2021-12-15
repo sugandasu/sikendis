@@ -1,7 +1,7 @@
 import { ApolloServer, Config, ExpressContext } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
-import "dotenv-safe/config";
+import * as dotenvsafe from "dotenv-safe";
 import express from "express";
 import session from "express-session";
 import { graphqlUploadExpress } from "graphql-upload";
@@ -26,6 +26,10 @@ import { PenggunaRutinResolver } from "./resolvers/PenggunaRutinResolver";
 import { SimdaResolver } from "./resolvers/SimdaResolver";
 import { UserResolver } from "./resolvers/UserResolver";
 import { MyContext } from "./types/myContext";
+
+dotenvsafe.config({
+  allowEmptyValues: true,
+});
 
 const main = async () => {
   const conection = await createConnection({
