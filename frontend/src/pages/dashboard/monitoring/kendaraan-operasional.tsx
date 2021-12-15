@@ -1,22 +1,8 @@
-import { Button } from "@chakra-ui/button";
 import { Box } from "@chakra-ui/layout";
-import {
-  Flex,
-  Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import React, { useMemo, useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import { Flex, Stack, Text } from "@chakra-ui/react";
+import React, { useMemo } from "react";
 import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
-import { SimpleTable } from "../../../components/SimpleTable";
-import { SimpleTableLimit } from "../../../components/SimpleTableLimit";
-import { SimpleTablePagination } from "../../../components/SimpleTablePagination";
 import { TableClient } from "../../../components/TableClient";
 import {
   Kendaraan,

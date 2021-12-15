@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/layout";
-import { Flex, Stack, Text, VStack } from "@chakra-ui/react";
+import { Flex, Stack, Text } from "@chakra-ui/react";
 import React, { useMemo } from "react";
 import { Column } from "react-table";
 import { DashboardLayout } from "../../../components/DashboardLayout";
