@@ -11,7 +11,7 @@ import NextLink from "next/link";
 import React from "react";
 import { AiFillCar } from "react-icons/ai";
 import { BiNetworkChart } from "react-icons/bi";
-import { FaCarSide, FaHome, FaUsers } from "react-icons/fa";
+import { FaCarSide, FaHome, FaTv, FaUsers } from "react-icons/fa";
 import { FiCodesandbox } from "react-icons/fi";
 import { GiBlackBook, GiCarKey } from "react-icons/gi";
 import { MdDirectionsCar, MdNaturePeople } from "react-icons/md";
@@ -126,6 +126,12 @@ const Sidebar: React.FC<SidebarProps> = ({ menuIsOpen, setMenuIsClose }) => {
                 text="Kendaraan Operasional"
                 color="blue.500"
                 icon={RiCarWashingFill}
+              />
+              <SidebarMenu
+                link="/display"
+                text="Display"
+                color="red.500"
+                icon={FaTv}
               />
             </SidebarMenuLevel>
             <SidebarMenuLevel

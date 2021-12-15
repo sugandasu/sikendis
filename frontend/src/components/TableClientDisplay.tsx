@@ -23,7 +23,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaAngleLeft,
   FaAngleRight,
@@ -64,7 +64,7 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
   );
 };
 
-export const TableClient: React.FC<TableClientProps> = ({
+export const TableClientDisplay: React.FC<TableClientProps> = ({
   columns,
   data,
   tableCaption,
@@ -110,6 +110,16 @@ export const TableClient: React.FC<TableClientProps> = ({
       useSortBy,
       usePagination
     );
+
+    useEffect(() => {
+      setTimeout(() => {
+        if (canNextPage) {
+          nextPage();
+        } else {
+          gotoPage(0);
+        }
+      }, 10000);
+    }, [pageIndex]);
 
     return (
       <Box my={5}>
