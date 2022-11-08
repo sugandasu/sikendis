@@ -15,12 +15,14 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "fast-csv": "^4.3.6",
+    "fs-capacitor": "^8.0.0",
     "graphql": "^15.5.3",
     "graphql-type-json": "^0.3.2",
     "graphql-upload": "^12.0.0",
     "ioredis": "^4.27.9",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
+    "tsc": "^2.0.4",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.2.37",
     "uuid": "^8.3.2"
@@ -38,7 +40,7 @@
     "@types/uuid": "^8.3.1",
     "nodemon": "^2.0.12",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.2"
+    "typescript": "^4.8.4"
   },
   "scripts": {
     "gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e .",
